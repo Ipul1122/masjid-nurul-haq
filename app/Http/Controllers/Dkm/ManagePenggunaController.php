@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Dkm;
 
 use App\Http\Controllers\Controller;
-use App\Models\Dkm;
 use Illuminate\Http\Request;
+use App\Models\Dkm;
 use Illuminate\Support\Facades\Hash;
 
 class ManagePenggunaController extends Controller
 {
     public function index()
     {
-        $managePengguna = Dkm::all();
+        // gunakan nama variabel yang sama seperti di view: $managePengguna
+        $managePengguna = Dkm::orderBy('id')->get();
         return view('dkm.managePengguna.index', compact('managePengguna'));
     }
 
@@ -23,8 +24,8 @@ class ManagePenggunaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:dkms,username',
-            'password' => 'required|min:6',
+            'username' => 'required|string|unique:dkms,username',
+            'password' => 'required|string|min:6',
         ]);
 
         Dkm::create([
@@ -35,31 +36,50 @@ class ManagePenggunaController extends Controller
         return redirect()->route('dkm.managePengguna.index')->with('success', 'Pengguna berhasil ditambahkan');
     }
 
-    public function edit(Dkm $user)
+    // NOTE: route-model binding otomatis akan inject Dkm $managePengguna
+    public function edit(Dkm $managePengguna)
     {
-        return view('dkm.managePengguna.edit', compact('user'));
+        // pastikan nama variabel sama dengan yang view pakai
+        return view('dkm.managePengguna.edit', compact('managePengguna'));
     }
 
-    public function update(Request $request, Dkm $user)
+    public function update(Request $request, Dkm $managePengguna)
     {
         $request->validate([
-            'username' => 'required|unique:dkms,username,' . $user->id,
-            'password' => 'nullable|min:6',
+            'username' => 'required|string|unique:dkms,username,' . $managePengguna->id,
+            'password' => 'nullable|string|min:6',
         ]);
 
-        $data = ['username' => $request->username];
+        $managePengguna->username = $request->username;
+
         if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+            $managePengguna->password = Hash::make($request->password);
         }
 
-        $user->update($data);
+        $managePengguna->save();
 
         return redirect()->route('dkm.managePengguna.index')->with('success', 'Pengguna berhasil diperbarui');
     }
 
-    public function destroy(Dkm $user)
+    public function destroy(Dkm $managePengguna)
     {
-        $user->delete();
-        return redirect()->route('dkm.managePengguna.index')->with('success', 'Pengguna berhasil dihapus');
+        // Cegah hapus akun yang sedang login
+        if (session('dkm_id') && session('dkm_id') == $managePengguna->id) {
+            return redirect()->route('dkm.managePengguna.index')
+                ->with('error', 'Tidak bisa menghapus akun yang sedang login.');
+        }
+
+        // Cegah hapus jika hanya ada 1 akun DKM
+        if (Dkm::count() <= 1) {
+            return redirect()->route('dkm.managePengguna.index')
+                ->with('error', 'Minimal harus ada 1 akun DKM, tidak bisa dihapus semua.');
+        }
+
+        // Jika lolos semua pengecekan → hapus
+        $managePengguna->delete();
+
+        return redirect()->route('dkm.managePengguna.index')
+            ->with('success', 'Pengguna berhasil dihapus.');
     }
+
 }
