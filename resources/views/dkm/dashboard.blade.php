@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard DKM</title>
-    @vite(['resources/css/app.css','resources/js/app.js'])
-</head>
-<body class="bg-gray-50 min-h-screen p-6">
+@extends('layouts.dkm') {{-- nanti kita bikin layout dasar --}}
+@section('content')
+<div class="bg-gray-50 min-h-screen p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-gray-800">
             Selamat datang, {{ session('dkm_username') }}
@@ -28,5 +23,5 @@
     </div>
 
     <a href="{{ route('dkm.managePengguna.index') }}">Manage Pengguna</a>
-</body>
-</html>
+</div>
+@endsection

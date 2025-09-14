@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login DKM</title>
-    @vite(['resources/css/app.css','resources/js/app.js'])
-</head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+@extends('layouts.dkm') {{-- nanti kita bikin layout dasar --}}
+@section('content')
+<div class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-6 rounded-lg shadow w-96">
         <h2 class="text-2xl font-bold mb-4">Login DKM</h2>
 
@@ -28,5 +23,5 @@
             <button class="bg-blue-600 text-black w-full py-2 rounded">Login</button>
         </form>
     </div>
-</body>
-</html>
+</div>
+@endsection
