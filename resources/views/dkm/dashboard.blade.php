@@ -26,5 +26,7 @@
             Ini adalah halaman Dashboard DKM. Nantinya di sini akan ada menu untuk manajemen kegiatan, berita, donasi, dsb.
         </p>
     </div>
+
+    <a href="{{ route('dkm.managePengguna.index') }}">Manage Pengguna</a>
 </body>
 </html>
