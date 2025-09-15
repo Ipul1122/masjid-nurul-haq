@@ -7,13 +7,13 @@
         </h1>
 
         <!-- Tombol Logout -->
-        <form method="POST" action="{{ route('dkm.logout') }}">
+        {{-- <form method="POST" action="{{ route('dkm.logout') }}">
             @csrf
             <button type="submit"
                 class="bg-red-600 text-black px-4 py-2 rounded-lg shadow hover:bg-red-700 transition">
                 Logout
             </button>
-        </form>
+        </form> --}}
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow">
@@ -23,5 +23,7 @@
     </div>
 
     <a href="{{ route('dkm.managePengguna.index') }}">Manage Pengguna</a>
+    <br>
+    <a href="{{ route('dkm.manajemenKonten.index') }}">Manage Konten</a>
 </div>
 @endsection

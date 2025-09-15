@@ -1,10 +1,11 @@
 @extends('layouts.dkm')
 
 @section('content')
-<div class="bg-black p-6 rounded-lg shadow">
+<div class="bg-white p-6 rounded-lg shadow">
     <div class="flex justify-between mb-4">
         <h2 class="text-xl font-bold">Daftar Pengguna DKM</h2>
         <a href="{{ route('dkm.managePengguna.create') }}" class="bg-green-600 text-black px-4 py-2 rounded">+ Tambah Pengguna</a>
+        <a href="{{ route('dkm.dashboard') }}" class="bg-green-600 text-black px-4 py-2 rounded"> Dashboard</a>
     </div>
 
     @if(session('success'))
@@ -29,7 +30,7 @@
                     <td class="border px-4 py-2">{{ $mp->username }}</td>
                     <td class="border px-4 py-2 flex gap-2">
                         <a href="{{ route('dkm.managePengguna.edit', $mp->id) }}" 
-                        class="bg-blue-600 text-black px-3 py-1 rounded">Edit</a>
+                        class="bg-blue-600 text-black px-3 py-1 rounded">Update</a>
 
                         @if(session('dkm_id') != $mp->id)
                             <form method="POST" action="{{ route('dkm.managePengguna.destroy', $mp->id) }}" 
