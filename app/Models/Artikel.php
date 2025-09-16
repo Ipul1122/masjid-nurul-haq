@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Kategori;
+use App\Models\KategoriArtikel;
 
 class Artikel extends Model
 {
@@ -15,6 +15,7 @@ class Artikel extends Model
         'gambar',
         'deskripsi',
         'tanggal_rilis',
+        'kategori_id',
     ];
 
     protected $casts = [
@@ -23,6 +24,7 @@ class Artikel extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
+        return $this->belongsTo(KategoriArtikel::class, 'kategori_id');
     }
+
 }

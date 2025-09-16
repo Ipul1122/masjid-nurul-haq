@@ -18,32 +18,34 @@
                 <th class="border px-4 py-2">Gambar</th>
                 <th class="border px-4 py-2">Deskripsi</th>
                 <th class="border px-4 py-2">Tanggal Rilis</th>
+                <th class="border px-4 py-2">Kategori</th>
                 <th class="border px-4 py-2">Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($artikels as $item)
+            @forelse($artikels as $art)
                 <tr>
-                    <td class="border px-4 py-2">{{ $item->judul }}</td>
+                    <td class="border px-4 py-2">{{ $art->judul }}</td>
                     <td class="border px-4 py-2">
-                        @if($item->gambar)
-                            <img src="{{ asset('storage/' . $item->gambar) }}" class="w-20 h-20 object-cover rounded">
+                        @if($art->gambar)
+                            <img src="{{ asset('storage/' . $art->gambar) }}" class="w-20 h-20 object-cover rounded">
                         @else
                             <span class="text-gray-500">Tidak ada gambar</span>
                         @endif
                     </td>
-                    <td class="border px-4 py-2">{{ Str::limit($item->deskripsi, 100) }}</td>
-                    <td class="border px-4 py-2">{{ $item->tanggal_rilis->format('d-m-Y') }}</td>
+                    <td class="border px-4 py-2">{{ Str::limit($art->deskripsi, 100) }}</td>
+                    <td class="border px-4 py-2">{{ $art->tanggal_rilis->format('d-m-Y') }}</td>
+                    <td class="border px-4 py-2">{{ $art->kategori?->nama ?? '--' }}</td>
                     <td class="border px-4 py-2 flex gap-2">
-                        <a href="{{ route('dkm.manajemenKonten.artikel.edit', $item->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
-                        <form method="POST" action="{{ route('dkm.manajemenKonten.artikel.destroy', $item->id) }}" onsubmit="return confirm('Hapus artikel ini?')">
+                        <a href="{{ route('dkm.manajemenKonten.artikel.edit', $art->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
+                        <form method="POST" action="{{ route('dkm.manajemenKonten.artikel.destroy', $art->id) }}" onsubmit="return confirm('Hapus artikel ini?')">
                             @csrf @method('DELETE')
                             <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
                         </form>
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="5" class="text-center py-3">Belum ada artikel</td></tr>
+                <tr><td colspan="6" class="text-center py-3">Belum ada artikel</td></tr>
             @endforelse
         </tbody>
     </table>

@@ -12,7 +12,7 @@ class DkmSeeder extends Seeder
     {
         Dkm::create([
             'username' => 'admin',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('admin123'),
         ]);
     }
 }

@@ -59,10 +59,15 @@ class KategoriKegiatanMasjidController extends Controller
     }
 
 
-    public function destroy(Kategori $kategori)
+    public function destroy($id)
     {
+        $kategori = Kategori::findOrFail($id);
+
         $kategori->delete();
 
-        return redirect()->route('dkm.kategori.kegiatanMasjid.index')->with('success', 'Kategori berhasil dihapus');
+        return redirect()
+            ->route('dkm.kategori.kegiatanMasjid.index')
+            ->with('success', 'Kategori berhasil dihapus.');
     }
+
 }
