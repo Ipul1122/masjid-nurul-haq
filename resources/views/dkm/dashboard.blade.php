@@ -24,6 +24,6 @@
 
     <a href="{{ route('dkm.managePengguna.index') }}">Manage Pengguna</a>
     <br>
-    <a href="{{ route('dkm.manajemenKonten.index') }}">Manage Konten</a>
+    <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.index') }}">Manage Konten</a>
 </div>
 @endsection

@@ -14,7 +14,7 @@
         </ul>
     </div>
 @endif
-    <form method="POST" action="{{ route('dkm.manajemenKonten.store') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="mb-4">
             <label class="block mb-1">Judul</label>
@@ -38,14 +38,14 @@
         <div class="mb-4">
                     <label class="block mb-1">Catatan</label>
                     <textarea name="catatan" class="w-full border px-3 py-2 rounded"></textarea>
-                </div>
-                <div class="mb-4">
+        </div>
+        <div class="mb-4">
             <label class="block mb-1">Kategori</label>
             <select name="kategori_id" class="w-full border px-3 py-2 rounded">
                 <option value="">-- Pilih Kategori --</option>
                 @foreach($kategori as $kat)
                     <option value="{{ $kat->id }}" 
-                        {{ old('kategori_id', $kegiatan->kategori_id ?? '') == $kat->id ? 'selected' : '' }}>
+                        {{ old('kategori_id', $kegiatanMasjid->kategori_id ?? '') == $kat->id ? 'selected' : '' }}>
                         {{ $kat->nama }}
                     </option>
                 @endforeach
@@ -54,7 +54,7 @@
 
 
         <button class="bg-green-600 text-white px-4 py-2 rounded">Simpan</button>
-        <a href="{{ route('dkm.manajemenKonten.index') }}" class="ml-2 text-gray-600">Batal</a>
+        <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.index') }}" class="ml-2 text-gray-600">Batal</a>
     </form>
 </div>
 @endsection
