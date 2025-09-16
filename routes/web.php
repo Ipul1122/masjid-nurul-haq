@@ -7,6 +7,9 @@ use App\Http\Controllers\Dkm\DkmAuthController;
 use App\Http\Controllers\Dkm\ManagePenggunaController;
 use App\Http\Controllers\Dkm\VerifyPinController;
 use App\Http\Controllers\Dkm\ManajemenKontenController\KegiatanMasjidController;
+use App\Http\Controllers\Dkm\ArtikelController;
+use App\Http\Controllers\Dkm\KategoriController;
+use App\Http\Controllers\Dkm\KategoriKegiatanMasjidController;
 
 Route::prefix('dkm')->name('dkm.')->group(function () {
     // Auth
@@ -19,12 +22,21 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
 
         // 📌 Manajemen Konten
          Route::prefix('manajemenKonten')->name('manajemenKonten.')->group(function () {
+            // Kegiatan Masjid
             Route::delete('kegiatanMasjid/delete-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])->name('kegiatanMasjid.destroyMultiple');
             Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
+            // Artikel Masjid
+             Route::resource('artikel', ArtikelController::class);
         });
 
         // 📌 Kategori
-        Route::resource('kategori', \App\Http\Controllers\Dkm\KategoriController::class);
+       // 📌 Kategori
+        Route::prefix('kategori')->name('kategori.')->group(function () {
+            Route::get('/', [KategoriController::class, 'index'])->name('index'); 
+            Route::resource('kegiatanMasjid', KategoriKegiatanMasjidController::class);
+            // Route::resource('artikel', KategoriArtikelController::class);
+        });
+
 
         // 🔐 Verifikasi PIN
         Route::get('/verify-pin', [VerifyPinController::class, 'showVerifyForm'])->name('verifyPinForm');
