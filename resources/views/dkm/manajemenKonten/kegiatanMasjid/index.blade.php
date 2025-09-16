@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow">
-    <div class="flex justify-between mb-4 items-center">
+    <div class="flex justify-between mb-4 kMs-center">
         <h2 class="text-xl font-bold">Daftar Kegiatan Masjid</h2>
-        <a href="{{ route('dkm.manajemenKonten.create') }}" class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah Kegiatan</a>
+        <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.create') }}" class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah Kegiatan</a>
     </div>
 
     {{-- Notifikasi --}}
@@ -15,7 +15,7 @@
     @endif
 
     {{-- Filter Kategori --}}
-    <form method="GET" action="{{ route('dkm.manajemenKonten.index') }}" class="mb-4 flex gap-2">
+    <form method="GET" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.index') }}" class="mb-4 flex gap-2">
         <select name="kategori_id" class="border px-3 py-2 rounded">
             <option value="">-- Semua Kategori --</option>
             @foreach($kategori as $kat)
@@ -28,7 +28,7 @@
     </form>
 
     {{-- Form untuk hapus banyak --}}
-    <form method="POST" action="{{ route('dkm.manajemenKonten.destroyMultiple') }}" id="bulkDeleteForm">
+    <form method="POST" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.destroyMultiple') }}" id="bulkDeleteForm">
         @csrf
         @method('DELETE')
 
@@ -48,33 +48,33 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($kegiatan as $item)
+                @forelse($kegiatanMasjid as $kM)
                     <tr>
                         <td class="border px-4 py-2 text-center">
-                            <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="rowCheckbox">
+                            <input type="checkbox" name="ids[]" value="{{ $kM->id }}" class="rowCheckbox">
                         </td>
-                        <td class="border px-4 py-2">{{ $item->judul }}</td>
-                        <td class="border px-4 py-2">{{ $item->nama_ustadz }}</td>
-                        <td class="border px-4 py-2">{{ $item->jadwal }}</td>
+                        <td class="border px-4 py-2">{{ $kM->judul }}</td>
+                        <td class="border px-4 py-2">{{ $kM->nama_ustadz }}</td>
+                        <td class="border px-4 py-2">{{ $kM->jadwal }}</td>
                         <td class="border px-4 py-2">
                             <div class="relative w-24 h-24">
-                                <div class="absolute inset-0 bg-gray-200 animate-pulse rounded-lg" id="skeleton-{{ $item->id }}"></div>
-                                @if($item->gambar)
-                                    <img src="{{ asset('storage/' . $item->gambar) }}"
+                                <div class="absolute inset-0 bg-gray-200 animate-pulse rounded-lg" id="skeleton-{{ $kM->id }}"></div>
+                                @if($kM->gambar)
+                                    <img src="{{ asset('storage/' . $kM->gambar) }}"
                                          alt="Gambar Kegiatan"
                                          class="w-24 h-24 object-cover rounded-lg hidden"
-                                         onload="this.classList.remove('hidden'); document.getElementById('skeleton-{{ $item->id }}').style.display='none';"
+                                         onload="this.classList.remove('hidden'); document.getElementById('skeleton-{{ $kM->id }}').style.display='none';"
                                          onerror="console.error('Gagal load gambar')">
                                 @else
                                     <span class="text-gray-500 text-sm">Tidak ada gambar</span>
                                 @endif
                             </div>
                         </td>
-                        <td class="border px-4 py-2">{{ $item->kategori?->nama ?? '-' }}</td>
-                        <td class="border px-4 py-2">{{ $item->catatan }}</td>
+                        <td class="border px-4 py-2">{{ $kM->kategori?->nama ?? '-' }}</td>
+                        <td class="border px-4 py-2">{{ $kM->catatan }}</td>
                         <td class="border px-4 py-2 flex gap-2">
-                            <a href="{{ route('dkm.manajemenKonten.edit', $item->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
-                            <form method="POST" action="{{ route('dkm.manajemenKonten.destroy', $item->id) }}" onsubmit="return confirm('Hapus kegiatan ini?')">
+                            <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.edit', $kM->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
+                            <form method="POST" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.destroy', $kM->id) }}" onsubmit="return confirm('Hapus kegiatan ini?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
                             </form>
