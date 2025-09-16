@@ -29,6 +29,18 @@
             <label class="block mb-1">Tanggal Rilis</label>
             <input type="date" name="tanggal_rilis" value="{{ $artikel->tanggal_rilis->format('Y-m-d') }}" class="w-full border px-3 py-2 rounded" required>
         </div>
+        <div class="mb-4">
+            <label class="block mb-1">Kategori</label>
+            <select name="kategori_id" class="w-full border px-3 py-2 rounded">
+                <option value="">-- Pilih Kategori --</option>
+                @foreach($kategori as $kat)
+                    <option value="{{ $kat->id }}" 
+                        {{ old('kategori_id', $kegiatanMasjid->kategori_id ?? '') == $kat->id ? 'selected' : '' }}>
+                        {{ $kat->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
     </form>

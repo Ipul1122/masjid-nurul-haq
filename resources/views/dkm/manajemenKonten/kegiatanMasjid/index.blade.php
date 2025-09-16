@@ -75,7 +75,7 @@
                         <td class="border px-4 py-2 flex gap-2">
                             <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.edit', $kM->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
                             {{-- <form method="POST" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.destroy', $kM->id) }}" onsubmit="return confirm('Hapus kegiatan ini?')">
-                                @csrf @method('DELETE')
+                                @csrf @method('DELETE') 
                                 <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
                             </form> --}}
                         </td>

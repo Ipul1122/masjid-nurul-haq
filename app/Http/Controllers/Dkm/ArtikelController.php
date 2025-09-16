@@ -6,18 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Artikel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\KategoriArtikel;
 
 class ArtikelController extends Controller
 {
     public function index()
     {
-        $artikels = Artikel::latest()->get();
+        $artikels = Artikel::with('kategori')->latest()->get();
         return view('dkm.manajemenKonten.artikel.index', compact('artikels'));
     }
 
-    public function create()
+
+     public function create()
     {
-        return view('dkm.manajemenKonten.artikel.create');
+        $artikels = KategoriArtikel::all(); // ambil kategori artikel
+        return view('dkm.manajemenKonten.artikel.create', compact('artikels'));
     }
 
     public function store(Request $request)
@@ -26,6 +29,7 @@ class ArtikelController extends Controller
             'judul' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'deskripsi' => 'nullable|string',
+            'kategori_id' => 'required|exists:kategori_artikels,id',
         ]);
 
         $data = $request->all();
@@ -43,7 +47,8 @@ class ArtikelController extends Controller
 
     public function edit(Artikel $artikel)
     {
-        return view('dkm.manajemenKonten.artikel.edit', compact('artikel'));
+        $kategori = KategoriArtikel::all(); // ambil kategori artikel
+        return view('dkm.manajemenKonten.artikel.edit', compact('artikel', 'kategori'));
     }
 
     public function update(Request $request, Artikel $artikel)
@@ -53,6 +58,7 @@ class ArtikelController extends Controller
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'deskripsi' => 'nullable|string',
             'tanggal_rilis' => 'required|date',
+            'kategori_id' => 'required|exists:kategori_artikels,id',
         ]);
 
         $data = $request->all();
