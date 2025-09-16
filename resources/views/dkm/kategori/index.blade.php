@@ -2,42 +2,22 @@
 
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow">
-    <div class="flex justify-between mb-4">
-        <h2 class="text-xl font-bold">Daftar Kategori</h2>
-        <a href="{{ route('dkm.kategori.create') }}" class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah Kategori</a>
+    <h2 class="text-xl font-bold mb-6">Halo admin, mau update kategori apa nih?</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {{-- Container Kategori Kegiatan Masjid --}}
+        <a href="{{ route('dkm.kategori.kegiatanMasjid.index') }}"
+           class="block p-6 rounded-lg shadow hover:shadow-lg transition bg-blue-50 border border-blue-200">
+            <h3 class="text-lg font-semibold text-blue-700 mb-2">Kategori Kegiatan Masjid</h3>
+            <p class="text-sm text-gray-600">Kelola kategori untuk jadwal kegiatan, kajian, pengajian, shalat Jumat, dll.</p>
+        </a>
+
+        {{-- Container Kategori Artikel --}}
+        {{-- <a href="{{ route('dkm.kategori.artikel.index') }}"
+           class="block p-6 rounded-lg shadow hover:shadow-lg transition bg-green-50 border border-green-200">
+            <h3 class="text-lg font-semibold text-green-700 mb-2">Kategori Artikel</h3>
+            <p class="text-sm text-gray-600">Kelola kategori untuk artikel, informasi, dan berita dari Masjid Nurul Haq.</p>
+        </a> --}}
     </div>
-
-    @if(session('success'))
-        <div class="bg-green-100 text-green-700 p-2 rounded mb-3">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <table class="w-full border">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="border px-4 py-2">ID</th>
-                <th class="border px-4 py-2">Nama</th>
-                <th class="border px-4 py-2">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($kategori as $kat)
-                <tr>
-                    <td class="border px-4 py-2">{{ $kat->id }}</td>
-                    <td class="border px-4 py-2">{{ $kat->nama }}</td>
-                    <td class="border px-4 py-2 flex gap-2">
-                        <a href="{{ route('dkm.kategori.edit', $kat->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
-                        <form action="{{ route('dkm.kategori.destroy', $kat->id) }}" method="POST" onsubmit="return confirm('Hapus kategori ini?')">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr><td colspan="3" class="text-center py-3">Belum ada kategori</td></tr>
-            @endforelse
-        </tbody>
-    </table>
 </div>
 @endsection
