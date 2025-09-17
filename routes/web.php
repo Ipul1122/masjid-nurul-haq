@@ -9,6 +9,7 @@ use App\Http\Controllers\Dkm\ArtikelController;
 use App\Http\Controllers\Dkm\KategoriController;
 use App\Http\Controllers\Dkm\KategoriKegiatanMasjidController;
 use App\Http\Controllers\Dkm\KategoriArtikelController;
+use App\Http\Controllers\Dkm\JadwalImamController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,9 +35,10 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             // Kegiatan Masjid
             Route::delete('kegiatanMasjid/delete-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])->name('kegiatanMasjid.destroyMultiple');
             Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
-
             // Artikel Masjid
             Route::resource('artikel', ArtikelController::class);
+            // Jadwal Imam
+            Route::resource('jadwalImam', JadwalImamController::class);
         });
 
         // ====================
