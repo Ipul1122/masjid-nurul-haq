@@ -30,6 +30,8 @@
     <br>
     <a href="{{ route('dkm.manajemenKonten.jadwalImam.index') }}">Manage Jadwal Imam</a>
     <br>
+    <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.index') }}">Manage Keuangan</a>
+    <br>
     <a href="{{ route('dkm.kategori.index') }}">Manage kategori</a>
 </div>
 @endsection
