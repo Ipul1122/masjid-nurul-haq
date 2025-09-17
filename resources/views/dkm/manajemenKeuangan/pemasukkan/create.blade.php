@@ -17,6 +17,17 @@
             <input type="date" name="tanggal" value="{{ now()->format('Y-m-d') }}" class="w-full border px-3 py-2 rounded" required>
         </div>
 
+        <div class="mb-3">
+            <label class="block mb-1">Kategori</label>
+            <select name="kategori_id" class="w-full border px-3 py-2 rounded" required>
+                <option value="">-- Pilih Kategori --</option>
+                @foreach($kategori as $kat)
+                    <option value="{{ $kat->id }}">{{ $kat->nama }}</option>
+                @endforeach
+            </select>
+        </div>
+
+
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Simpan</button>
         <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.index') }}" class="ml-2 text-gray-600">Batal</a>
     </form>

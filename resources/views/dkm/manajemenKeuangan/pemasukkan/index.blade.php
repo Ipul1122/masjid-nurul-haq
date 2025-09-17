@@ -16,6 +16,7 @@
             <tr class="bg-gray-100">
                 <th class="border px-4 py-2">Tanggal</th>
                 <th class="border px-4 py-2">Total</th>
+                <th class="border px-4 py-2">Kategori</th>
                 <th class="border px-4 py-2">Aksi</th>
             </tr>
         </thead>
@@ -24,6 +25,7 @@
                 <tr>
                     <td class="border px-4 py-2">{{ $item->tanggal->format('d-m-Y') }}</td>
                     <td class="border px-4 py-2">Rp. {{ number_format($item->total, 0, ',', '.') }}</td>
+                    <td class="border px-4 py-2">{{ $item->kategori?->nama ?? '--' }}</td>
                     <td class="border px-4 py-2 flex gap-2">
                         <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.edit', $item->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
                         <form action="{{ route('dkm.manajemenKeuangan.pemasukkan.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?')">

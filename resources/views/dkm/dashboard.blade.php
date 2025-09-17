@@ -33,5 +33,6 @@
     <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.index') }}">Manage Keuangan</a>
     <br>
     <a href="{{ route('dkm.kategori.index') }}">Manage kategori</a>
+    <br>
 </div>
 @endsection
