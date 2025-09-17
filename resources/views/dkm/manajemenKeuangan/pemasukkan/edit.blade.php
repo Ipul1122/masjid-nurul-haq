@@ -1,0 +1,35 @@
+@extends('layouts.dkm')
+
+@section('content')
+<div class="bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Edit Pemasukkan</h2>
+
+    <form action="{{ route('dkm.manajemenKeuangan.pemasukkan.update', $pemasukkan->id) }}" method="POST">
+        @csrf @method('PUT')
+
+        <div class="mb-3">
+            <label class="block">Total Pemasukkan</label>
+            <input type="text" name="total" id="total" class="w-full border px-3 py-2 rounded" 
+                   value="Rp. {{ number_format($pemasukkan->total, 0, ',', '.') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="block">Tanggal Pemasukkan</label>
+            <input type="date" name="tanggal" value="{{ $pemasukkan->tanggal->format('Y-m-d') }}" 
+                   class="w-full border px-3 py-2 rounded" required>
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+        <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.index') }}" class="ml-2 text-gray-600">Batal</a>
+    </form>
+</div>
+
+<script>
+    const totalInput = document.getElementById('total');
+    totalInput.addEventListener('keyup', function(e) {
+        let value = this.value.replace(/[^,\d]/g, '');
+        let formatted = new Intl.NumberFormat('id-ID').format(value);
+        this.value = value ? 'Rp. ' + formatted : '';
+    });
+</script>
+@endsection

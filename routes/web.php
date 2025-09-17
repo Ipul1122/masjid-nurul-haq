@@ -10,6 +10,7 @@ use App\Http\Controllers\Dkm\KategoriController;
 use App\Http\Controllers\Dkm\KategoriKegiatanMasjidController;
 use App\Http\Controllers\Dkm\KategoriArtikelController;
 use App\Http\Controllers\Dkm\JadwalImamController;
+use App\Http\Controllers\Dkm\PemasukkanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,6 +41,12 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             // Jadwal Imam
             Route::resource('jadwalImam', JadwalImamController::class);
         });
+
+        Route::prefix('manajemenKeuangan')->name('manajemenKeuangan.')->group(function () {
+            // Pemasukkan
+            Route::resource('pemasukkan', PemasukkanController::class);
+        });
+
 
         // ====================
         // 📌 Kategori
