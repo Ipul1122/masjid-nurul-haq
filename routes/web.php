@@ -12,6 +12,8 @@ use App\Http\Controllers\Dkm\KategoriArtikelController;
 use App\Http\Controllers\Dkm\JadwalImamController;
 use App\Http\Controllers\Dkm\PemasukkanController;
 use App\Http\Controllers\Dkm\KategoriPemasukkanController;
+use App\Http\Controllers\Dkm\PengeluaranController;
+use App\Http\Controllers\Dkm\KategoriPengeluaranController;
 
 
 Route::get('/', function () {
@@ -48,10 +50,14 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         // 📌 Kategori
         // ====================
         Route::prefix('manajemenKeuangan')->name('manajemenKeuangan.')->group(function () {
+            // Hapus multiple pemasukkan
             Route::delete('/pemasukkan/bulk-delete', [PemasukkanController::class, 'bulkDelete'])->name('pemasukkan.bulkDelete');
+            // Hapus multiple pengeluaran
+            Route::delete('/pengeluaran/bulk-delete', [PengeluaranController::class, 'bulkDelete'])->name('pengeluaran.bulkDelete');
             // Pemasukkan
             Route::resource('pemasukkan', PemasukkanController::class);
-            // Kategori Pemasukkan
+            // Pengeluaran
+            Route::resource('pengeluaran', PengeluaranController::class);
         });
 
 
@@ -63,6 +69,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::resource('kegiatanMasjid', KategoriKegiatanMasjidController::class);
             Route::resource('artikel', KategoriArtikelController::class);
             Route::resource('pemasukkan', KategoriPemasukkanController::class);
+            Route::resource('pengeluaran', KategoriPengeluaranController::class);
         });
 
         // ====================
