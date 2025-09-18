@@ -48,6 +48,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         // 📌 Kategori
         // ====================
         Route::prefix('manajemenKeuangan')->name('manajemenKeuangan.')->group(function () {
+            Route::delete('/pemasukkan/bulk-delete', [PemasukkanController::class, 'bulkDelete'])->name('pemasukkan.bulkDelete');
             // Pemasukkan
             Route::resource('pemasukkan', PemasukkanController::class);
             // Kategori Pemasukkan

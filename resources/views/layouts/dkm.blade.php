@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard DKM</title>
+        <title>{{ config('app.name', 'Masjid Nurul Haq') }}</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="bg-gray-100 min-h-screen p-6">
