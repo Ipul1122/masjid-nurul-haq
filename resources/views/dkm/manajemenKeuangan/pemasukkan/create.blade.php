@@ -14,9 +14,11 @@
 
         <div class="mb-3">
             <label class="block mb-1">Tanggal Pemasukkan</label>
-            <input type="date" name="tanggal" value="{{ now()->format('Y-m-d') }}" class="w-full border px-3 py-2 rounded" required>
+            <input type="date" name="tanggal"
+                value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                class="w-full border px-3 py-2 rounded"
+                required>
         </div>
-
         <div class="mb-3">
             <label class="block mb-1">Kategori</label>
             <select name="kategori_id" class="w-full border px-3 py-2 rounded" required>
