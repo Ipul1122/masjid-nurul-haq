@@ -14,6 +14,7 @@ use App\Http\Controllers\Dkm\PemasukkanController;
 use App\Http\Controllers\Dkm\KategoriPemasukkanController;
 use App\Http\Controllers\Dkm\PengeluaranController;
 use App\Http\Controllers\Dkm\KategoriPengeluaranController;
+use App\Http\Controllers\Dkm\ManajemenKeuanganController;
 
 
 Route::get('/', function () {
@@ -50,6 +51,8 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         // 📌 Kategori
         // ====================
         Route::prefix('manajemenKeuangan')->name('manajemenKeuangan.')->group(function () {
+            // Manajemen Keuangan
+            Route::get('/', [ManajemenKeuanganController::class, 'index'])->name('index');
             // Hapus multiple pemasukkan
             Route::delete('/pemasukkan/bulk-delete', [PemasukkanController::class, 'bulkDelete'])->name('pemasukkan.bulkDelete');
             // Hapus multiple pengeluaran
