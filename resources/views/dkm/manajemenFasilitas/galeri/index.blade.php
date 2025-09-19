@@ -72,11 +72,10 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Cari semua kontainer carousel di halaman
     const carouselContainers = document.querySelectorAll('[data-carousel-container]');
 
     carouselContainers.forEach(container => {
-        const items = container.querySelectorAll('[data-carousel-item]'); // Ini adalah div pembungkus img
+        const items = container.querySelectorAll('[data-carousel-item]'); 
         const prevButton = container.querySelector('[data-carousel-prev]');
         const nextButton = container.querySelector('[data-carousel-next]');
         let currentIndex = 0;
@@ -85,14 +84,14 @@ document.addEventListener('DOMContentLoaded', function () {
             items.forEach((item, i) => {
                 // Sembunyikan semua item
                 item.classList.add('hidden');
-                // Hapus kelas 'active' jika ada (optional, tapi baik untuk kebersihan)
+                // Hapus kelas 'active'
                 item.classList.remove('z-10'); 
             });
 
             // Tampilkan item yang aktif
-            if (items[index]) { // Pastikan item ada
+            if (items[index]) { 
                 items[index].classList.remove('hidden');
-                items[index].classList.add('z-10'); // Opsional: pastikan item aktif di atas (z-index)
+                items[index].classList.add('z-10'); 
             }
         }
 
