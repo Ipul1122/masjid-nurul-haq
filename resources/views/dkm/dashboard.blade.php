@@ -32,6 +32,8 @@
     <br>
     <a href="{{ route('dkm.manajemenKeuangan.index') }}">Manage Keuangan</a>
     <br>
+    <a href="{{ route('dkm.manajemenFasilitas.galeri.index') }}">Manage Galeri</a>
+    <br>
     <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.index') }}">Manage pemasukkan</a>
     <br>
     <a href="{{ route('dkm.manajemenKeuangan.pengeluaran.index') }}">Manage pengeluaran</a>

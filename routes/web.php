@@ -15,6 +15,7 @@ use App\Http\Controllers\Dkm\KategoriPemasukkanController;
 use App\Http\Controllers\Dkm\PengeluaranController;
 use App\Http\Controllers\Dkm\KategoriPengeluaranController;
 use App\Http\Controllers\Dkm\ManajemenKeuanganController;
+use App\Http\Controllers\Dkm\GaleriController;
 
 
 Route::get('/', function () {
@@ -48,7 +49,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         });
 
         // ====================
-        // 📌 Kategori
+        // 📌 ManajemeKeuangan
         // ====================
         Route::prefix('manajemenKeuangan')->name('manajemenKeuangan.')->group(function () {
             // Manajemen Keuangan
@@ -63,6 +64,13 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::resource('pengeluaran', PengeluaranController::class);
         });
 
+        // ====================
+        // 📌 ManajemeKeuangan
+        // ====================
+        Route::prefix('manajemenFasilitas')->name('manajemenFasilitas.')->group(function () {
+            // Galeri
+            Route::resource('galeri', GaleriController::class);
+        });
 
         // ====================
         // 📌 Kategori

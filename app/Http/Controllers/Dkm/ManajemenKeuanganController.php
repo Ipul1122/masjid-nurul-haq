@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\DKM;
+namespace App\Http\Controllers\Dkm;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
