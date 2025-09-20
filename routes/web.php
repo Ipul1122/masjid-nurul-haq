@@ -17,6 +17,7 @@ use App\Http\Controllers\Dkm\KategoriPengeluaranController;
 use App\Http\Controllers\Dkm\ManajemenKeuanganController;
 use App\Http\Controllers\Dkm\GaleriController;
 use App\Http\Controllers\Dkm\KategoriGaleriController;
+use App\Http\Controllers\Dkm\NotifikasiController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -83,6 +84,12 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::resource('pengeluaran', KategoriPengeluaranController::class);
             Route::resource('galeri', KategoriGaleriController::class);
         });
+
+        // ====================
+        // 🔔 Notifikasi
+        // ====================
+        Route::resource('notifikasi', NotifikasiController::class);
+
 
         // ====================
         // 🔐 Verifikasi PIN
