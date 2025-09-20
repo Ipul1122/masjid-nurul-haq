@@ -40,5 +40,7 @@
     <br>
     <a href="{{ route('dkm.kategori.index') }}">Manage kategori</a>
     <br>
+    <a href="{{ route('dkm.kategori.galeri.index') }}">Manage Galeri Kategori</a>
+    <br>
 </div>
 @endsection
