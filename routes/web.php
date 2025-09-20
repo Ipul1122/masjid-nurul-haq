@@ -16,7 +16,7 @@ use App\Http\Controllers\Dkm\PengeluaranController;
 use App\Http\Controllers\Dkm\KategoriPengeluaranController;
 use App\Http\Controllers\Dkm\ManajemenKeuanganController;
 use App\Http\Controllers\Dkm\GaleriController;
-
+use App\Http\Controllers\Dkm\KategoriGaleriController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -65,7 +65,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         });
 
         // ====================
-        // 📌 ManajemeKeuangan
+        // 📌 Manajeme Fasilitais
         // ====================
         Route::prefix('manajemenFasilitas')->name('manajemenFasilitas.')->group(function () {
             // Galeri
@@ -81,6 +81,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::resource('artikel', KategoriArtikelController::class);
             Route::resource('pemasukkan', KategoriPemasukkanController::class);
             Route::resource('pengeluaran', KategoriPengeluaranController::class);
+            Route::resource('galeri', KategoriGaleriController::class);
         });
 
         // ====================
