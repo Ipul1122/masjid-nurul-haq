@@ -1,6 +1,8 @@
-@extends('layouts.dkm') {{-- nanti kita bikin layout dasar --}}
+{{-- @extends('layouts.navbar') --}}
+@extends('layouts.dkm')
+
 @section('content')
-<div class="bg-gray-50 min-h-screen p-6">
+<div class="bg-gray-50  p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-gray-800">
             Selamat datang, {{ session('dkm_username') }}
@@ -22,25 +24,7 @@
         </p>
     </div>
 
-    <a href="{{ route('dkm.managePengguna.index') }}">Manage Pengguna</a>
-    <br>
-    <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.index') }}">Manage Konten</a>
-    <br>
-    <a href="{{ route('dkm.manajemenKonten.artikel.index') }}">Manage Artikel</a>
-    <br>
-    <a href="{{ route('dkm.manajemenKonten.jadwalImam.index') }}">Manage Jadwal Imam</a>
-    <br>
-    <a href="{{ route('dkm.manajemenKeuangan.index') }}">Manage Keuangan</a>
-    <br>
-    <a href="{{ route('dkm.manajemenFasilitas.galeri.index') }}">Manage Galeri</a>
-    <br>
-    <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.index') }}">Manage pemasukkan</a>
-    <br>
-    <a href="{{ route('dkm.manajemenKeuangan.pengeluaran.index') }}">Manage pengeluaran</a>
-    <br>
-    <a href="{{ route('dkm.kategori.index') }}">Manage kategori</a>
-    <br>
-    <a href="{{ route('dkm.kategori.galeri.index') }}">Manage Galeri Kategori</a>
+   
     <br>
 </div>
 @endsection
