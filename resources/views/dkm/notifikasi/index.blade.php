@@ -2,29 +2,28 @@
 
 @section('content')
 <div class="bg-white p-6 rounded shadow">
-    <h2 class="text-xl font-bold mb-4">Notifikasi Aktivitas</h2>
-
-    <ul class="divide-y">
-        @forelse($activities as $activity)
-            <li class="py-2">
-                <strong>{{ $activity->causer?->name ?? 'Sistem' }}</strong>
-                {{ $activity->description }}
-                pada <span class="font-semibold">{{ $activity->log_name }}</span>
-                <br>
-                <small class="text-gray-500">
-                    {{ $activity->created_at->diffForHumans() }}
-                </small>
-
-                {{-- Jika ingin detail perubahan --}}
-                @if($activity->properties->has('attributes'))
-                    <div class="text-sm text-gray-600 mt-1">
-                        Perubahan: {{ json_encode($activity->properties['attributes']) }}
-                    </div>
-                @endif
-            </li>
-        @empty
-            <li>Tidak ada aktivitas.</li>
-        @endforelse
-    </ul>
+    <h2 class="text-xl font-bold mb-4">📢 Notifikasi Aktivitas</h2>
+    <table class="table-auto w-full border">
+        <thead>
+            <tr>
+                <th class="border p-2">Pengguna</th>
+                <th class="border p-2">Aksi</th>
+                <th class="border p-2">Tabel</th>
+                <th class="border p-2">Keterangan</th>
+                <th class="border p-2">Waktu</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($notifikasis as $notif)
+            <tr>
+                <td class="border p-2">{{ $notif->dkm->username ?? 'Tidak diketahui' }}</td>
+                <td class="border p-2">{{ ucfirst($notif->aksi) }}</td>
+                <td class="border p-2">{{ ucfirst($notif->tabel) }}</td>
+                <td class="border p-2">{{ $notif->keterangan }}</td>
+                <td class="border p-2">{{ $notif->created_at->translatedFormat('l, d F Y. H:i') }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @endsection
