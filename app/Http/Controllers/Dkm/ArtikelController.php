@@ -7,6 +7,7 @@ use App\Models\Artikel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\KategoriArtikel;
+use App\Models\Notifikasi;
 
 class ArtikelController extends Controller
 {
@@ -16,10 +17,9 @@ class ArtikelController extends Controller
         return view('dkm.manajemenKonten.artikel.index', compact('artikels'));
     }
 
-
-     public function create()
+    public function create()
     {
-        $artikels = KategoriArtikel::all(); // ambil kategori artikel
+        $artikels = KategoriArtikel::all();
         return view('dkm.manajemenKonten.artikel.create', compact('artikels'));
     }
 
@@ -33,13 +33,21 @@ class ArtikelController extends Controller
         ]);
 
         $data = $request->all();
-        $data['tanggal_rilis'] = now(); // default hari ini
+        $data['tanggal_rilis'] = now();
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('artikel', 'public');
         }
 
-        Artikel::create($data);
+        $artikel = Artikel::create($data);
+
+        // ✅ simpan notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'create',
+            'tabel' => 'artikel',
+            'keterangan' => $artikel->judul,
+        ]);
 
         return redirect()->route('dkm.manajemenKonten.artikel.index')
             ->with('success', 'Artikel berhasil ditambahkan.');
@@ -47,7 +55,7 @@ class ArtikelController extends Controller
 
     public function edit(Artikel $artikel)
     {
-        $kategori = KategoriArtikel::all(); // ambil kategori artikel
+        $kategori = KategoriArtikel::all();
         return view('dkm.manajemenKonten.artikel.edit', compact('artikel', 'kategori'));
     }
 
@@ -72,17 +80,35 @@ class ArtikelController extends Controller
 
         $artikel->update($data);
 
+        // ✅ simpan notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'update',
+            'tabel' => 'artikel',
+            'keterangan' => $artikel->judul,
+        ]);
+
         return redirect()->route('dkm.manajemenKonten.artikel.index')
             ->with('success', 'Artikel berhasil diperbarui.');
     }
 
     public function destroy(Artikel $artikel)
     {
+        $judul = $artikel->judul;
+
         if ($artikel->gambar) {
             Storage::disk('public')->delete($artikel->gambar);
         }
 
         $artikel->delete();
+
+        // ✅ simpan notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'delete',
+            'tabel' => 'artikel',
+            'keterangan' => $judul,
+        ]);
 
         return redirect()->route('dkm.manajemenKonten.artikel.index')
             ->with('success', 'Artikel berhasil dihapus.');

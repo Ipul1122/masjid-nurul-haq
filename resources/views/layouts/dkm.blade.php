@@ -232,7 +232,7 @@
         <main class="p-4 lg:p-6 mt-16 lg:mt-0 min-h-screen bg-gray-50">
             @yield('content')
             
-            <!-- Sample Content -->
+            {{-- <!-- Sample Content -->
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <h3 class="text-xl font-semibold text-gray-900 mb-4">Konten Utama</h3>
                 <p class="text-gray-600">Ini adalah area konten utama yang akan menampilkan berbagai halaman sesuai dengan menu yang dipilih.</p>
@@ -269,7 +269,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </main>
     </div>
 
