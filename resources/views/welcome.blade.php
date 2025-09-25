@@ -275,6 +275,7 @@
         @endif
 
         <h1 class="text-5xl font-bold text-indigo-600">Masjid Nurul Haq</h1>
+        <a href = "{{ route('dkm.dashboard')}}"> Dashboard </a>
 
     </body>
 </html>

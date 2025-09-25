@@ -11,11 +11,19 @@ use App\Models\Notifikasi;
 
 class ArtikelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $artikels = Artikel::with('kategori')->latest()->get();
+        $query = Artikel::with('kategori')->latest();
+
+        if ($request->filled('kategori_id')) {
+            $query->where('kategori_id', $request->kategori_id);
+        }
+
+        $artikels = $query->get();
+
         return view('dkm.manajemenKonten.artikel.index', compact('artikels'));
     }
+
 
     public function create()
     {
@@ -41,7 +49,6 @@ class ArtikelController extends Controller
 
         $artikel = Artikel::create($data);
 
-        // ✅ simpan notifikasi
         Notifikasi::create([
             'dkm_id' => session('dkm_id'),
             'aksi' => 'create',
@@ -80,7 +87,6 @@ class ArtikelController extends Controller
 
         $artikel->update($data);
 
-        // ✅ simpan notifikasi
         Notifikasi::create([
             'dkm_id' => session('dkm_id'),
             'aksi' => 'update',
@@ -102,7 +108,6 @@ class ArtikelController extends Controller
 
         $artikel->delete();
 
-        // ✅ simpan notifikasi
         Notifikasi::create([
             'dkm_id' => session('dkm_id'),
             'aksi' => 'delete',
@@ -112,5 +117,42 @@ class ArtikelController extends Controller
 
         return redirect()->route('dkm.manajemenKonten.artikel.index')
             ->with('success', 'Artikel berhasil dihapus.');
+    }
+
+    /**
+     * Hapus banyak artikel sekaligus (bulk delete).
+     * Form mengirimkan ids[] sebagai array.
+     */
+    public function bulkDelete(Request $request)
+    {
+        // validasi: harus array dan tiap id ada di table artikels
+        $data = $request->validate([
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'integer|exists:artikels,id',
+        ]);
+
+        $ids = $data['ids'];
+
+        $artikels = Artikel::whereIn('id', $ids)->get();
+
+        // hapus file gambar & buat notifikasi per item
+        foreach ($artikels as $artikel) {
+            if ($artikel->gambar) {
+                Storage::disk('public')->delete($artikel->gambar);
+            }
+
+            Notifikasi::create([
+                'dkm_id' => session('dkm_id'),
+                'aksi' => 'delete',
+                'tabel' => 'artikel',
+                'keterangan' => $artikel->judul,
+            ]);
+        }
+
+        // hapus data
+        Artikel::whereIn('id', $ids)->delete();
+
+        return redirect()->route('dkm.manajemenKonten.artikel.index')
+            ->with('success', 'Artikel terpilih berhasil dihapus.');
     }
 }
