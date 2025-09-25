@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dkm\ManajemenKontenController;
 use App\Http\Controllers\Controller;
 use App\Models\Kegiatan;
 use App\Models\Kategori;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,7 +15,6 @@ class KegiatanMasjidController extends Controller
     {
         $kategori = Kategori::all();
 
-        // Filter kategori jika dipilih
         $query = Kegiatan::with('kategori');
         if ($request->filled('kategori_id')) {
             $query->where('kategori_id', $request->kategori_id);
@@ -50,7 +50,15 @@ class KegiatanMasjidController extends Controller
             $data['gambar'] = $request->file('gambar')->store('kegiatan', 'public');
         }
 
-        Kegiatan::create($data);
+        $kegiatan = Kegiatan::create($data);
+
+        // Notifikasi create
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'create',
+            'tabel' => 'kegiatan',
+            'keterangan' => $kegiatan->judul,
+        ]);
 
         return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index')
             ->with('success', 'Kegiatan berhasil ditambahkan.');
@@ -84,28 +92,66 @@ class KegiatanMasjidController extends Controller
 
         $kegiatanMasjid->update($data);
 
+        // Notifikasi update
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'update',
+            'tabel' => 'kegiatan',
+            'keterangan' => $kegiatanMasjid->judul,
+        ]);
+
         return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index')
             ->with('success', 'Kegiatan berhasil diperbarui.');
     }
 
     public function destroy(Kegiatan $kegiatanMasjid)
     {
+        $judul = $kegiatanMasjid->judul;
+
         if ($kegiatanMasjid->gambar) {
             Storage::disk('public')->delete($kegiatanMasjid->gambar);
         }
         $kegiatanMasjid->delete();
 
+        // Notifikasi delete
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'delete',
+            'tabel' => 'kegiatan',
+            'keterangan' => $judul,
+        ]);
+
         return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index')
             ->with('success', 'Kegiatan berhasil dihapus.');
     }
 
+    /**
+     * Bulk delete kegiatan
+     */
     public function destroyMultiple(Request $request)
     {
         $request->validate([
             'ids' => 'required|array|min:1',
+            'ids.*' => 'integer|exists:kegiatans,id',
         ], [
             'ids.required' => 'Pilih minimal satu kegiatan untuk dihapus.',
         ]);
+
+        $kegiatans = Kegiatan::whereIn('id', $request->ids)->get();
+
+        foreach ($kegiatans as $kegiatan) {
+            if ($kegiatan->gambar) {
+                Storage::disk('public')->delete($kegiatan->gambar);
+            }
+
+            // Notifikasi delete
+            Notifikasi::create([
+                'dkm_id' => session('dkm_id'),
+                'aksi' => 'delete',
+                'tabel' => 'kegiatan',
+                'keterangan' => $kegiatan->judul,
+            ]);
+        }
 
         Kegiatan::whereIn('id', $request->ids)->delete();
 
