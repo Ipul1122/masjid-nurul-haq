@@ -1,53 +1,135 @@
 @extends('layouts.dkm')
 
 @section('content')
-<div class="bg-white p-6 rounded-lg shadow">
-    <div class="flex justify-between mb-4 items-center">
-        <h2 class="text-xl font-bold">Daftar Artikel Masjid</h2>
-        <a href="{{ route('dkm.manajemenKonten.artikel.create') }}" class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah Artikel</a>
-    </div>
+<div class="bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Daftar Artikel</h2>
 
     @if(session('success'))
-        <div class="bg-green-100 text-green-700 p-2 rounded mb-3">{{ session('success') }}</div>
+        <div class="bg-green-100 text-green-700 p-2 mb-3 rounded">
+            {{ session('success') }}
+        </div>
     @endif
 
-    <table class="w-full border-collapse border">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="border px-4 py-2">Judul</th>
-                <th class="border px-4 py-2">Gambar</th>
-                <th class="border px-4 py-2">Deskripsi</th>
-                <th class="border px-4 py-2">Tanggal Rilis</th>
-                <th class="border px-4 py-2">Kategori</th>
-                <th class="border px-4 py-2">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($artikels as $art)
-                <tr>
-                    <td class="border px-4 py-2">{{ $art->judul }}</td>
-                    <td class="border px-4 py-2">
-                        @if($art->gambar)
-                            <img src="{{ asset('storage/' . $art->gambar) }}" class="w-20 h-20 object-cover rounded">
-                        @else
-                            <span class="text-gray-500">Tidak ada gambar</span>
-                        @endif
-                    </td>
-                    <td class="border px-4 py-2">{{ Str::limit($art->deskripsi, 100) }}</td>
-                    <td class="border px-4 py-2">{{ $art->tanggal_rilis->format('d-m-Y') }}</td>
-                    <td class="border px-4 py-2">{{ $art->kategori?->nama ?? '--' }}</td>
-                    <td class="border px-4 py-2 flex gap-2">
-                        <a href="{{ route('dkm.manajemenKonten.artikel.edit', $art->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
-                        <form method="POST" action="{{ route('dkm.manajemenKonten.artikel.destroy', $art->id) }}" onsubmit="return confirm('Hapus artikel ini?')">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr><td colspan="6" class="text-center py-3">Belum ada artikel</td></tr>
-            @endforelse
-        </tbody>
-    </table>
+    {{-- 🔎 Filter berdasarkan kategori --}}
+    <form method="GET" action="{{ route('dkm.manajemenKonten.artikel.index') }}" class="mb-4 flex items-center gap-3 flex-wrap">
+        <label for="kategori_id" class="font-medium">Filter Kategori:</label>
+        <select name="kategori_id" id="kategori_id" class="border rounded px-3 py-2">
+            <option value="">-- Semua Kategori --</option>
+            @foreach(\App\Models\KategoriArtikel::all() as $kategori)
+                <option value="{{ $kategori->id }}" {{ request('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                    {{ $kategori->nama }}
+                </option>
+            @endforeach
+        </select>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Terapkan</button>
+        <a href="{{ route('dkm.manajemenKonten.artikel.index') }}" class="bg-gray-400 text-white px-4 py-2 rounded">Reset</a>
+    </form>
+
+    <a href="{{ route('dkm.manajemenKonten.artikel.create') }}" 
+       class="bg-green-600 text-white px-4 py-2 rounded mb-3 inline-block">+ Tambah Artikel</a>
+    <a href="{{ route('dkm.kategori.artikel.index') }}" 
+       class="bg-green-600 text-white px-4 py-2 rounded mb-3 inline-block">Kelola kategori</a>
+
+    <form method="POST" action="{{ route('dkm.manajemenKonten.artikel.bulkDelete') }}" 
+          onsubmit="return confirm('Yakin ingin menghapus artikel terpilih?')">
+        @csrf
+        @method('DELETE')
+
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border text-sm sm:text-base">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="border px-2 py-2">
+                            <input type="checkbox" id="selectAll">
+                        </th>
+                        <th class="border px-4 py-2">ID</th>
+                        <th class="border px-4 py-2">Judul</th>
+                        <th class="border px-4 py-2">Kategori</th>
+                        <th class="border px-4 py-2">Gambar</th>
+                        <th class="border px-4 py-2">Deskripsi</th>
+                        <th class="border px-4 py-2">Tanggal Rilis</th>
+                        <th class="border px-4 py-2">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($artikels as $artikel)
+                    <tr>
+                        <td class="border px-2 py-2 text-center">
+                            <input type="checkbox" name="ids[]" value="{{ $artikel->id }}">
+                        </td>
+                        <td class="border px-4 py-2">{{ $artikel->id }}</td>
+                        <td class="border px-4 py-2 font-semibold">{{ $artikel->judul }}</td>
+                        <td class="border px-4 py-2">{{ $artikel->kategori->nama ?? '-' }}</td>
+                        <td class="border px-4 py-2">
+                            @php
+                                $gambarList = [];
+                                if ($artikel->gambar) {
+                                    if (is_array($artikel->gambar)) {
+                                        $gambarList = $artikel->gambar;
+                                    } elseif (is_string($artikel->gambar) && str_starts_with($artikel->gambar, '[')) {
+                                        $gambarList = json_decode($artikel->gambar, true) ?? [];
+                                    } elseif (is_string($artikel->gambar)) {
+                                        $gambarList = explode(',', $artikel->gambar);
+                                    }
+                                }
+                            @endphp
+                            <div class="flex flex-wrap gap-2">
+                                @forelse($gambarList as $gbr)
+                                    <img src="{{ asset('storage/' . trim($gbr)) }}" 
+                                         alt="Gambar Artikel" 
+                                         class="w-16 h-16 object-cover rounded border">
+                                @empty
+                                    <span class="text-gray-400 text-sm">-</span>
+                                @endforelse
+                            </div>
+                        </td>
+                        <td class="border px-4 py-2 max-w-xs">
+                            <div class="line-clamp-3 text-gray-700">
+                                {{ $artikel->deskripsi ?? '-' }}
+                            </div>
+                        </td>
+                        <td class="border px-4 py-2">{{ $artikel->tanggal_rilis }}</td>
+                        <td class="border px-4 py-2 flex flex-wrap gap-2">
+                            <a href="{{ route('dkm.manajemenKonten.artikel.edit', $artikel->id) }}" 
+                               class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
+                            <form method="POST" action="{{ route('dkm.manajemenKonten.artikel.destroy', $artikel->id) }}" 
+                                  onsubmit="return confirm('Hapus artikel ini?')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="text-center py-3">Belum ada artikel</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <button type="submit" 
+                class="mt-3 bg-red-600 text-white px-4 py-2 rounded"
+                id="btnDeleteSelected" disabled>
+            Hapus Terpilih
+        </button>
+    </form>
 </div>
+
+{{-- Script untuk select all checkbox --}}
+<script>
+    document.getElementById('selectAll').addEventListener('change', function (e) {
+        let checkboxes = document.querySelectorAll('input[name="ids[]"]');
+        checkboxes.forEach(cb => cb.checked = e.target.checked);
+        toggleDeleteButton();
+    });
+
+    let checkboxes = document.querySelectorAll('input[name="ids[]"]');
+    checkboxes.forEach(cb => cb.addEventListener('change', toggleDeleteButton));
+
+    function toggleDeleteButton() {
+        let checked = document.querySelectorAll('input[name="ids[]"]:checked').length > 0;
+        document.getElementById('btnDeleteSelected').disabled = !checked;
+    }
+</script>
 @endsection

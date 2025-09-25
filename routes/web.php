@@ -43,8 +43,12 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             // Kegiatan Masjid
             Route::delete('kegiatanMasjid/delete-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])->name('kegiatanMasjid.destroyMultiple');
             Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
+
             // Artikel Masjid
+            // <-- penting: daftarkan route bulk-delete SEBELUM resource('artikel')
+            Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])->name('artikel.bulkDelete');
             Route::resource('artikel', ArtikelController::class);
+
             // Jadwal Imam
             Route::resource('jadwalImam', JadwalImamController::class);
         });
@@ -89,7 +93,6 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         // 🔔 Notifikasi
         // ====================
         Route::resource('notifikasi', NotifikasiController::class);
-
 
         // ====================
         // 🔐 Verifikasi PIN
