@@ -27,7 +27,14 @@ class KategoriKegiatanMasjidController extends Controller
 
         Kategori::create($request->only('nama'));
 
-        return redirect()->route('dkm.kategori.kegiatanMasjid.index')->with('success', 'Kategori berhasil ditambahkan');
+        return redirect()->route('dkm.kategori.kegiatanMasjid.index')
+            ->with('success', 'Kategori berhasil ditambahkan');
+    }
+
+    public function show($id)
+    {
+        // Jika tidak ingin menampilkan detail, redirect saja
+        return redirect()->route('dkm.kategori.kegiatanMasjid.index');
     }
 
     public function edit($id)
@@ -37,7 +44,6 @@ class KategoriKegiatanMasjidController extends Controller
 
         return view('dkm.kategori.kegiatanMasjid.edit', compact('kategori', 'daftarKategori'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -50,24 +56,19 @@ class KategoriKegiatanMasjidController extends Controller
 
         $kategori->update([
             'nama' => $request->nama,
-            'kategori_id' => $request->kategori_id, // kalau ada parent kategori
+            'kategori_id' => $request->kategori_id,
         ]);
 
-        return redirect()
-            ->route('dkm.kategori.kegiatanMasjid.index')
+        return redirect()->route('dkm.kategori.kegiatanMasjid.index')
             ->with('success', 'Kategori berhasil diperbarui.');
     }
-
 
     public function destroy($id)
     {
         $kategori = Kategori::findOrFail($id);
-
         $kategori->delete();
 
-        return redirect()
-            ->route('dkm.kategori.kegiatanMasjid.index')
+        return redirect()->route('dkm.kategori.kegiatanMasjid.index')
             ->with('success', 'Kategori berhasil dihapus.');
     }
-
 }
