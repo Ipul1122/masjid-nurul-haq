@@ -20,7 +20,8 @@ class KegiatanMasjidController extends Controller
             $query->where('kategori_id', $request->kategori_id);
         }
 
-        $kegiatanMasjid = $query->latest()->get();
+        // ✅ gunakan paginate(10) + withQueryString agar filter tetap jalan
+        $kegiatanMasjid = $query->latest()->paginate(10)->withQueryString();
 
         return view('dkm.manajemenKonten.kegiatanMasjid.index', compact('kegiatanMasjid', 'kategori'));
     }
@@ -40,9 +41,6 @@ class KegiatanMasjidController extends Controller
             'jadwal'      => 'required|date',
             'catatan'     => 'nullable|string',
             'kategori_id' => 'required|exists:kategoris,id',
-        ], [
-            'gambar.mimes' => 'Maaf, gambar hanya bisa berupa JPG, JPEG, atau PNG.',
-            'gambar.max'   => 'Ukuran gambar maksimal 2MB.',
         ]);
 
         $data = $request->all();
@@ -64,10 +62,13 @@ class KegiatanMasjidController extends Controller
             ->with('success', 'Kegiatan berhasil ditambahkan.');
     }
 
-    public function edit(Kegiatan $kegiatanMasjid)
+    public function edit(Request $request, Kegiatan $kegiatanMasjid)
     {
         $kategori = Kategori::all();
-        return view('dkm.manajemenKonten.kegiatanMasjid.edit', compact('kegiatanMasjid', 'kategori'));
+        // ✅ kirim juga nomor halaman agar bisa balik ke page yang sama
+        $page = $request->query('page', 1);
+
+        return view('dkm.manajemenKonten.kegiatanMasjid.edit', compact('kegiatanMasjid', 'kategori', 'page'));
     }
 
     public function update(Request $request, Kegiatan $kegiatanMasjid)
@@ -100,11 +101,13 @@ class KegiatanMasjidController extends Controller
             'keterangan' => $kegiatanMasjid->judul,
         ]);
 
-        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index')
-            ->with('success', 'Kegiatan berhasil diperbarui.');
+        // ✅ setelah update, kembali ke page yang sama
+        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index', [
+            'page' => $request->input('page', 1),
+        ])->with('success', 'Kegiatan berhasil diperbarui.');
     }
 
-    public function destroy(Kegiatan $kegiatanMasjid)
+    public function destroy(Request $request, Kegiatan $kegiatanMasjid)
     {
         $judul = $kegiatanMasjid->judul;
 
@@ -121,20 +124,16 @@ class KegiatanMasjidController extends Controller
             'keterangan' => $judul,
         ]);
 
-        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index')
-            ->with('success', 'Kegiatan berhasil dihapus.');
+        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index', [
+            'page' => $request->input('page', 1),
+        ])->with('success', 'Kegiatan berhasil dihapus.');
     }
 
-    /**
-     * Bulk delete kegiatan
-     */
     public function destroyMultiple(Request $request)
     {
         $request->validate([
             'ids' => 'required|array|min:1',
             'ids.*' => 'integer|exists:kegiatans,id',
-        ], [
-            'ids.required' => 'Pilih minimal satu kegiatan untuk dihapus.',
         ]);
 
         $kegiatans = Kegiatan::whereIn('id', $request->ids)->get();
@@ -155,7 +154,8 @@ class KegiatanMasjidController extends Controller
 
         Kegiatan::whereIn('id', $request->ids)->delete();
 
-        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index')
-            ->with('success', 'Kegiatan terpilih berhasil dihapus.');
+        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index', [
+            'page' => $request->input('page', 1),
+        ])->with('success', 'Kegiatan terpilih berhasil dihapus.');
     }
 }

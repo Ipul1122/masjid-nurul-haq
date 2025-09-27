@@ -4,7 +4,7 @@
 <div class="bg-white p-6 rounded-lg shadow">
     <h2 class="text-xl font-bold mb-4">Edit kegiatan Masjid</h2>
 
-    <form method="POST" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.update', $kegiatanMasjid->id) }}" enctype="multipart/form-data">
+   <form method="POST" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.update', ['kegiatanMasjid' => $kegiatanMasjid->id, 'page' => $page]) }}" enctype="multipart/form-data">
         @csrf @method('PUT')
         <div class="mb-4">
             <label class="block mb-1">Judul</label>
