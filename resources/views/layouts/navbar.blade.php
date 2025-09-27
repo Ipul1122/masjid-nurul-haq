@@ -15,7 +15,7 @@
 </header>
 
 <!-- Desktop Navbar -->
-<header class="hidden lg:block bg-white shadow-sm border-b border-gray-200">
+<header class="hidden lg:block fixed top-0 left-0 right-0 z-30 bg-white shadow-sm border-b border-gray-200">
     <div class="flex items-center justify-between px-6 py-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-900">Dashboard</h2>
@@ -38,3 +38,8 @@
         </div>
     </div>
 </header>
+
+<!-- Tambahkan padding pada konten -->
+<main class="pt-20 lg:pt-24">
+    {{-- Konten utama di sini --}}
+</main>
