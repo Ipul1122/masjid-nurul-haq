@@ -97,7 +97,7 @@
                     </button>
                     <div class="menu-submenu max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
                         <div class="ml-8 mt-2 mb-2 space-y-1">
-                            <a href="{{ url('dkm/kategori/artikel/index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                            <a href="{{route('dkm.kategori.artikel.index')}}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
                                 <i class="fas fa-newspaper w-4 h-4 mr-2"></i>
                                 Artikel
                             </a>
