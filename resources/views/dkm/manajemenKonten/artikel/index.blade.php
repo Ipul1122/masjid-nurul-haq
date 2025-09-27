@@ -35,6 +35,13 @@
         @csrf
         @method('DELETE')
 
+        {{-- BUTTON DELETE MULTIPLE --}}
+         <button type="submit" 
+                class="mb-3 bg-red-600 text-white px-4 py-2 rounded"
+                id="btnDeleteSelected" disabled>
+            Hapus Terpilih
+        </button>
+
         <div class="overflow-x-auto">
             <table class="w-full border-collapse border text-sm sm:text-base">
                 <thead class="bg-gray-100">
@@ -90,14 +97,10 @@
                         </td>
                         <td class="border px-4 py-2">{{ $artikel->tanggal_rilis }}</td>
                         <td class="border px-4 py-2 flex flex-wrap gap-2">
-                            <a href="{{ route('dkm.manajemenKonten.artikel.edit', $artikel->id) }}" 
-                               class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
-                            <form method="POST" action="{{ route('dkm.manajemenKonten.artikel.destroy', $artikel->id) }}" 
-                                  onsubmit="return confirm('Hapus artikel ini?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
-                            </form>
+                            <a href="{{ route('dkm.manajemenKonten.artikel.edit', ['artikel' => $artikel->id, 'page' => request('page', 1)]) }}" 
+                            class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
                         </td>
+
                     </tr>
                     @empty
                     <tr>
@@ -106,6 +109,11 @@
                     @endforelse
                 </tbody>
             </table>
+
+            <div class="mt-4">
+                {{ $artikels->links() }}
+            </div>
+
         </div>
 
         <button type="submit" 

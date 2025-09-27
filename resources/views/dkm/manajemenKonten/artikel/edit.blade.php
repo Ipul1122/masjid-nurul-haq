@@ -4,7 +4,9 @@
 <div class="bg-white p-6 rounded-lg shadow">
     <h2 class="text-xl font-bold mb-4">Edit Artikel</h2>
 
-    <form method="POST" action="{{ route('dkm.manajemenKonten.artikel.update', $artikel->id) }}" enctype="multipart/form-data">
+   <form method="POST" action="{{ route('dkm.manajemenKonten.artikel.update', ['artikel' => $artikel->id, 'page' => $page]) }}" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
         @csrf @method('PUT')
 
         <div class="mb-3">

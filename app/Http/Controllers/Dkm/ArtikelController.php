@@ -19,16 +19,17 @@ class ArtikelController extends Controller
             $query->where('kategori_id', $request->kategori_id);
         }
 
-        $artikels = $query->get();
+        // ✅ Pagination 10
+        $artikels = $query->paginate(10)->appends($request->query());
 
         return view('dkm.manajemenKonten.artikel.index', compact('artikels'));
     }
 
-
-    public function create()
+    public function create(Request $request)
     {
         $artikels = KategoriArtikel::all();
-        return view('dkm.manajemenKonten.artikel.create', compact('artikels'));
+        $page = $request->page ?? 1;
+        return view('dkm.manajemenKonten.artikel.create', compact('artikels', 'page'));
     }
 
     public function store(Request $request)
@@ -56,14 +57,16 @@ class ArtikelController extends Controller
             'keterangan' => $artikel->judul,
         ]);
 
-        return redirect()->route('dkm.manajemenKonten.artikel.index')
+        return redirect()
+            ->route('dkm.manajemenKonten.artikel.index', ['page' => $request->page ?? 1])
             ->with('success', 'Artikel berhasil ditambahkan.');
     }
 
-    public function edit(Artikel $artikel)
+    public function edit(Artikel $artikel, Request $request)
     {
         $kategori = KategoriArtikel::all();
-        return view('dkm.manajemenKonten.artikel.edit', compact('artikel', 'kategori'));
+        $page = $request->page ?? 1;
+        return view('dkm.manajemenKonten.artikel.edit', compact('artikel', 'kategori', 'page'));
     }
 
     public function update(Request $request, Artikel $artikel)
@@ -94,11 +97,12 @@ class ArtikelController extends Controller
             'keterangan' => $artikel->judul,
         ]);
 
-        return redirect()->route('dkm.manajemenKonten.artikel.index')
+        return redirect()
+            ->route('dkm.manajemenKonten.artikel.index', ['page' => $request->page ?? 1])
             ->with('success', 'Artikel berhasil diperbarui.');
     }
 
-    public function destroy(Artikel $artikel)
+    public function destroy(Request $request, Artikel $artikel)
     {
         $judul = $artikel->judul;
 
@@ -115,17 +119,13 @@ class ArtikelController extends Controller
             'keterangan' => $judul,
         ]);
 
-        return redirect()->route('dkm.manajemenKonten.artikel.index')
+        return redirect()
+            ->route('dkm.manajemenKonten.artikel.index', ['page' => $request->page ?? 1])
             ->with('success', 'Artikel berhasil dihapus.');
     }
 
-    /**
-     * Hapus banyak artikel sekaligus (bulk delete).
-     * Form mengirimkan ids[] sebagai array.
-     */
     public function bulkDelete(Request $request)
     {
-        // validasi: harus array dan tiap id ada di table artikels
         $data = $request->validate([
             'ids' => 'required|array|min:1',
             'ids.*' => 'integer|exists:artikels,id',
@@ -135,7 +135,6 @@ class ArtikelController extends Controller
 
         $artikels = Artikel::whereIn('id', $ids)->get();
 
-        // hapus file gambar & buat notifikasi per item
         foreach ($artikels as $artikel) {
             if ($artikel->gambar) {
                 Storage::disk('public')->delete($artikel->gambar);
@@ -149,10 +148,10 @@ class ArtikelController extends Controller
             ]);
         }
 
-        // hapus data
         Artikel::whereIn('id', $ids)->delete();
 
-        return redirect()->route('dkm.manajemenKonten.artikel.index')
+        return redirect()
+            ->route('dkm.manajemenKonten.artikel.index', ['page' => $request->page ?? 1])
             ->with('success', 'Artikel terpilih berhasil dihapus.');
     }
 }
