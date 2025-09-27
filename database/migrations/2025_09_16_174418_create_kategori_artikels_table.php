@@ -33,5 +33,7 @@ return new class extends Migration
             $table->dropForeign(['kategori_id']);
             $table->dropColumn('kategori_id');
         });
+
+        Schema::dropIfExists('kategori_artikels');
     }
 };

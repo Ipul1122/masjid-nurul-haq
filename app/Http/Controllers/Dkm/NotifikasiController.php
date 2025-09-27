@@ -11,8 +11,10 @@ class NotifikasiController extends Controller
     public function index()
     {
         $notifikasis = Notifikasi::with('dkm')->latest()->get();
-        return view('dkm.notifikasi.index', compact('notifikasis'));
+        $notifCount = Notifikasi::count();
+        return view('dkm.notifikasi.index', compact('notifikasis', 'notifCount'));
     }
+
 
     public function bulkDelete(Request $request)
     {
