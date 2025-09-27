@@ -40,25 +40,6 @@
                     <span class="font-medium">Dashboard</span>
                 </a>
 
-                <!-- Manage Pengguna -->
-                <div class="menu-group">
-                    <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
-                        <div class="flex items-center">
-                            <i class="fas fa-users w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
-                            <span class="font-medium">Manage Pengguna</span>
-                        </div>
-                        <i class="fas fa-chevron-down transition-transform duration-200"></i>
-                    </button>
-                    <div class="menu-submenu max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                        <div class="ml-8 mt-2 mb-2 space-y-1">
-                            <a href="{{ route('dkm.managePengguna.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
-                                <i class="fas fa-user-cog w-4 h-4 mr-2"></i>
-                                Kelola Pengguna
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Manage Konten -->
                 <div class="menu-group">
                     <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
@@ -166,6 +147,26 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Manage Pengguna -->
+                <div class="menu-group">
+                    <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
+                        <div class="flex items-center">
+                            <i class="fas fa-users w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
+                            <span class="font-medium">Manage Pengguna</span>
+                        </div>
+                        <i class="fas fa-chevron-down transition-transform duration-200"></i>
+                    </button>
+                    <div class="menu-submenu max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="ml-8 mt-2 mb-2 space-y-1">
+                            <a href="{{ route('dkm.managePengguna.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                                <i class="fas fa-user-cog w-4 h-4 mr-2"></i>
+                                Kelola Pengguna
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Manage Pengaturan -->
                 <div class="menu-group">
                     <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">

@@ -23,12 +23,12 @@
         <tbody>
             @forelse($jadwal as $j)
                 <tr>
-                    <td class="border px-4 py-2">
-                    @if($j->gambar)
-                        <img src="{{ asset('storage/'.$j->gambar) }}" class="w-16">
-                    @else
-                        -
-                    @endif
+                    <td class="border px-4 py-2 text-center">
+                        @if($j->gambar)
+                            <img src="{{ asset('storage/'.$j->gambar) }}" class="w-16 mx-auto">
+                        @else
+                            -
+                        @endif
                     </td>
                     <td class="border px-4 py-2">{{ $j->nama }}</td>
                     <td class="border px-4 py-2">{{ $j->waktu_sholat }}</td>
@@ -41,7 +41,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="3" class="text-center py-3">Belum ada jadwal imam</td></tr>
+                <tr><td colspan="4" class="text-center py-3">Belum ada jadwal imam</td></tr>
             @endforelse
         </tbody>
     </table>
