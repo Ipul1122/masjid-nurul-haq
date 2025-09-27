@@ -5,6 +5,7 @@
     <div class="flex justify-between mb-4 kMs-center">
         <h2 class="text-xl font-bold">Daftar Kegiatan Masjid</h2>
         <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.create') }}" class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah Kegiatan</a>
+        <a href="{{ route('dkm.kategori.kegiatanMasjid.index') }}" class="bg-green-600 text-white px-4 py-2 rounded">+ Kelola Kategori</a>
     </div>
 
     {{-- Notifikasi --}}
@@ -32,12 +33,21 @@
         @csrf
         @method('DELETE')
 
+         {{-- Tombol hapus banyak --}}
+        <div class="mb-3">
+            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded" onclick="return confirm('Yakin hapus semua data terpilih?')">
+                Hapus Terpilih
+            </button>
+        </div>
+
+        {{-- Tabel Kegiatan Masjid --}}
         <table class="w-full border-collapse border">
             <thead>
                 <tr class="bg-gray-100">
                     <th class="border px-4 py-2">
                         <input type="checkbox" id="selectAll">
                     </th>
+                    <th class="border px-4 py-2">ID</th>
                     <th class="border px-4 py-2">Judul</th>
                     <th class="border px-4 py-2">Ustadz</th>
                     <th class="border px-4 py-2">Jadwal</th>
@@ -50,9 +60,10 @@
             <tbody>
                 @forelse($kegiatanMasjid as $kM)
                     <tr>
-                        <td class="border px-4 py-2 text-center">
-                            <input type="checkbox" name="ids[]" value="{{ $kM->id }}" class="rowCheckbox">
+                        <td class="border px-2 py-2 text-center">
+                            <input type="checkbox" name="ids[]" value="{{ $kM->id }}">
                         </td>
+                        <td class="border px-4 py-2">{{ $kM->id }}</td>
                         <td class="border px-4 py-2">{{ $kM->judul }}</td>
                         <td class="border px-4 py-2">{{ $kM->nama_ustadz }}</td>
                         <td class="border px-4 py-2">{{ $kM->jadwal }}</td>
@@ -73,7 +84,8 @@
                         <td class="border px-4 py-2">{{ $kM->kategori?->nama ?? '-' }}</td>
                         <td class="border px-4 py-2">{{ $kM->catatan }}</td>
                         <td class="border px-4 py-2 flex gap-2">
-                            <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.edit', $kM->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
+                            <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.edit', ['kegiatanMasjid' => $kM->id, 'page' => request('page', 1)]) }}" 
+                            class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
                             {{-- <form method="POST" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.destroy', $kM->id) }}" onsubmit="return confirm('Hapus kegiatan ini?')">
                                 @csrf @method('DELETE') 
                                 <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
@@ -84,7 +96,12 @@
                     <tr><td colspan="8" class="text-center py-3">Belum ada kegiatan</td></tr>
                 @endforelse
             </tbody>
+
         </table>
+        {{-- ✅ Tambahkan pagination --}}
+        <div class="mt-4">
+            {{ $kegiatanMasjid->links() }}
+        </div>
 
         {{-- Tombol hapus banyak --}}
         <div class="mt-3">
