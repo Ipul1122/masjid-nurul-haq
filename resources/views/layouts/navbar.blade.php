@@ -40,7 +40,7 @@
                 </div>
                 <div class="text-sm">
                     <p class="font-medium text-gray-900">Admin</p>
-                    <p class="text-gray-600">Online</p>
+                    <p class="text-gray-600">Online dong</p>
                 </div>
             </div>
         </div>
