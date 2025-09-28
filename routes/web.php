@@ -95,6 +95,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             // 🔔 Notifikasi
             // ====================
             Route::delete('notifikasi/auto-delete-old', [NotifikasiController::class, 'autoDeleteOld'])->name('notifikasi.autoDeleteOld');
+            Route::get('notifikasi/count', [NotifikasiController::class, 'count'])->name('notifikasi.count');
             Route::delete('notifikasi/bulk-delete', [NotifikasiController::class, 'bulkDelete'])->name('notifikasi.bulkDelete');
             Route::resource('notifikasi', NotifikasiController::class);
 
