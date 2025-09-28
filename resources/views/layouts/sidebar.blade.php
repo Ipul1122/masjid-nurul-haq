@@ -40,31 +40,12 @@
                     <span class="font-medium">Dashboard</span>
                 </a>
 
-                <!-- Manage Pengguna -->
-                <div class="menu-group">
-                    <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
-                        <div class="flex items-center">
-                            <i class="fas fa-users w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
-                            <span class="font-medium">Manage Pengguna</span>
-                        </div>
-                        <i class="fas fa-chevron-down transition-transform duration-200"></i>
-                    </button>
-                    <div class="menu-submenu max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                        <div class="ml-8 mt-2 mb-2 space-y-1">
-                            <a href="{{ route('dkm.managePengguna.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
-                                <i class="fas fa-user-cog w-4 h-4 mr-2"></i>
-                                Kelola Pengguna
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Manage Konten -->
                 <div class="menu-group">
                     <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
                         <div class="flex items-center">
                             <i class="fas fa-edit w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
-                            <span class="font-medium">Manage Konten</span>
+                            <span class="font-medium">Kelola Konten</span>
                         </div>
                         <i class="fas fa-chevron-down transition-transform duration-200"></i>
                     </button>
@@ -91,7 +72,7 @@
                     <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
                         <div class="flex items-center">
                             <i class="fas fa-tags w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
-                            <span class="font-medium">Manage Kategori</span>
+                            <span class="font-medium">Kelola Kategori</span>
                         </div>
                         <i class="fas fa-chevron-down transition-transform duration-200"></i>
                     </button>
@@ -101,19 +82,19 @@
                                 <i class="fas fa-newspaper w-4 h-4 mr-2"></i>
                                 Artikel
                             </a>
-                            <a href="{{ url('dkm/kategori/galeri/index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                            <a href="{{ route('dkm.kategori.galeri.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
                                 <i class="fas fa-images w-4 h-4 mr-2"></i>
                                 Galeri
                             </a>
-                            <a href="{{ url('dkm/kategori/kegiatanMasjid/index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                            <a href="{{ route('dkm.kategori.kegiatanMasjid.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
                                 <i class="fas fa-calendar-alt w-4 h-4 mr-2"></i>
                                 Kegiatan Masjid
                             </a>
-                            <a href="{{ url('dkm/kategori/pemasukkan/index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                            <a href="{{ route('dkm.kategori.pemasukkan.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
                                 <i class="fas fa-arrow-up w-4 h-4 mr-2 text-green-500"></i>
                                 Pemasukkan
                             </a>
-                            <a href="{{ url('dkm/kategori/pengeluaran/index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                            <a href="{{ route('dkm.kategori.pengeluaran.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
                                 <i class="fas fa-arrow-down w-4 h-4 mr-2 text-red-500"></i>
                                 Pengeluaran
                             </a>
@@ -126,7 +107,7 @@
                     <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
                         <div class="flex items-center">
                             <i class="fas fa-wallet w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
-                            <span class="font-medium">Manage Keuangan</span>
+                            <span class="font-medium">Kelola Keuangan</span>
                         </div>
                         <i class="fas fa-chevron-down transition-transform duration-200"></i>
                     </button>
@@ -153,7 +134,7 @@
                     <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
                         <div class="flex items-center">
                             <i class="fas fa-building w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
-                            <span class="font-medium">Manage Fasilitas</span>
+                            <span class="font-medium">Kelola Fasilitas</span>
                         </div>
                         <i class="fas fa-chevron-down transition-transform duration-200"></i>
                     </button>
@@ -166,12 +147,32 @@
                         </div>
                     </div>
                 </div>
+
+                  <!-- Manage Pengguna -->
+                <div class="menu-group">
+                    <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
+                        <div class="flex items-center">
+                            <i class="fas fa-users w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
+                            <span class="font-medium">Kelola Pengguna</span>
+                        </div>
+                        <i class="fas fa-chevron-down transition-transform duration-200"></i>
+                    </button>
+                    <div class="menu-submenu max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="ml-8 mt-2 mb-2 space-y-1">
+                            <a href="{{ route('dkm.managePengguna.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                                <i class="fas fa-user-cog w-4 h-4 mr-2"></i>
+                                Kelola Pengguna
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Manage Pengaturan -->
                 <div class="menu-group">
                     <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
                         <div class="flex items-center">
                             <i class="fas fa-cogs w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
-                            <span class="font-medium">Manage Pengaturan</span>
+                            <span class="font-medium">Kelola Pengaturan</span>
                         </div>
                         <i class="fas fa-chevron-down transition-transform duration-200"></i>
                     </button>

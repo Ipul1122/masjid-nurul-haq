@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dkm\DkmAuthController;
+use App\Http\Controllers\Dkm\DashboardController;
 use App\Http\Controllers\Dkm\ManagePenggunaController;
 use App\Http\Controllers\Dkm\VerifyPinController;
 use App\Http\Controllers\Dkm\ManajemenKontenController\KegiatanMasjidController;
@@ -36,7 +37,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
 
         Route::middleware('auth.dkm')->group(function () {
             Route::get('/dashboard', [DkmAuthController::class, 'dashboard'])->name('dashboard');
-
+            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
             // ====================
             // 📌 Manajemen Konten
             // ====================
