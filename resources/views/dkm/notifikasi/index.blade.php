@@ -50,26 +50,34 @@
 </div>
 
 <script>
-    // ✅ Check all
-    document.getElementById('check-all').addEventListener('change', function(e) {
+    // Check all
+    document.getElementById('check-all')?.addEventListener('change', function(e) {
         let checkboxes = document.querySelectorAll('input[name="ids[]"]');
         checkboxes.forEach(cb => cb.checked = e.target.checked);
     });
 
-    // ✅ Countdown per notifikasi
+    // Countdown per notifikasi (UI only)
     function updateCountdown() {
         let rows = document.querySelectorAll("#notifikasi-table tbody tr[data-id]");
         let now = new Date().getTime();
 
         rows.forEach(row => {
-            let createdAt = new Date(row.dataset.created).getTime();
+            const createdStr = row.dataset.created;
+            // convert to JS Date; ensure format is ISO-friendly — Laravel's created_at should work
+            let createdAt = new Date(createdStr).getTime();
+            // if new Date parse fails (NaN), try replace space with 'T'
+            if (isNaN(createdAt)) {
+                createdAt = new Date(createdStr.replace(' ', 'T')).getTime();
+            }
             let expiredAt = createdAt + (5 * 60 * 1000); // 5 menit
             let diff = expiredAt - now;
 
             let countdownCell = row.querySelector(".countdown");
 
+            if (!countdownCell) return;
+
             if (diff <= 0) {
-                // Auto hapus baris dari DOM
+                // visual hapus row dari DOM
                 row.remove();
             } else {
                 let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -79,26 +87,7 @@
         });
     }
 
-    setInterval(updateCountdown, 1000); // update tiap detik
+    setInterval(updateCountdown, 1000);
     updateCountdown();
-
-    // ✅ Auto delete notifikasi lama via AJAX tiap 30 detik (backend sync)
-    setInterval(function () {
-        fetch("{{ route('dkm.notifikasi.autoDeleteOld') }}", {
-            method: "DELETE",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 'success' && data.deleted > 0) {
-                console.log(data.deleted + " notifikasi lama dihapus dari database.");
-            }
-        })
-        .catch(err => console.error("Auto delete error:", err));
-    }, 30000);
 </script>
 @endsection

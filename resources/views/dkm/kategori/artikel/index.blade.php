@@ -12,6 +12,8 @@
 
     <a href="{{ route('dkm.kategori.artikel.create') }}" 
        class="bg-green-600 text-white px-4 py-2 rounded mb-3 inline-block">+ Tambah Kategori</a>
+    <a href="{{ route('dkm.manajemenKonten.artikel.index') }}" 
+       class="bg-green-600 text-white px-4 py-2 rounded mb-3 inline-block">Lihat Artikel</a>
 
     <table class="w-full border-collapse border">
         <thead class="bg-gray-100">
