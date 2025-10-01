@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dkm;
 use App\Http\Controllers\Controller;
 use App\Models\Galeri;
 use App\Models\KategoriGaleri;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,12 +41,20 @@ class GaleriController extends Controller
             }
         }
 
-        Galeri::create([
+        $galeri = Galeri::create([
             'kategori_id' => $request->kategori_id,
             'judul' => $request->judul,
             'tanggal' => $request->tanggal,
             'gambar' => $gambarPaths,
             'deskripsi' => $request->deskripsi,
+        ]);
+
+        // Tambah Notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'create',
+            'tabel' => 'galeri',
+            'keterangan' => "Menambahkan galeri: " . $galeri->judul,
         ]);
 
         return redirect()->route('dkm.manajemenFasilitas.galeri.index')
@@ -84,6 +93,14 @@ class GaleriController extends Controller
             'deskripsi' => $request->deskripsi,
         ]);
 
+        // Tambah Notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'update',
+            'tabel' => 'galeri',
+            'keterangan' => "Memperbarui galeri: " . $galeri->judul,
+        ]);
+
         return redirect()->route('dkm.manajemenFasilitas.galeri.index')
                          ->with('success', 'Galeri berhasil diperbarui');
     }
@@ -95,7 +112,17 @@ class GaleriController extends Controller
                 Storage::disk('public')->delete($file);
             }
         }
+
+        $judul = $galeri->judul;
         $galeri->delete();
+
+        // Tambah Notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'delete',
+            'tabel' => 'galeri',
+            'keterangan' => "Menghapus galeri: " . $judul,
+        ]);
 
         return redirect()->route('dkm.manajemenFasilitas.galeri.index')
                          ->with('success', 'Galeri berhasil dihapus');

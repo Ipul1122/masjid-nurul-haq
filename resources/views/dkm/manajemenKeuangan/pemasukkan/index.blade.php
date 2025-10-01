@@ -7,29 +7,39 @@
         <div class="flex gap-2">
             <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.create') }}"
                class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah</a>
-
-            <!-- Tampilkan Semua (lewati filter default) -->
-            {{-- <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.index', ['all' => 1]) }}"
-               class="bg-gray-500 text-white px-3 py-2 rounded">Tampilkan Semua</a> --}}
         </div>
     </div>
 
     {{-- Filter Bulan & Tahun --}}
     <form method="GET" action="{{ route('dkm.manajemenKeuangan.pemasukkan.index') }}" class="mb-4 flex gap-2 items-center">
+        {{-- Dropdown Bulan --}}
         <select name="bulan" class="border px-3 py-2 rounded">
             <option value="">-- Pilih Bulan --</option>
             @for($m = 1; $m <= 12; $m++)
+                @php
+                    // Cek apakah bulan ini punya data (jika tahun dipilih, filter by tahun)
+                    $hasData = $bulanList->contains(function($item) use ($m, $selectedTahun) {
+                        if ($selectedTahun) {
+                            return $item->bulan == $m && $item->tahun == $selectedTahun;
+                        }
+                        return $item->bulan == $m;
+                    });
+                @endphp
                 <option value="{{ $m }}" {{ (string)$selectedBulan === (string)$m ? 'selected' : '' }}>
-                    {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
+                    {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }} {{ $hasData ? '•' : '' }}
                 </option>
             @endfor
         </select>
 
+        {{-- Dropdown Tahun --}}
         <select name="tahun" class="border px-3 py-2 rounded">
             <option value="">-- Pilih Tahun --</option>
             @foreach($tahunList as $th)
+                @php
+                    $hasData = $bulanList->contains('tahun', $th);
+                @endphp
                 <option value="{{ $th }}" {{ (string)$selectedTahun === (string)$th ? 'selected' : '' }}>
-                    {{ $th }}
+                    {{ $th }} {{ $hasData ? '•' : '' }}
                 </option>
             @endforeach
         </select>

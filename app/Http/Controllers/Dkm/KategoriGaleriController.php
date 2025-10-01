@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dkm;
 
 use App\Http\Controllers\Controller;
 use App\Models\KategoriGaleri;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 
 class KategoriGaleriController extends Controller
@@ -25,7 +26,15 @@ class KategoriGaleriController extends Controller
             'nama' => 'required|string|max:255'
         ]);
 
-        KategoriGaleri::create($request->only('nama'));
+        $kategori = KategoriGaleri::create($request->only('nama'));
+
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'create',
+            'tabel'      => 'kategori_galeri',
+            'keterangan' => "Menambahkan kategori galeri: " . $kategori->nama,
+        ]);
 
         return redirect()->route('dkm.kategori.galeri.index')
                          ->with('success', 'Kategori berhasil ditambahkan');
@@ -44,13 +53,31 @@ class KategoriGaleriController extends Controller
 
         $galeri->update($request->only('nama'));
 
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'update',
+            'tabel'      => 'kategori_galeri',
+            'keterangan' => "Memperbarui kategori galeri: " . $galeri->nama,
+        ]);
+
         return redirect()->route('dkm.kategori.galeri.index')
                          ->with('success', 'Kategori berhasil diperbarui');
     }
 
     public function destroy(KategoriGaleri $galeri)
     {
+        $nama = $galeri->nama;
+
         $galeri->delete();
+
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'delete',
+            'tabel'      => 'kategori_galeri',
+            'keterangan' => "Menghapus kategori galeri: " . $nama,
+        ]);
 
         return redirect()->route('dkm.kategori.galeri.index')
                          ->with('success', 'Kategori berhasil dihapus');

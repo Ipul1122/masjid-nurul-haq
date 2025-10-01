@@ -12,17 +12,20 @@ class PemasukkanController extends Controller
 {
     public function index(Request $request)
     {
-        // Jika user minta tampil semua ?all=1
         $showAll = $request->has('all') && $request->all == 1;
 
-        // Ambil daftar tahun yang ada di DB (dipakai di dropdown)
+        // Ambil daftar tahun yang ada
         $tahunList = Pemasukkan::selectRaw('YEAR(tanggal) as tahun')
             ->distinct()
             ->orderBy('tahun', 'desc')
             ->pluck('tahun');
 
+        // Ambil daftar bulan yang ada (group per bulan+tahun agar akurat)
+        $bulanList = Pemasukkan::selectRaw('MONTH(tanggal) as bulan, YEAR(tanggal) as tahun')
+            ->distinct()
+            ->get();
+
         if ($showAll) {
-            // Tampilkan semua data
             $pemasukkans = Pemasukkan::with('kategori')
                 ->orderBy('tanggal', 'desc')
                 ->get();
@@ -31,11 +34,9 @@ class PemasukkanController extends Controller
             $selectedBulan = null;
             $selectedTahun = null;
         } else {
-            // Default: gunakan bulan & tahun sekarang jika user tidak memilih
             $selectedBulan = $request->input('bulan', Carbon::now()->month);
             $selectedTahun = $request->input('tahun', Carbon::now()->year);
 
-            // Filter berdasarkan bulan & tahun terpilih (default = bulan & tahun sekarang)
             $pemasukkans = Pemasukkan::with('kategori')
                 ->whereMonth('tanggal', $selectedBulan)
                 ->whereYear('tanggal', $selectedTahun)
@@ -49,11 +50,13 @@ class PemasukkanController extends Controller
             'pemasukkans',
             'totalPemasukkan',
             'tahunList',
+            'bulanList',
             'selectedBulan',
             'selectedTahun',
             'showAll'
         ));
     }
+
 
     public function create()
     {
