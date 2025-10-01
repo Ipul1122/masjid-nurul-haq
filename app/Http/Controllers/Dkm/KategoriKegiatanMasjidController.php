@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dkm;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 
 class KategoriKegiatanMasjidController extends Controller
@@ -25,7 +26,15 @@ class KategoriKegiatanMasjidController extends Controller
             'nama' => 'required|string|max:100'
         ]);
 
-        Kategori::create($request->only('nama'));
+        $kategori = Kategori::create($request->only('nama'));
+
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'create',
+            'tabel'      => 'kategori_kegiatan_masjid',
+            'keterangan' => "Menambahkan kategori kegiatan masjid: " . $kategori->nama,
+        ]);
 
         return redirect()->route('dkm.kategori.kegiatanMasjid.index')
             ->with('success', 'Kategori berhasil ditambahkan');
@@ -59,6 +68,14 @@ class KategoriKegiatanMasjidController extends Controller
             'kategori_id' => $request->kategori_id,
         ]);
 
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'update',
+            'tabel'      => 'kategori_kegiatan_masjid',
+            'keterangan' => "Mengubah kategori kegiatan masjid: " . $kategori->nama,
+        ]);
+
         return redirect()->route('dkm.kategori.kegiatanMasjid.index')
             ->with('success', 'Kategori berhasil diperbarui.');
     }
@@ -66,7 +83,17 @@ class KategoriKegiatanMasjidController extends Controller
     public function destroy($id)
     {
         $kategori = Kategori::findOrFail($id);
+        $nama = $kategori->nama;
+
         $kategori->delete();
+
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'delete',
+            'tabel'      => 'kategori_kegiatan_masjid',
+            'keterangan' => "Menghapus kategori kegiatan masjid: " . $nama,
+        ]);
 
         return redirect()->route('dkm.kategori.kegiatanMasjid.index')
             ->with('success', 'Kategori berhasil dihapus.');
