@@ -1,6 +1,8 @@
 @extends('layouts.dkm')
 
 @section('content')
+@section('page-icon', asset('icons/bell-icon.svg'))
+
 <div class="bg-white p-6 rounded shadow">
     <h2 class="text-xl font-bold mb-4">📢 Notifikasi Aktivitas</h2>
 
