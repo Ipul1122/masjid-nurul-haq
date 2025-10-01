@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pemasukkan;
 use Illuminate\Http\Request;
 use App\Models\KategoriPemasukkan;
+use App\Models\Notifikasi;
 use Carbon\Carbon;
 
 class PemasukkanController extends Controller
@@ -14,13 +15,11 @@ class PemasukkanController extends Controller
     {
         $showAll = $request->has('all') && $request->all == 1;
 
-        // Ambil daftar tahun yang ada
         $tahunList = Pemasukkan::selectRaw('YEAR(tanggal) as tahun')
             ->distinct()
             ->orderBy('tahun', 'desc')
             ->pluck('tahun');
 
-        // Ambil daftar bulan yang ada (group per bulan+tahun agar akurat)
         $bulanList = Pemasukkan::selectRaw('MONTH(tanggal) as bulan, YEAR(tanggal) as tahun')
             ->distinct()
             ->get();
@@ -57,7 +56,6 @@ class PemasukkanController extends Controller
         ));
     }
 
-
     public function create()
     {
         $kategori = KategoriPemasukkan::all();
@@ -74,10 +72,18 @@ class PemasukkanController extends Controller
 
         $total = preg_replace('/[^0-9]/', '', $request->total);
 
-        Pemasukkan::create([
+        $pemasukkan = Pemasukkan::create([
             'total' => $total,
             'tanggal' => $request->tanggal,
             'kategori_id' => $request->kategori_id,
+        ]);
+
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'create',
+            'tabel' => 'pemasukkan',
+            'keterangan' => "Menambahkan pemasukkan sebesar Rp " . number_format($total, 0, ',', '.') . " pada tanggal " . $request->tanggal,
         ]);
 
         return redirect()->route('dkm.manajemenKeuangan.pemasukkan.index')
@@ -106,23 +112,51 @@ class PemasukkanController extends Controller
             'kategori_id' => $request->kategori_id,
         ]);
 
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'update',
+            'tabel' => 'pemasukkan',
+            'keterangan' => "Memperbarui pemasukkan ID #" . $pemasukkan->id . " menjadi Rp " . number_format($total, 0, ',', '.') . " pada tanggal " . $request->tanggal,
+        ]);
+
         return redirect()->route('dkm.manajemenKeuangan.pemasukkan.index')
             ->with('success', 'Data pemasukkan berhasil diperbarui.');
     }
 
     public function destroy(Pemasukkan $pemasukkan)
     {
+        $nama = "Rp " . number_format($pemasukkan->total, 0, ',', '.') . " (" . $pemasukkan->tanggal . ")";
         $pemasukkan->delete();
+
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'delete',
+            'tabel' => 'pemasukkan',
+            'keterangan' => "Menghapus pemasukkan: " . $nama,
+        ]);
 
         return redirect()->route('dkm.manajemenKeuangan.pemasukkan.index')
             ->with('success', 'Data pemasukkan berhasil dihapus.');
     }
 
-    // Bulk delete (hapus beberapa sekaligus)
     public function bulkDelete(Request $request)
     {
         $ids = $request->ids ? explode(',', $request->ids) : [];
         if (!empty($ids)) {
+            $list = Pemasukkan::whereIn('id', $ids)->get();
+
+            // Catat notifikasi per data
+            foreach ($list as $item) {
+                Notifikasi::create([
+                    'dkm_id' => session('dkm_id'),
+                    'aksi' => 'delete',
+                    'tabel' => 'pemasukkan',
+                    'keterangan' => "Menghapus pemasukkan: Rp " . number_format($item->total, 0, ',', '.') . " (" . $item->tanggal . ")",
+                ]);
+            }
+
             Pemasukkan::whereIn('id', $ids)->delete();
         }
 
