@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dkm;
 
 use App\Http\Controllers\Controller;
 use App\Models\KategoriPengeluaran;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 
 class KategoriPengeluaranController extends Controller
@@ -25,8 +26,16 @@ class KategoriPengeluaranController extends Controller
             'nama' => 'required|string|max:255',
         ]);
 
-        KategoriPengeluaran::create([
+        $kategori = KategoriPengeluaran::create([
             'nama' => $request->nama,
+        ]);
+
+        // Catat notifikasi CREATE
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'create',
+            'tabel'      => 'kategori_pengeluaran',
+            'keterangan' => "Menambahkan kategori pengeluaran: " . $kategori->nama,
         ]);
 
         return redirect()->route('dkm.kategori.pengeluaran.index')
@@ -44,8 +53,18 @@ class KategoriPengeluaranController extends Controller
             'nama' => 'required|string|max:255',
         ]);
 
+        $oldNama = $pengeluaran->nama;
+
         $pengeluaran->update([
             'nama' => $request->nama,
+        ]);
+
+        // Catat notifikasi UPDATE
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'update',
+            'tabel'      => 'kategori_pengeluaran',
+            'keterangan' => "Mengubah kategori pengeluaran: $oldNama menjadi " . $request->nama,
         ]);
 
         return redirect()->route('dkm.kategori.pengeluaran.index')
@@ -54,7 +73,16 @@ class KategoriPengeluaranController extends Controller
 
     public function destroy(KategoriPengeluaran $pengeluaran)
     {
+        $nama = $pengeluaran->nama;
         $pengeluaran->delete();
+
+        // Catat notifikasi DELETE
+        Notifikasi::create([
+            'dkm_id'     => session('dkm_id'),
+            'aksi'       => 'delete',
+            'tabel'      => 'kategori_pengeluaran',
+            'keterangan' => "Menghapus kategori pengeluaran: " . $nama,
+        ]);
 
         return redirect()->route('dkm.kategori.pengeluaran.index')
                          ->with('success', 'Kategori pengeluaran berhasil dihapus.');

@@ -6,23 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 use App\Models\KategoriPengeluaran;
+use App\Models\Notifikasi;
 use Carbon\Carbon;
 
 class PengeluaranController extends Controller
 {
     public function index(Request $request)
     {
-        // Jika user minta tampil semua ?all=1
         $showAll = $request->has('all') && $request->all == 1;
 
-        // Ambil daftar tahun yang ada di DB (dipakai di dropdown)
         $tahunList = Pengeluaran::selectRaw('YEAR(tanggal) as tahun')
             ->distinct()
             ->orderBy('tahun', 'desc')
             ->pluck('tahun');
 
         if ($showAll) {
-            // Tampilkan semua data
             $pengeluarans = Pengeluaran::with('kategori')
                 ->orderBy('tanggal', 'desc')
                 ->get();
@@ -31,11 +29,9 @@ class PengeluaranController extends Controller
             $selectedBulan = null;
             $selectedTahun = null;
         } else {
-            // Default: gunakan bulan & tahun sekarang jika user tidak memilih
             $selectedBulan = $request->input('bulan', Carbon::now()->month);
             $selectedTahun = $request->input('tahun', Carbon::now()->year);
 
-            // Filter berdasarkan bulan & tahun terpilih (default = bulan & tahun sekarang)
             $pengeluarans = Pengeluaran::with('kategori')
                 ->whereMonth('tanggal', $selectedBulan)
                 ->whereYear('tanggal', $selectedTahun)
@@ -71,10 +67,18 @@ class PengeluaranController extends Controller
 
         $total = preg_replace('/[^0-9]/', '', $request->total);
 
-        Pengeluaran::create([
+        $pengeluaran = Pengeluaran::create([
             'total' => $total,
             'tanggal' => $request->tanggal,
             'kategori_id' => $request->kategori_id,
+        ]);
+
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'create',
+            'tabel' => 'pengeluaran',
+            'keterangan' => "Menambahkan pengeluaran sebesar Rp " . number_format($total, 0, ',', '.') . " pada tanggal " . $request->tanggal,
         ]);
 
         return redirect()->route('dkm.manajemenKeuangan.pengeluaran.index')
@@ -103,23 +107,53 @@ class PengeluaranController extends Controller
             'kategori_id' => $request->kategori_id,
         ]);
 
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'update',
+            'tabel' => 'pengeluaran',
+            'keterangan' => "Memperbarui pengeluaran ID {$pengeluaran->id} menjadi Rp " . number_format($total, 0, ',', '.') . " pada tanggal " . $request->tanggal,
+        ]);
+
         return redirect()->route('dkm.manajemenKeuangan.pengeluaran.index')
             ->with('success', 'Data pengeluaran berhasil diperbarui.');
     }
 
     public function destroy(Pengeluaran $pengeluaran)
     {
+        $nominal = $pengeluaran->total;
+        $tanggal = $pengeluaran->tanggal;
+        $id = $pengeluaran->id;
+
         $pengeluaran->delete();
+
+        // Catat notifikasi
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'delete',
+            'tabel' => 'pengeluaran',
+            'keterangan' => "Menghapus pengeluaran ID {$id} sebesar Rp " . number_format($nominal, 0, ',', '.') . " pada tanggal {$tanggal}",
+        ]);
 
         return redirect()->route('dkm.manajemenKeuangan.pengeluaran.index')
             ->with('success', 'Data pengeluaran berhasil dihapus.');
     }
 
-    // Bulk delete (hapus beberapa sekaligus)
     public function bulkDelete(Request $request)
     {
         $ids = $request->ids ? explode(',', $request->ids) : [];
         if (!empty($ids)) {
+            $pengeluarans = Pengeluaran::whereIn('id', $ids)->get();
+
+            foreach ($pengeluarans as $p) {
+                Notifikasi::create([
+                    'dkm_id' => session('dkm_id'),
+                    'aksi' => 'delete',
+                    'tabel' => 'pengeluaran',
+                    'keterangan' => "Menghapus pengeluaran ID {$p->id} sebesar Rp " . number_format($p->total, 0, ',', '.') . " pada tanggal {$p->tanggal}",
+                ]);
+            }
+
             Pengeluaran::whereIn('id', $ids)->delete();
         }
 
