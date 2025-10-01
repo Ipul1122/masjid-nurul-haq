@@ -1,6 +1,8 @@
 @extends('layouts.dkm')
 
 @section('content')
+@section('page-icon', asset('icons/dashboard-icon.svg'))
+
 <div class="bg-gray-50 p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-gray-800">
@@ -132,11 +134,5 @@
         </div>
     </div>
 
-    {{-- Info tambahan --}}
-    <div class="bg-white p-6 rounded-lg shadow mt-6">
-        <p class="text-gray-700">
-            Ini adalah halaman Dashboard DKM. Nantinya di sini akan ada menu untuk manajemen kegiatan, berita, donasi, dsb.
-        </p>
-    </div>
 </div>
 @endsection

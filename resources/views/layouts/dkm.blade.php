@@ -6,6 +6,10 @@
     <title>{{ config('app.name', 'Masjid Nurul Haq') }}</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+     {{-- Favicon dinamis --}}
+    <link rel="icon" type="image/png" href="@yield('page-icon', asset('favicon.png'))"/>
+
     <style>
         .scrollbar-thin::-webkit-scrollbar { width: 6px; }
         .scrollbar-thin::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 3px; }
