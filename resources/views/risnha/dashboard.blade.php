@@ -1,5 +1,6 @@
-@extends('layouts.dkm')
+@extends('layouts.risnha')
 
+@section('title', 'Dashboard')
 @section('content')
 <div class="container py-5">
     <h2>Dashboard Risnha</h2>

@@ -1,5 +1,6 @@
 @extends('layouts.dkm')
 
+@section('title', 'Dashboard')
 @section('content')
 @section('page-icon', asset('icons/dashboard-icon.svg'))
 
