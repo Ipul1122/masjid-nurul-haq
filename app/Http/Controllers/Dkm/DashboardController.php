@@ -14,16 +14,20 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // statistik umum
         $jumlahKegiatan = Kegiatan::count();
         $jumlahArtikel  = Artikel::count();
         $jumlahJadwalImam = JadwalImam::count();
-        
 
-        // ambil bulan & tahun saat ini
-        $bulan = Carbon::now()->month;
-        $tahun = Carbon::now()->year;
+        // current month & year (fallback)
+        $currentMonth = Carbon::now()->month;
+        $currentYear  = Carbon::now()->year;
 
-        // hitung total bulan ini
+        // ambil filter dari query string jika ada (GET bulan & tahun)
+        $bulan = (int) request()->get('bulan', $currentMonth);
+        $tahun = (int) request()->get('tahun', $currentYear);
+
+        // totals untuk kartu berdasarkan bulan & tahun yang dipilih
         $totalPemasukkan = Pemasukkan::whereMonth('tanggal', $bulan)
             ->whereYear('tanggal', $tahun)
             ->sum('total');
@@ -34,6 +38,45 @@ class DashboardController extends Controller
 
         $saldoAkhir = $totalPemasukkan - $totalPengeluaran;
 
+        /**
+         * Siapkan data chart untuk seluruh bulan di tahun $tahun
+         * Optimasi: ambil totals per month sekali untuk masing-masing model.
+         */
+        $pemasukkanPerMonth = Pemasukkan::selectRaw('MONTH(tanggal) as month, SUM(total) as total')
+            ->whereYear('tanggal', $tahun)
+            ->groupBy('month')
+            ->pluck('total', 'month') // -> [month => total, ...]
+            ->toArray();
+
+        $pengeluaranPerMonth = Pengeluaran::selectRaw('MONTH(tanggal) as month, SUM(total) as total')
+            ->whereYear('tanggal', $tahun)
+            ->groupBy('month')
+            ->pluck('total', 'month')
+            ->toArray();
+
+        $labels = [];
+        $dataPemasukkan = [];
+        $dataPengeluaran = [];
+        $dataSaldo = [];
+
+        // kita hitung saldo kumulatif year-to-date (saldo akhir tiap bulan)
+        $cumulative = 0;
+
+        for ($m = 1; $m <= 12; $m++) {
+            // label bulan (terjemahan sesuai locale Carbon)
+            $labels[] = Carbon::createFromDate($tahun, $m, 1)->translatedFormat('F');
+
+            $monthlyPemasukkan = isset($pemasukkanPerMonth[$m]) ? (float) $pemasukkanPerMonth[$m] : 0;
+            $monthlyPengeluaran = isset($pengeluaranPerMonth[$m]) ? (float) $pengeluaranPerMonth[$m] : 0;
+
+            $dataPemasukkan[] = $monthlyPemasukkan;
+            $dataPengeluaran[] = $monthlyPengeluaran;
+
+            // saldo kumulatif sampai bulan ini
+            $cumulative += ($monthlyPemasukkan - $monthlyPengeluaran);
+            $dataSaldo[] = $cumulative;
+        }
+
         return view('dkm.dashboard', compact(
             'jumlahKegiatan',
             'jumlahArtikel',
@@ -42,7 +85,11 @@ class DashboardController extends Controller
             'totalPengeluaran',
             'saldoAkhir',
             'bulan',
-            'tahun'
+            'tahun',
+            'labels',
+            'dataPemasukkan',
+            'dataPengeluaran',
+            'dataSaldo'
         ));
     }
 }
