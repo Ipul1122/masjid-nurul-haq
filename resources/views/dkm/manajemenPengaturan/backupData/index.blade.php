@@ -1,5 +1,6 @@
 @extends('layouts.dkm')
 
+@section('title', 'Backup Data')
 @section('content')
 <div class="bg-white p-6 rounded shadow">
     <h2 class="text-xl font-bold mb-4">Backup Database</h2>

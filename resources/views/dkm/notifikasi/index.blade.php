@@ -1,5 +1,6 @@
 @extends('layouts.dkm')
 
+@section('title', 'Notifikasi')
 @section('content')
 @section('page-icon', asset('icons/bell-icon.svg'))
 
