@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     $middleware->alias([
         'auth.dkm' => \App\Http\Middleware\DkmAuth::class,
         'auth.dkm.pin' => \App\Http\Middleware\VerifyDkmPin::class,
+        'risnha.auth' => \App\Http\Middleware\RisnhaAuth::class,
         ]);
     })
 
