@@ -1,5 +1,6 @@
 <?php
 
+// DKM ROUTES
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dkm\DkmAuthController;
 use App\Http\Controllers\Dkm\DashboardController;
@@ -20,9 +21,27 @@ use App\Http\Controllers\Dkm\GaleriController;
 use App\Http\Controllers\Dkm\KategoriGaleriController;
 use App\Http\Controllers\Dkm\NotifikasiController;
 use App\Http\Controllers\Dkm\BackupDataController;
+use App\Http\Controllers\Risnha\AuthController;
 
+// ===================
+// 📌 GENERAL ROUTES
+// ===================
 Route::get('/', function () {
     return view('welcome');
+});
+
+// ===================
+// 📌 RISNHA ROUTES
+// ===================
+
+Route::prefix('risnha')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('risnha.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('risnha.login.post');
+
+    Route::middleware('risnha.auth')->group(function () {
+        Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('risnha.dashboard');
+        Route::get('/logout', [AuthController::class, 'logout'])->name('risnha.logout');
+    });
 });
 
 // ====================
