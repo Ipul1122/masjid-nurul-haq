@@ -1,5 +1,6 @@
 @extends('layouts.dkm')
 
+@section('title', 'Jadwal Imam')
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow">
     <div class="flex justify-between mb-4 items-center">

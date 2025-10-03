@@ -1,5 +1,5 @@
 @extends('layouts.dkm')
-
+@section('title', 'pemasukkan')
 @section('content')
 <div class="bg-white p-6 rounded shadow">
     <div class="flex justify-between items-center mb-4">

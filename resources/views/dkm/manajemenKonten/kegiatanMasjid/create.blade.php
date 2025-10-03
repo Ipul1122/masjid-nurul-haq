@@ -1,5 +1,6 @@
 @extends('layouts.dkm')
 
+@section('title', 'Tambah Kegiatan Masjid')
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow">
     <h2 class="text-xl font-bold mb-4">Tambah Kegiatan</h2>
