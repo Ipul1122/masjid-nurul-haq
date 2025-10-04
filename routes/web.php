@@ -25,6 +25,7 @@ use App\Http\Controllers\Dkm\BackupDataController;
 
 // Risnha Routes
 use App\Http\Controllers\Risnha\AuthController;
+use App\Http\Controllers\Risnha\KategoriKegiatanRisnhaController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -37,17 +38,21 @@ Route::get('/', function () {
 // 📌 RISNHA ROUTES
 // ===================
 
-Route::prefix('risnha')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('risnha.login');
-    Route::post('/login', [AuthController::class, 'login'])->name('risnha.login.post');
+Route::prefix('risnha')->name('risnha.')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
     Route::middleware('risnha.auth')->group(function () {
-        Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('risnha.dashboard');
-        Route::get('/logout', [AuthController::class, 'logout'])->name('risnha.logout');
+        Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-               
+        // ✅ Group kategori
+        Route::prefix('kategori')->name('kategori.')->group(function () {
+            Route::resource('kegiatanRisnha', KategoriKegiatanRisnhaController::class);
+        });
     });
 });
+
 
 // ====================
 // 📌 DKM Routes
