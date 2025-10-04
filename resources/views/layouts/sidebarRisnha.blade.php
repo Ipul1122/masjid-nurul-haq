@@ -22,6 +22,11 @@
     <a href="#"><i class="fa fa-bell me-2"></i> Notifikasi</a>
     <a href="#"><i class="fa fa-users me-2"></i> Struktur Organisasi</a>
 
+    <!-- 🔑 Shortcut Manajemen Pengguna Risnha -->
+    <a href="{{ route('risnha.manajemenPenggunaRisnha.index') }}">
+        <i class="fa fa-user-cog me-2"></i> Manajemen Pengguna
+    </a>
+
     <a href="{{ route('risnha.logout') }}">
         <i class="fa fa-sign-out-alt me-2"></i> Logout
     </a>

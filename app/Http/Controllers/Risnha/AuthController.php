@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Risnha;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Risnha;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,7 +24,12 @@ class AuthController extends Controller
         $user = Risnha::where('username', $request->username)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            session(['risnha_id' => $user->id]);
+            // ✅ Simpan ID & Username di session
+            session([
+                'risnha_id' => $user->id,
+                'risnha_username' => $user->username,
+            ]);
+
             return redirect()->route('risnha.dashboard');
         }
 
@@ -42,7 +46,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        session()->forget('risnha_id');
+        session()->forget(['risnha_id', 'risnha_username']); // ✅ bersihkan keduanya
         return redirect()->route('risnha.login');
     }
 }
