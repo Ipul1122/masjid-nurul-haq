@@ -1,5 +1,6 @@
 @extends('layouts.risnha')
 
+@section('title', 'kategori Kegiatan Risnha')
 @section('content')
 <div class="container mt-4">
     <h4 class="mb-3">Daftar Kategori Kegiatan Risnha</h4>

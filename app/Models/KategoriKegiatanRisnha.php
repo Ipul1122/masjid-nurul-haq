@@ -14,4 +14,11 @@ class KategoriKegiatanRisnha extends Model
     protected $fillable = [
         'nama_kategori',
     ];
+
+    // Relasi ke kegiatan
+    public function kegiatan()
+    {
+        return $this->hasMany(KegiatanRisnha::class, 'kategori_kegiatan_risnha_id');
+    }
+
 }
