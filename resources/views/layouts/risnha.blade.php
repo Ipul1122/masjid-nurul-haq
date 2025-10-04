@@ -47,7 +47,7 @@
     <div class="sidebar">
         <h4 class="text-center">RISNHA</h4>
         <a href="{{ route('risnha.dashboard') }}"><i class="fa fa-home me-2"></i> Dashboard</a>
-        <a href="#"><i class="fa fa-calendar-alt me-2"></i> Kegiatan Remaja</a>
+        {{-- <a href="{{ route('risnha.kategori-kegiatan.create') }}" class="fa fa-home me-3">Kategori</a> --}}
         <a href="#"><i class="fa fa-newspaper me-2"></i> Artikel Remaja</a>
         <a href="#"><i class="fa fa-image me-2"></i> Media</a>
         <a href="#"><i class="fa fa-comments me-2"></i> Forum / Aspirasi</a>

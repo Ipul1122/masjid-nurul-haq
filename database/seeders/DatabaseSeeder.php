@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
         DkmSeeder::class,
+        RisnhaSeeder::class,
         // tambahkan seeder lain kalau ada
     ]);
     }

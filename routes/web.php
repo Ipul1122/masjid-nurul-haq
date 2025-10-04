@@ -21,6 +21,9 @@ use App\Http\Controllers\Dkm\GaleriController;
 use App\Http\Controllers\Dkm\KategoriGaleriController;
 use App\Http\Controllers\Dkm\NotifikasiController;
 use App\Http\Controllers\Dkm\BackupDataController;
+
+
+// Risnha Routes
 use App\Http\Controllers\Risnha\AuthController;
 
 // ===================
@@ -41,6 +44,8 @@ Route::prefix('risnha')->group(function () {
     Route::middleware('risnha.auth')->group(function () {
         Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('risnha.dashboard');
         Route::get('/logout', [AuthController::class, 'logout'])->name('risnha.logout');
+
+               
     });
 });
 
