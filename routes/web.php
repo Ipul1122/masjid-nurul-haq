@@ -26,6 +26,7 @@ use App\Http\Controllers\Dkm\BackupDataController;
 // Risnha Routes
 use App\Http\Controllers\Risnha\AuthController;
 use App\Http\Controllers\Risnha\KategoriKegiatanRisnhaController;
+use App\Http\Controllers\Risnha\KegiatanRisnhaController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -45,6 +46,11 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
     Route::middleware('risnha.auth')->group(function () {
         Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+        // Manajemen Konten Risnha
+         Route::prefix('manajemenKontenRisnha')->name('manajemenKontenRisnha.')->group(function () {
+            Route::resource('kegiatanRisnha', KegiatanRisnhaController::class);
+        });
 
         // ✅ Group kategori
         Route::prefix('kategori')->name('kategori.')->group(function () {
