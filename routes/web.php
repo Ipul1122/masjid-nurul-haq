@@ -25,10 +25,13 @@ use App\Http\Controllers\Dkm\BackupDataController;
 
 // Risnha Routes
 use App\Http\Controllers\Risnha\AuthController;
-use App\Http\Controllers\Risnha\KategoriKegiatanRisnhaController;
 use App\Http\Controllers\Risnha\KegiatanRisnhaController;
 use App\Http\Controllers\Risnha\ManajemenPenggunaRisnhaController;
 use App\Http\Controllers\Risnha\NotifikasiRisnhaController;
+// Kategori Risnha ROUTES
+use App\Http\Controllers\Risnha\KategoriKegiatanRisnhaController;
+use App\Http\Controllers\Risnha\KategoriArtikelRisnhaController;
+
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -67,9 +70,18 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
         Route::delete('/notifikasi/destroy-selected', [NotifikasiRisnhaController::class, 'destroySelected'])->name('notifikasiRisnha.destroySelected');
         Route::delete('/notifikasi/destroy-all', [NotifikasiRisnhaController::class, 'destroyAll'])->name('notifikasiRisnha.destroyAll');
 
-        // Tambahan untuk auto delete & count
-    Route::get('/notifikasi/auto-delete-old', [NotifikasiRisnhaController::class, 'autoDeleteOld'])->name('notifikasiRisnha.autoDeleteOld');
-    Route::get('/notifikasi/count', [NotifikasiRisnhaController::class, 'count'])->name('notifikasiRisnha.count');
+            // Tambahan untuk auto delete & count
+        Route::get('/notifikasi/auto-delete-old', [NotifikasiRisnhaController::class, 'autoDeleteOld'])->name('notifikasiRisnha.autoDeleteOld');
+        Route::get('/notifikasi/count', [NotifikasiRisnhaController::class, 'count'])->name('notifikasiRisnha.count');
+
+         Route::resource('kategori-artikel', KategoriArtikelRisnhaController::class)->names([
+            'index' => 'kategori.artikelRisnha.index',
+            'create' => 'kategori.artikelRisnha.create',
+            'store' => 'kategori.artikelRisnha.store',
+            'edit' => 'kategori.artikelRisnha.edit',
+            'update' => 'kategori.artikelRisnha.update',
+            'destroy' => 'kategori.artikelRisnha.destroy',
+    ]);
     });
 });
 

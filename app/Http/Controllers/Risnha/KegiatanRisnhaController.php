@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Risnha;
 use App\Http\Controllers\Controller;
 use App\Models\KegiatanRisnha;
 use App\Models\KategoriKegiatanRisnha;
+use App\Models\NotifikasiRisnha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -44,7 +45,15 @@ class KegiatanRisnhaController extends Controller
             $validated['foto'] = $request->file('foto')->store('risnha/kegiatan', 'public');
         }
 
-        KegiatanRisnha::create($validated);
+        $kegiatan = KegiatanRisnha::create($validated);
+
+        // Notifikasi untuk membuat kegiatan baru
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'),
+            'aksi' => 'create',
+            'tabel' => 'kegiatan_risnha',
+            'keterangan' => "Menambahkan kegiatan: " . $kegiatan->nama,
+        ]);
 
         return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')
             ->with('success', 'Kegiatan berhasil ditambahkan.');
@@ -83,6 +92,14 @@ class KegiatanRisnhaController extends Controller
 
         $kegiatan->update($validated);
 
+        // Notifikasi untuk memperbarui kegiatan
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'),
+            'aksi' => 'update',
+            'tabel' => 'kegiatan_risnha',
+            'keterangan' => "Memperbarui kegiatan: " . $kegiatan->nama,
+        ]);
+
         return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')
             ->with('success', 'Kegiatan berhasil diperbarui.');
     }
@@ -97,6 +114,14 @@ class KegiatanRisnhaController extends Controller
         if ($kegiatan->foto) {
             Storage::disk('public')->delete($kegiatan->foto);
         }
+
+        // Notifikasi untuk menghapus kegiatan
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'),
+            'aksi' => 'delete',
+            'tabel' => 'kegiatan_risnha',
+            'keterangan' => "Menghapus kegiatan: " . $kegiatan->nama,
+        ]);
 
         $kegiatan->delete();
 

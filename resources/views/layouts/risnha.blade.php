@@ -56,5 +56,34 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- Script untuk notifikasi real-time --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const notifBadge = document.getElementById('notification-badge');
+
+            function fetchNotifCount() {
+                fetch('{{ route('risnha.notifikasiRisnha.count') }}')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.count > 0) {
+                            notifBadge.innerText = data.count;
+                            notifBadge.style.display = 'inline-block';
+                        } else {
+                            notifBadge.innerText = '';
+                            notifBadge.style.display = 'none';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching notification count:', error));
+            }
+
+            // Panggil fungsi setiap 10 detik
+            setInterval(fetchNotifCount, 10000);
+
+            // Panggil sekali saat halaman dimuat
+            fetchNotifCount();
+        });
+    </script>
 </body>
 </html>

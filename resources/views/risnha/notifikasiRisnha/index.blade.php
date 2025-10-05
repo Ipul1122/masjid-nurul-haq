@@ -25,7 +25,6 @@
                     <tr>
                         <th><input type="checkbox" id="selectAll"></th>
                         <th>No</th>
-                        <th>ID</th>
                         <th>Pengguna</th>
                         <th>Aksi</th>
                         <th>Tabel</th>
@@ -39,7 +38,6 @@
                         <tr id="notif-{{ $n->id }}">
                             <td><input type="checkbox" class="selectItem" value="{{ $n->id }}"></td>
                             <td>{{ $key + 1 }}</td>
-                            <td>{{ $n->id }}</td>
                             <td>{{ $n->risnha->username ?? '-' }}</td>
                             <td>{{ $n->aksi }}</td>
                             <td>{{ $n->tabel }}</td>
