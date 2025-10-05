@@ -15,6 +15,10 @@
         <i class="fa fa-calendar-check me-2"></i> Kegiatan Risnha
     </a>
 
+    <a href="{{ route('risnha.kategori.artikelRisnha.index') }}">
+        <i class="fa fa-newspaper me-2"></i> Kategori Artikel Risnha
+    </a>
+
     <a href="#"><i class="fa fa-newspaper me-2"></i> Artikel Remaja</a>
     <a href="#"><i class="fa fa-image me-2"></i> Media</a>
     <a href="#"><i class="fa fa-comments me-2"></i> Forum / Aspirasi</a>
