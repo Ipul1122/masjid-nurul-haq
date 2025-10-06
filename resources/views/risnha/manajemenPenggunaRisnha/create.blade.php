@@ -1,5 +1,6 @@
 @extends('layouts.risnha')
 
+@section('title', 'Tambah Pengguna Risnha')
 @section('content')
 <div class="container mt-4">
     <h3 class="mb-3">Tambah Pengguna Risnha</h3>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Risnha;
 use App\Http\Controllers\Controller;
 use App\Models\ArtikelRisnha;
 use App\Models\KategoriArtikelRisnha;
-use App\Models\NotifikasiRisnha; // <-- 1. Import model notifikasi
+use App\Models\NotifikasiRisnha; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -92,7 +92,7 @@ class ArtikelRisnhaController extends Controller
 
         $artikel->update($validated);
 
-        // 3. Buat Notifikasi untuk pembaruan data
+        // Buat Notifikasi untuk pembaruan data
         NotifikasiRisnha::create([
             'risnha_id' => session('risnha_id'),
             'aksi' => 'update',
@@ -115,7 +115,7 @@ class ArtikelRisnhaController extends Controller
             Storage::disk('public')->delete($artikel->foto);
         }
         
-        // 4. Buat Notifikasi sebelum data dihapus
+        //  Buat Notifikasi sebelum data dihapus
         NotifikasiRisnha::create([
             'risnha_id' => session('risnha_id'),
             'aksi' => 'delete',

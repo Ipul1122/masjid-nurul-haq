@@ -1,5 +1,6 @@
 @extends('layouts.risnha')
 
+@section('title', 'Edit Kategori Artikel Risnha')
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Kategori Artikel</h1>
