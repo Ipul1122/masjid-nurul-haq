@@ -1,6 +1,6 @@
 @extends('layouts.risnha')
 
-@section('title', 'Edit Kegiatan Risnha')
+@section('title', 'Tambah Kegiatan Risnha')
 @section('content')
 <div class="container mt-4">
     <h3 class="mb-3">Tambah Kegiatan Risnha</h3>
