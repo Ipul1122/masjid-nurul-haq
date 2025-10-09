@@ -22,9 +22,8 @@
     <a href="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.index') }}">
         <i class="fa fa-newspaper me-2"></i> Artikel Risnha
     </a>
-    <a href="#"><i class="fa fa-image me-2"></i> Media</a>
-    <a href="#"><i class="fa fa-comments me-2"></i> Forum / Aspirasi</a>
-    <a href="#"><i class="fa fa-calendar-days me-2"></i> Kalender</a>
+
+    <a href="{{ route('risnha.kategori.galeriRisnha.index')}}"><i class="fa fa-image me-2"></i> Media</a>
     <a href="#"><i class="fa fa-bell me-2"></i> Notifikasi</a>
     <a href="#"><i class="fa fa-users me-2"></i> Struktur Organisasi</a>
 
