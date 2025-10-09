@@ -34,6 +34,7 @@ use App\Http\Controllers\Risnha\NotifikasiRisnhaController;
 // Kategori Risnha ROUTES
 use App\Http\Controllers\Risnha\KategoriKegiatanRisnhaController;
 use App\Http\Controllers\Risnha\KategoriArtikelRisnhaController;
+use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
 
 
 // ===================
@@ -64,6 +65,7 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
         // ✅ Group kategori
         Route::prefix('kategori')->name('kategori.')->group(function () {
             Route::resource('kegiatanRisnha', KategoriKegiatanRisnhaController::class);
+              Route::resource('galeriRisnha', KategoriGaleriRisnhaController::class);
         });
 
         Route::resource('manajemenPenggunaRisnha', ManajemenPenggunaRisnhaController::class)
