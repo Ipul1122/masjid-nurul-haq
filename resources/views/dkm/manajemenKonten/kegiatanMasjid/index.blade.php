@@ -54,7 +54,6 @@
                     <th class="border px-4 py-2">Jadwal</th>
                     <th class="border px-4 py-2">Gambar</th>
                     <th class="border px-4 py-2">Kategori</th>
-                    <th class="border px-4 py-2">Catatan</th>
                     <th class="border px-4 py-2">Aksi</th>
                 </tr>
             </thead>
@@ -83,8 +82,9 @@
                             </div>
                         </td>
                         <td class="border px-4 py-2">{{ $kM->kategori?->nama ?? '-' }}</td>
-                        <td class="border px-4 py-2">{{ $kM->catatan }}</td>
                         <td class="border px-4 py-2 flex gap-2">
+                            <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.preview', ['kegiatanMasjid' => $kM->id]) }}" 
+                            class="bg-gray-600 text-white px-3 py-1 rounded" target="_blank" >Preview</a>
                             <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.edit', ['kegiatanMasjid' => $kM->id, 'page' => request('page', 1)]) }}" 
                             class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
                             {{-- <form method="POST" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.destroy', $kM->id) }}" onsubmit="return confirm('Hapus kegiatan ini?')">

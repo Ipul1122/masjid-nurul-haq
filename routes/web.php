@@ -115,8 +115,8 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::prefix('manajemenKonten')->name('manajemenKonten.')->group(function () {
                 // Kegiatan Masjid
                 Route::delete('kegiatanMasjid/delete-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])->name('kegiatanMasjid.destroyMultiple');
+                Route::get('kegiatanMasjid/{kegiatanMasjid}/preview', [KegiatanMasjidController::class, 'preview'])->name('kegiatanMasjid.preview');
                 Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
-
                 // Artikel Masjid
                 Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])->name('artikel.bulkDelete');
                 // Route baru untuk halaman template preview
