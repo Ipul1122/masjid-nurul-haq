@@ -28,6 +28,7 @@ use App\Http\Controllers\Risnha\AuthController;
 // Manajemen Konten Risnha
 use App\Http\Controllers\Risnha\KegiatanRisnhaController;
 use App\Http\Controllers\Risnha\ArtikelRisnhaController;
+use App\Http\Controllers\Risnha\GaleriRisnhaController;
 // 
 use App\Http\Controllers\Risnha\ManajemenPenggunaRisnhaController;
 use App\Http\Controllers\Risnha\NotifikasiRisnhaController;
@@ -60,6 +61,7 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
          Route::prefix('manajemenKontenRisnha')->name('manajemenKontenRisnha.')->group(function () {
             Route::resource('kegiatanRisnha', KegiatanRisnhaController::class);
             Route::resource('artikelRisnha', ArtikelRisnhaController::class);
+            Route::resource('galeriRisnha', GaleriRisnhaController::class);
         });
 
         // ✅ Group kategori

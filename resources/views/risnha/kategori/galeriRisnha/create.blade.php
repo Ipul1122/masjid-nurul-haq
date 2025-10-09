@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mt-4">
     <h4>Tambah Kategori Galeri</h4>
-    <form action="{{ route('risnha.kategori.galeriRisnha.store') }}" method="POST" class="mt-3">
+    <form action="{{ route('risnha.kategori.galeriRisnha.store') }}" method="POST" enctype="multipart/form-data" class="mt-3">
         @csrf
         <div class="form-group mb-3">
             <label>Nama Kategori</label>
