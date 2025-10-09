@@ -6,6 +6,7 @@
      <title>Dkm | @yield('title')</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 
      {{-- Favicon dinamis --}}
     <link rel="icon" type="image/png" href="@yield('page-icon', asset('favicon.png'))"/>
@@ -37,6 +38,7 @@
     <div id="sidebarBackdrop" class="fixed inset-0 z-30 bg-black bg-opacity-50 hidden lg:hidden"></div>
 
     {{-- Script lama tetap --}}
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <script>
         const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebarClose = document.getElementById('sidebarClose');

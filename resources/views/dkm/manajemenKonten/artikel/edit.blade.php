@@ -23,10 +23,18 @@
             <input type="file" name="gambar" class="w-full border px-3 py-2 rounded">
         </div>
 
+         {{-- 👇 PERUBAHAN DI SINI 👇 --}}
         <div class="mb-3">
+            <label class="block mb-1" for="deskripsi">Deskripsi</label>
+            <input id="deskripsi" type="hidden" name="deskripsi" value="{{ old('deskripsi', $artikel->deskripsi) }}">
+            <trix-editor input="deskripsi" class="w-full border px-3 py-2 rounded"></trix-editor>
+        </div>
+        {{-- 👆 BATAS PERUBAHAN 👆 --}}
+
+        {{-- <div class="mb-3">
             <label class="block mb-1">Deskripsi</label>
             <textarea name="deskripsi" class="w-full border px-3 py-2 rounded">{{ $artikel->deskripsi }}</textarea>
-        </div>
+        </div> --}}
 
         <div class="mb-3">
             <label class="block mb-1">Tanggal Rilis</label>
@@ -48,4 +56,19 @@
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
     </form>
 </div>
+
+
 @endsection
+{{-- Tambahan CSS untuk styling list di dalam editor --}}
+@push('styles')
+<style>
+.trix-content ul {
+    list-style-type: disc;
+    margin-left: 1.25rem;
+}
+.trix-content ol {
+    list-style-type: decimal;
+    margin-left: 1.25rem;
+}
+</style>
+@endpush

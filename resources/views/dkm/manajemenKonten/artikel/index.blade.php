@@ -54,8 +54,6 @@
                         <th class="border px-4 py-2">Judul</th>
                         <th class="border px-4 py-2">Kategori</th>
                         <th class="border px-4 py-2">Gambar</th>
-                        <th class="border px-4 py-2">Deskripsi</th>
-                        <th class="border px-4 py-2">Tanggal Rilis</th>
                         <th class="border px-4 py-2">Aksi</th>
                     </tr>
                 </thead>
@@ -63,12 +61,13 @@
                     @forelse($artikels as $artikel)
                     <tr>
                         <td class="border px-2 py-2 text-center">
-                            <input type="checkbox" name="ids[]" value="{{ $artikel->id }}">
+                            <input type="checkbox" name="ids[]" value="{{ $artikel->id }}" class="row-checkbox">
                         </td>
                         <td class="border px-4 py-2">{{ $artikel->id }}</td>
                         <td class="border px-4 py-2 font-semibold">{{ $artikel->judul }}</td>
                         <td class="border px-4 py-2">{{ $artikel->kategori->nama ?? '-' }}</td>
                         <td class="border px-4 py-2">
+                            {{-- Logika untuk menampilkan gambar tetap sama --}}
                             @php
                                 $gambarList = [];
                                 if ($artikel->gambar) {
@@ -82,63 +81,96 @@
                                 }
                             @endphp
                             <div class="flex flex-wrap gap-2">
-                                @forelse($gambarList as $gbr)
-                                    <img src="{{ asset('storage/' . trim($gbr)) }}" 
+                                @if (!empty($gambarList) && isset($gambarList[0]))
+                                    <img src="{{ asset('storage/' . trim($gambarList[0])) }}" 
                                          alt="Gambar Artikel" 
                                          class="w-16 h-16 object-cover rounded border">
-                                @empty
+                                @else
                                     <span class="text-gray-400 text-sm">-</span>
-                                @endforelse
+                                @endif
                             </div>
                         </td>
-                        <td class="border px-4 py-2 max-w-xs">
-                            <div class="line-clamp-3 text-gray-700">
-                                {{ $artikel->deskripsi ?? '-' }}
-                            </div>
-                        </td>
-                        <td class="border px-4 py-2">{{ $artikel->tanggal_rilis }}</td>
-                        <td class="border px-4 py-2 flex flex-wrap gap-2">
-                            <a href="{{ route('dkm.manajemenKonten.artikel.edit', ['artikel' => $artikel->id, 'page' => request('page', 1)]) }}" 
-                            class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
-                        </td>
+                        <td class="border px-4 py-2">
+                            <div class="flex flex-wrap gap-2">
+                                {{-- 👇 TOMBOL PREVIEW BARU 👇 --}}
+                                <a href="{{ route('dkm.manajemenKonten.artikel.preview', $artikel->id) }}" 
+                                target="_blank" 
+                                class="bg-gray-500 text-white px-3 py-1 rounded">Preview</a>
 
+                                <a href="{{ route('dkm.manajemenKonten.artikel.edit', ['artikel' => $artikel->id, 'page' => request('page', 1)]) }}" 
+                                class="bg-blue-600 text-white px-3 py-1 rounded">Edit</a>
+                                
+                                {{-- <form onsubmit="return confirm('Yakin ingin menghapus artikel ini?');"
+                                    action="{{ route('dkm.manajemenKonten.artikel.destroy', ['artikel' => $artikel->id, 'page' => request('page', 1)]) }}" 
+                                    method="POST" 
+                                    class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
+                                </form> --}}
+                            </div>
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="text-center py-3">Belum ada artikel</td>
+                        {{-- Colspan disesuaikan menjadi 6 --}}
+                        <td colspan="6" class="text-center py-3">Belum ada artikel</td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
+
+            {{-- BUTTON DELETE MULTIPLE --}}
+            <button type="submit" 
+                    class="mb-3 mt-4 bg-red-600 text-white px-4 py-2 rounded"
+                    id="btnDeleteSelected" disabled>
+                Hapus Terpilih
+            </button>
 
             <div class="mt-4">
                 {{ $artikels->links() }}
             </div>
 
         </div>
-
-        <button type="submit" 
-                class="mt-3 bg-red-600 text-white px-4 py-2 rounded"
-                id="btnDeleteSelected" disabled>
-            Hapus Terpilih
-        </button>
     </form>
 </div>
 
-{{-- Script untuk select all checkbox --}}
+{{-- Script untuk select all checkbox (sudah benar, tidak ada perubahan) --}}
 <script>
-    document.getElementById('selectAll').addEventListener('change', function (e) {
-        let checkboxes = document.querySelectorAll('input[name="ids[]"]');
-        checkboxes.forEach(cb => cb.checked = e.target.checked);
-        toggleDeleteButton();
-    });
-
-    let checkboxes = document.querySelectorAll('input[name="ids[]"]');
-    checkboxes.forEach(cb => cb.addEventListener('change', toggleDeleteButton));
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAll = document.getElementById('selectAll');
+    const deleteButtons = document.querySelectorAll('#btnDeleteSelected');
+    const checkboxes = document.querySelectorAll('.row-checkbox');
 
     function toggleDeleteButton() {
-        let checked = document.querySelectorAll('input[name="ids[]"]:checked').length > 0;
-        document.getElementById('btnDeleteSelected').disabled = !checked;
+        const checked = document.querySelectorAll('.row-checkbox:checked').length > 0;
+        deleteButtons.forEach(button => {
+            button.disabled = !checked;
+        });
     }
+
+    if (selectAll) {
+        selectAll.addEventListener('change', function (e) {
+            checkboxes.forEach(cb => cb.checked = e.target.checked);
+            toggleDeleteButton();
+        });
+    }
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            if (!this.checked) {
+                selectAll.checked = false;
+            } else {
+                if (document.querySelectorAll('.row-checkbox:checked').length === checkboxes.length) {
+                    selectAll.checked = true;
+                }
+            }
+            toggleDeleteButton();
+        });
+    });
+    
+    // Initial check in case of back navigation
+    toggleDeleteButton();
+});
 </script>
 @endsection
