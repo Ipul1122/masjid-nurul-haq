@@ -25,8 +25,8 @@
 
     <a href="{{ route('risnha.manajemenKontenRisnha.galeriRisnha.index')}}"><i class="fa fa-image me-2"></i> Galeri Risnha</a>
     <a href="{{ route('risnha.kategori.galeriRisnha.index')}}"><i class="fa fa-image me-2"></i> Kategori Galeri Risnha</a>
-    <a href="#"><i class="fa fa-bell me-2"></i> Notifikasi</a>
-    <a href="#"><i class="fa fa-users me-2"></i> Struktur Organisasi</a>
+    <a href="{{route('risnha.notifikasiRisnha.index')}}"><i class="fa fa-bell me-2"></i> Notifikasi</a>
+    {{-- <a href="#"><i class="fa fa-users me-2"></i> Struktur Organisasi</a> --}}
 
     <!-- 🔑 Shortcut Manajemen Pengguna Risnha -->
     <a href="{{ route('risnha.manajemenPenggunaRisnha.index') }}">

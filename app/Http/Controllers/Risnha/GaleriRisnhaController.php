@@ -33,31 +33,31 @@ class GaleriRisnhaController extends Controller
      * Simpan galeri baru.
      */
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'nama_galeri' => 'required|string|max:255',
-        'deskripsi' => 'nullable|string',
-        'kategori_galeri_risnha_id' => 'required|exists:kategori_galeri_risnhas,id',
-        'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
+    {
+        $validated = $request->validate([
+            'nama_galeri' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'kategori_galeri_risnha_id' => 'required|exists:kategori_galeri_risnhas,id',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-    if ($request->hasFile('foto')) {
-        $validated['foto'] = $request->file('foto')->store('risnha/galeri', 'public');
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('risnha/galeri', 'public');
+        }
+
+        $galeri = GaleriRisnha::create($validated);
+
+        // 🔔 Notifikasi untuk create
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'),
+            'aksi' => 'create',
+            'tabel' => 'galeri_risnha',
+            'keterangan' => "Menambahkan galeri baru: " . $galeri->nama_galeri,
+        ]);
+
+        return redirect()->route('risnha.manajemenKontenRisnha.galeriRisnha.index')
+            ->with('success', 'Galeri berhasil ditambahkan.');
     }
-
-    $galeri = GaleriRisnha::create($validated);
-
-    NotifikasiRisnha::create([
-        'risnha_id' => session('risnha_id'),
-        'aksi' => 'create',
-        'tabel' => 'galeri_risnha',
-        'keterangan' => "Menambahkan galeri baru: " . $galeri->nama_galeri,
-    ]);
-
-    return redirect()->route('risnha.manajemenKontenRisnha.galeriRisnha.index')
-        ->with('success', 'Galeri berhasil ditambahkan.');
-}
-
 
     /**
      * Tampilkan form edit galeri.

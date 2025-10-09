@@ -67,7 +67,8 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
         // ✅ Group kategori
         Route::prefix('kategori')->name('kategori.')->group(function () {
             Route::resource('kegiatanRisnha', KategoriKegiatanRisnhaController::class);
-              Route::resource('galeriRisnha', KategoriGaleriRisnhaController::class);
+            Route::resource('artikelRisnha', KategoriArtikelRisnhaController::class);
+            Route::resource('galeriRisnha', KategoriGaleriRisnhaController::class);
         });
 
         Route::resource('manajemenPenggunaRisnha', ManajemenPenggunaRisnhaController::class)
@@ -82,14 +83,14 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
         Route::get('/notifikasi/auto-delete-old', [NotifikasiRisnhaController::class, 'autoDeleteOld'])->name('notifikasiRisnha.autoDeleteOld');
         Route::get('/notifikasi/count', [NotifikasiRisnhaController::class, 'count'])->name('notifikasiRisnha.count');
 
-         Route::resource('kategori-artikel', KategoriArtikelRisnhaController::class)->names([
-            'index' => 'kategori.artikelRisnha.index',
-            'create' => 'kategori.artikelRisnha.create',
-            'store' => 'kategori.artikelRisnha.store',
-            'edit' => 'kategori.artikelRisnha.edit',
-            'update' => 'kategori.artikelRisnha.update',
-            'destroy' => 'kategori.artikelRisnha.destroy',
-    ]);
+    //      Route::resource('kategori-artikel', KategoriArtikelRisnhaController::class)->names([
+    //         'index' => 'kategori.artikelRisnha.index',
+    //         'create' => 'kategori.artikelRisnha.create',
+    //         'store' => 'kategori.artikelRisnha.store',
+    //         'edit' => 'kategori.artikelRisnha.edit',
+    //         'update' => 'kategori.artikelRisnha.update',
+    //         'destroy' => 'kategori.artikelRisnha.destroy',
+    // ]);
     });
 });
 
