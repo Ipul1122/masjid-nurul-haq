@@ -11,8 +11,8 @@ class DkmSeeder extends Seeder
     public function run(): void
     {
         Dkm::create([
-            'username' => 'admin',
-            'password' => Hash::make('admin123'),
+            'username' => 'dkm',
+            'password' => Hash::make('dkm123'),
         ]);
     }
 }

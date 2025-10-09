@@ -5,33 +5,25 @@ namespace App\Http\Controllers\Risnha;
 use App\Http\Controllers\Controller;
 use App\Models\ArtikelRisnha;
 use App\Models\KategoriArtikelRisnha;
-use App\Models\NotifikasiRisnha; 
+use App\Models\Notifikasi;      // <- Notifikasi DKM
+use App\Models\NotifikasiRisnha; // <- Notifikasi Risnha
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ArtikelRisnhaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $artikelRisnha = ArtikelRisnha::with('kategori')->latest()->get();
         return view('risnha.manajemenKontenRisnha.artikelRisnha.index', compact('artikelRisnha'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $kategori = KategoriArtikelRisnha::all();
         return view('risnha.manajemenKontenRisnha.artikelRisnha.create', compact('kategori'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -47,7 +39,7 @@ class ArtikelRisnhaController extends Controller
 
         $artikel = ArtikelRisnha::create($validated);
 
-        // 2. Buat Notifikasi untuk penambahan data
+        // Buat Notifikasi Risnha
         NotifikasiRisnha::create([
             'risnha_id' => session('risnha_id'),
             'aksi' => 'create',
@@ -55,13 +47,18 @@ class ArtikelRisnhaController extends Controller
             'keterangan' => "Menambahkan artikel baru: " . $artikel->nama,
         ]);
 
+        // Buat Notifikasi untuk DKM supaya terlihat interaksi Risnha
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'), // atau bisa null jika ingin global
+            'aksi' => 'create',
+            'tabel' => 'artikel_risnha',
+            'keterangan' => "Risnha menambahkan artikel baru: " . $artikel->nama,
+        ]);
+
         return redirect()->route('risnha.manajemenKontenRisnha.artikelRisnha.index')
             ->with('success', 'Artikel berhasil ditambahkan.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $artikel = ArtikelRisnha::findOrFail($id);
@@ -69,9 +66,6 @@ class ArtikelRisnhaController extends Controller
         return view('risnha.manajemenKontenRisnha.artikelRisnha.edit', compact('artikel', 'kategori'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $artikel = ArtikelRisnha::findOrFail($id);
@@ -92,7 +86,7 @@ class ArtikelRisnhaController extends Controller
 
         $artikel->update($validated);
 
-        // Buat Notifikasi untuk pembaruan data
+        // Notifikasi Risnha
         NotifikasiRisnha::create([
             'risnha_id' => session('risnha_id'),
             'aksi' => 'update',
@@ -100,13 +94,18 @@ class ArtikelRisnhaController extends Controller
             'keterangan' => "Memperbarui artikel: " . $artikel->nama,
         ]);
 
+        // Notifikasi DKM
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'update',
+            'tabel' => 'artikel_risnha',
+            'keterangan' => "Risnha memperbarui artikel: " . $artikel->nama,
+        ]);
+
         return redirect()->route('risnha.manajemenKontenRisnha.artikelRisnha.index')
             ->with('success', 'Artikel berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $artikel = ArtikelRisnha::findOrFail($id);
@@ -114,13 +113,21 @@ class ArtikelRisnhaController extends Controller
         if ($artikel->foto) {
             Storage::disk('public')->delete($artikel->foto);
         }
-        
-        //  Buat Notifikasi sebelum data dihapus
+
+        // Notifikasi Risnha
         NotifikasiRisnha::create([
             'risnha_id' => session('risnha_id'),
             'aksi' => 'delete',
             'tabel' => 'artikel_risnha',
             'keterangan' => "Menghapus artikel: " . $artikel->nama,
+        ]);
+
+        // Notifikasi DKM
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'delete',
+            'tabel' => 'artikel_risnha',
+            'keterangan' => "Risnha menghapus artikel: " . $artikel->nama,
         ]);
 
         $artikel->delete();
@@ -129,4 +136,3 @@ class ArtikelRisnhaController extends Controller
             ->with('success', 'Artikel berhasil dihapus.');
     }
 }
-

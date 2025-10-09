@@ -11,8 +11,8 @@ class RisnhaSeeder extends Seeder
     public function run(): void
     {
         Risnha::create([
-            'username' => 'admin',
-            'password' => Hash::make('admin123'),
+            'username' => 'risnha',
+            'password' => Hash::make('risnha123'),
         ]);
     }
 }
