@@ -39,7 +39,7 @@ class KegiatanMasjidController extends Controller
             'nama_ustadz' => 'required|string|max:255',
             'gambar'      => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
             'jadwal'      => 'required|date',
-            'catatan'     => 'nullable|string',
+            'deskripsi'     => 'nullable|string',
             'kategori_id' => 'required|exists:kategoris,id',
         ]);
 
@@ -78,7 +78,7 @@ class KegiatanMasjidController extends Controller
             'nama_ustadz' => 'required|string|max:255',
             'gambar'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'jadwal'      => 'required|date',
-            'catatan'     => 'nullable|string',
+            'deskripsi'     => 'nullable|string',
             'kategori_id' => 'required|exists:kategoris,id',
         ]);
 
@@ -157,5 +157,10 @@ class KegiatanMasjidController extends Controller
         return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index', [
             'page' => $request->input('page', 1),
         ])->with('success', 'Kegiatan terpilih berhasil dihapus.');
+    }
+
+    public function preview(Kegiatan $kegiatanMasjid)
+    {
+        return view('dkm.manajemenKonten.kegiatanMasjid.preview', compact('kegiatanMasjid'));
     }
 }

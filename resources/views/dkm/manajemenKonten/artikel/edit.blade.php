@@ -23,18 +23,11 @@
             <input type="file" name="gambar" class="w-full border px-3 py-2 rounded">
         </div>
 
-         {{-- 👇 PERUBAHAN DI SINI 👇 --}}
         <div class="mb-3">
             <label class="block mb-1" for="deskripsi">Deskripsi</label>
             <input id="deskripsi" type="hidden" name="deskripsi" value="{{ old('deskripsi', $artikel->deskripsi) }}">
             <trix-editor input="deskripsi" class="w-full border px-3 py-2 rounded"></trix-editor>
         </div>
-        {{-- 👆 BATAS PERUBAHAN 👆 --}}
-
-        {{-- <div class="mb-3">
-            <label class="block mb-1">Deskripsi</label>
-            <textarea name="deskripsi" class="w-full border px-3 py-2 rounded">{{ $artikel->deskripsi }}</textarea>
-        </div> --}}
 
         <div class="mb-3">
             <label class="block mb-1">Tanggal Rilis</label>

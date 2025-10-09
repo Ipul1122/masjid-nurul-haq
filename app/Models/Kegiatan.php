@@ -13,7 +13,7 @@ class Kegiatan extends Model
         'nama_ustadz',
         'gambar',
         'jadwal',
-        'catatan',
+        'deskripsi',
         'kategori_id',
     ];
 

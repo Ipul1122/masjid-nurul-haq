@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama_ustadz');
             $table->string('gambar')->nullable();
             $table->dateTime('jadwal');
-            $table->text('catatan')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }
