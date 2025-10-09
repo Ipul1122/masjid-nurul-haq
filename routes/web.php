@@ -56,14 +56,15 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
     Route::middleware('risnha.auth')->group(function () {
         Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
         // Manajemen Konten Risnha
-         Route::prefix('manajemenKontenRisnha')->name('manajemenKontenRisnha.')->group(function () {
+        Route::prefix('manajemenKontenRisnha')->name('manajemenKontenRisnha.')->group(function () {
             Route::resource('kegiatanRisnha', KegiatanRisnhaController::class);
+
+            // ✅ Route untuk Artikel Risnha
+            Route::get('artikelRisnha/preview/{artikelRisnha}', [ArtikelRisnhaController::class, 'preview'])->name('artikelRisnha.preview');
             Route::resource('artikelRisnha', ArtikelRisnhaController::class);
             Route::resource('galeriRisnha', GaleriRisnhaController::class);
         });
-
         // ✅ Group kategori
         Route::prefix('kategori')->name('kategori.')->group(function () {
             Route::resource('kegiatanRisnha', KategoriKegiatanRisnhaController::class);
@@ -117,8 +118,10 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
                 Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
 
                 // Artikel Masjid
-                // <-- penting: daftarkan route bulk-delete SEBELUM resource('artikel')
                 Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])->name('artikel.bulkDelete');
+                // Route baru untuk halaman template preview
+                Route::get('artikel/preview', [ArtikelController::class, 'previewPage'])->name('artikel.previewPage');
+                Route::get('artikel/preview/{artikel}', [ArtikelController::class, 'preview'])->name('artikel.preview');
                 Route::resource('artikel', ArtikelController::class);
 
                 // Jadwal Imam

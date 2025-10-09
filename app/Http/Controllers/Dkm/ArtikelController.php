@@ -154,4 +154,8 @@ class ArtikelController extends Controller
             ->route('dkm.manajemenKonten.artikel.index', ['page' => $request->page ?? 1])
             ->with('success', 'Artikel terpilih berhasil dihapus.');
     }
+
+    public function preview(Artikel $artikel){
+        return view('dkm.manajemenKonten.artikel.preview', compact('artikel'));
+    }
 }
