@@ -2,6 +2,10 @@
     <div class="container-fluid">
         <span class="navbar-brand">Dashboard Risnha</span>
         <div class="d-flex align-items-center">
+            
+            <!-- [MODIFIED] Menambahkan elemen untuk jam realtime -->
+            <span class="navbar-text me-3" id="realtime-clock-risnha"></span>
+
             {{-- Notifikasi --}}
             @php
                 // Jika admin (dkm) tampilkan semua, jika risnha tampilkan miliknya
@@ -32,3 +36,44 @@
         </div>
     </div>
 </nav>
+
+<!-- [NEW] Script untuk menjalankan jam realtime -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Pilih elemen jam berdasarkan ID yang unik
+    const clockElement = document.getElementById('realtime-clock-risnha');
+
+    // 2. Pastikan elemennya ada sebelum menjalankan script
+    if (clockElement) {
+        
+        function updateClock() {
+            const now = new Date();
+            
+            // 3. Opsi format untuk tanggal dan waktu (Bahasa Indonesia)
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false // Menggunakan format 24 jam
+            };
+
+            // 4. Ubah tanggal ke format string lokal (id-ID)
+            // .replace() untuk memperbaiki format pemisah waktu dari titik menjadi titik dua
+            const formattedTime = now.toLocaleString('id-ID', options).replace(/\./g, ':');
+            
+            // 5. Update konten teks di elemen jam
+            clockElement.textContent = formattedTime;
+        }
+
+        // 6. Jalankan fungsi pertama kali agar jam langsung muncul
+        updateClock();
+        
+        // 7. Atur interval untuk memperbarui jam setiap detik (1000 milidetik)
+        setInterval(updateClock, 1000);
+    }
+});
+</script>

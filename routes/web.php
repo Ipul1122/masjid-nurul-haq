@@ -25,6 +25,7 @@ use App\Http\Controllers\Dkm\BackupDataController;
 
 // Risnha Routes
 use App\Http\Controllers\Risnha\AuthController;
+use App\Http\Controllers\Risnha\DashboardRisnhaController;
 // Manajemen Konten Risnha
 use App\Http\Controllers\Risnha\KegiatanRisnhaController;
 use App\Http\Controllers\Risnha\ArtikelRisnhaController;
@@ -55,6 +56,7 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
 
     Route::middleware('risnha.auth')->group(function () {
         Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [DashboardRisnhaController::class, 'index'])->name('dashboard');
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
         // Manajemen Konten Risnha
         Route::prefix('manajemenKontenRisnha')->name('manajemenKontenRisnha.')->group(function () {

@@ -43,6 +43,14 @@
             {!! $artikel->deskripsi !!}
         </div>
 
+        {{-- Tombol Kembali --}}
+            <div class="mt-8 pt-6 border-t">
+                <a href="{{ route('dkm.manajemenKonten.artikel.index') }}" 
+                   class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    &larr; Kembali ke Daftar Kegiatan
+                </a>
+            </div>
+
     </main>
 
 </body>
