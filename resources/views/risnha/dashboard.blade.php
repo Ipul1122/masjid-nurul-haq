@@ -1,4 +1,3 @@
-{{-- resources/views/risnha/dashboard.blade.php --}}
 @extends('layouts.risnha')
 
 @section('title', 'Dashboard Risnha')
@@ -7,6 +6,7 @@
 <div class="container mt-4">
     <h3 class="mb-4">Dashboard</h3>
 
+    {{-- Baris untuk Konten Utama --}}
     <div class="row">
         {{-- Card untuk Artikel --}}
         <div class="col-md-4 mb-4">
@@ -14,7 +14,6 @@
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            {{-- Icon dari Font Awesome --}}
                             <i class="fa fa-newspaper fa-3x text-primary"></i>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -76,7 +75,75 @@
         </div>
     </div>
 
-    {{-- Anda bisa menambahkan konten lain di bawahnya --}}
+    {{-- Baris untuk Kategori --}}
+    <div class="row">
+        {{-- Card untuk Kategori Artikel --}}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fa fa-tag fa-3x text-info"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="card-title mb-1">Kategori Artikel</h5>
+                            <p class="card-text fs-4 fw-bold">{{ $jumlahKategoriArtikel }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-3">
+                        <a href="{{ route('risnha.kategori.artikelRisnha.index') }}" class="btn btn-outline-info w-100">
+                            Kelola Kategori <i class="fa fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Card untuk Kategori Galeri --}}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fa fa-tags fa-3x text-secondary"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="card-title mb-1">Kategori Galeri</h5>
+                            <p class="card-text fs-4 fw-bold">{{ $jumlahKategoriGaleri }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-3">
+                        <a href="{{ route('risnha.kategori.galeriRisnha.index') }}" class="btn btn-outline-secondary w-100">
+                            Kelola Kategori <i class="fa fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Card untuk Kategori Kegiatan --}}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fa fa-bookmark fa-3x text-danger"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="card-title mb-1">Kategori Kegiatan</h5>
+                            <p class="card-text fs-4 fw-bold">{{ $jumlahKategoriKegiatan }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-3">
+                        <a href="{{ route('risnha.kategori.kegiatanRisnha.index') }}" class="btn btn-outline-danger w-100">
+                            Kelola Kategori <i class="fa fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="mt-4">
         <h4>Selamat Datang di Halaman Administrator!</h4>
         <p>Gunakan menu navigasi untuk mengelola konten website Anda.</p>

@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use App\Models\ArtikelRisnha;
 use App\Models\GaleriRisnha;
 use App\Models\KegiatanRisnha;
+use App\Models\KategoriArtikelRisnha;
+use App\Models\KategoriGaleriRisnha;
+use App\Models\KategoriKegiatanRisnha;
 
 class DashboardRisnhaController extends Controller
 {
@@ -18,12 +21,18 @@ class DashboardRisnhaController extends Controller
         $jumlahArtikel = ArtikelRisnha::count();
         $jumlahGaleri = GaleriRisnha::count();
         $jumlahKegiatan = KegiatanRisnha::count();
+        $jumlahKategoriArtikel = KategoriArtikelRisnha::count();
+        $jumlahKategoriGaleri = KategoriGaleriRisnha::count();
+        $jumlahKategoriKegiatan = KategoriKegiatanRisnha::count();
 
         // Kirim data ke view
         return view('risnha.dashboard', [
             'jumlahArtikel' => $jumlahArtikel,
             'jumlahGaleri' => $jumlahGaleri,
             'jumlahKegiatan' => $jumlahKegiatan,
+            'jumlahKategoriArtikel' => $jumlahKategoriArtikel,
+            'jumlahKategoriGaleri' => $jumlahKategoriGaleri,
+            'jumlahKategoriKegiatan' => $jumlahKategoriKegiatan,
         ]);
     }
 }
