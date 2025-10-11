@@ -1,16 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container-fluid">
-        <span class="navbar-brand">Dashboard Risnha</span>
+<nav class="navbar">
+    <div class="d-flex align-items-center justify-content-between w-100">
+        
+        <!-- Left Side: Hamburger & Brand -->
         <div class="d-flex align-items-center">
-            
-            <!-- [MODIFIED] Menambahkan elemen untuk jam realtime -->
-            <span class="navbar-text me-3" id="realtime-clock-risnha"></span>
+            <button class="hamburger-menu" id="hamburgerMenu" title="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span class="navbar-brand ms-2">Manajemen Risnha</span>
+        </div>
 
-            {{-- Notifikasi --}}
+        <!-- Right Side: Clock, Notification & User -->
+        <div class="d-flex align-items-center gap-3">
+            <span class="navbar-text" id="realtime-clock-risnha"></span>
+
             @php
-                // Jika admin (dkm) tampilkan semua, jika risnha tampilkan miliknya
                 if(session()->has('dkm_id') || session()->get('is_admin') === true) {
-                    // Gunakan scope 'valid' yang sudah ada di model untuk mengambil notifikasi < 5 menit
                     $jumlahNotifikasi = \App\Models\NotifikasiRisnha::valid()->count();
                 } elseif(session()->has('risnha_id')) {
                     $jumlahNotifikasi = \App\Models\NotifikasiRisnha::valid()->where('risnha_id', session('risnha_id'))->count();
@@ -19,60 +23,44 @@
                 }
             @endphp
 
-            <a href="{{ route('risnha.notifikasiRisnha.index') }}" class="me-3 position-relative text-dark" title="Notifikasi">
-                <i class="fas fa-bell fa-lg"></i>
-                {{-- Tambahkan id="notification-badge" --}}
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notification-badge">
-                    {{-- Tampilkan hanya jika jumlah notifikasi > 0 --}}
+            <a href="{{ route('risnha.notifikasiRisnha.index') }}" class="text-dark position-relative" title="Notifikasi" style="font-size: 1.2rem;">
+                <i class="fas fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notification-badge" style="font-size: 0.65rem;">
                     @if($jumlahNotifikasi > 0)
                         {{ $jumlahNotifikasi }}
                     @endif
                 </span>
             </a>
 
-            <span class="me-3">
-                Halo, {{ \App\Models\Risnha::find(session('risnha_id'))->username ?? 'Guest' }}
+            <span class="navbar-user d-none d-md-inline">
+                {{ \App\Models\Risnha::find(session('risnha_id'))->username ?? 'Guest' }}
             </span>
         </div>
     </div>
 </nav>
 
-<!-- [NEW] Script untuk menjalankan jam realtime -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Pilih elemen jam berdasarkan ID yang unik
     const clockElement = document.getElementById('realtime-clock-risnha');
-
-    // 2. Pastikan elemennya ada sebelum menjalankan script
+    
     if (clockElement) {
-        
         function updateClock() {
             const now = new Date();
-            
-            // 3. Opsi format untuk tanggal dan waktu (Bahasa Indonesia)
             const options = {
-                weekday: 'long',
+                weekday: 'short',
                 year: 'numeric',
-                month: 'long',
-                day: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
-                hour12: false // Menggunakan format 24 jam
+                hour12: false
             };
-
-            // 4. Ubah tanggal ke format string lokal (id-ID)
-            // .replace() untuk memperbaiki format pemisah waktu dari titik menjadi titik dua
             const formattedTime = now.toLocaleString('id-ID', options).replace(/\./g, ':');
-            
-            // 5. Update konten teks di elemen jam
             clockElement.textContent = formattedTime;
         }
-
-        // 6. Jalankan fungsi pertama kali agar jam langsung muncul
-        updateClock();
         
-        // 7. Atur interval untuk memperbarui jam setiap detik (1000 milidetik)
+        updateClock();
         setInterval(updateClock, 1000);
     }
 });
