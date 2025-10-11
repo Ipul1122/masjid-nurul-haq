@@ -3,8 +3,12 @@
 @section('title', 'Dashboard Risnha')
 
 @section('content')
-<div class="container mt-4">
-    <h3 class="mb-4">Dashboard</h3>
+<div class="container ">
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-800">
+            Selamat datang, {{ session('risnha_username') }}
+        </h1>
+    </div>
 
     {{-- Baris untuk Konten Utama --}}
     <div class="row">
@@ -144,9 +148,9 @@
         </div>
     </div>
 
-    <div class="mt-4">
+    {{-- <div class="mt-4">
         <h4>Selamat Datang di Halaman Administrator!</h4>
         <p>Gunakan menu navigasi untuk mengelola konten website Anda.</p>
-    </div>
+    </div> --}}
 </div>
 @endsection
