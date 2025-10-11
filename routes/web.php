@@ -43,7 +43,7 @@ use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
 // 📌 GENERAL ROUTES
 // ===================
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 // ===================
