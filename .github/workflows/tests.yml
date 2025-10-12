@@ -43,5 +43,20 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
+      # ===============================================
+      # LANGKAH-LANGKAH BARU UNTUK VITE
+      # ===============================================
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Anda bisa sesuaikan jika menggunakan versi lain
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Build Assets
+        run: npm run build
+      # ===============================================
+
       - name: Execute tests
         run: php artisan test
