@@ -201,7 +201,13 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
                 Route::get('homeSection', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionIndex'])->name('homeSection.index');
                 Route::post('homeSection', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionStore'])->name('homeSection.store');
                 Route::delete('homeSection/{id}', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionDestroy'])->name('homeSection.destroy');
+                Route::get('running-text', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'runningTextIndex'])->name('runningText.index');
+                Route::post('running-text', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'runningTextUpdate'])->name('runningText.update');
+
             });
+
+            // ... rute homeSection
+
 
             // ====================
             // 👥 Manajemen Pengguna (butuh PIN)

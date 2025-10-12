@@ -180,6 +180,13 @@
                 </a>
 
 
+                {{-- <a href="{{ route('dkm.tampilanPenggunaMasjid.runningText.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group"> --}}
+                    <i class="fas fa-text-width w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
+                    <span class="font-medium">Atur Running Text</span>
+                </a>
+
+
+
                 <!-- Manage Pengaturan -->
                 {{-- <div class="menu-group">
                     <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
