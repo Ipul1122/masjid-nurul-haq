@@ -4,21 +4,22 @@
 
 @section('content')
 {{-- CAROUSEL --}}
-@php
-    $carouselImages = \App\Models\TampilanHomeSection::orderBy('order')->get();
-@endphp
-
-@if($carouselImages->isNotEmpty())
+{{-- 
+    Data untuk carousel sekarang diambil dari variabel $homeSections 
+    yang dikirim oleh homeController, bukan lagi dipanggil langsung dari view.
+--}}
+@if($homeSections->isNotEmpty())
 <div class="relative w-full" data-carousel="slide">
     <div class="relative h-56 overflow-hidden md:h-96">
-        @foreach($carouselImages as $image)
+        {{-- Menggunakan variabel $homeSections yang sudah di-pass dari controller --}}
+        @foreach($homeSections as $section)
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="{{ asset('storage/' . $image->image_path) }}" class="absolute block w-full h-full object-cover" alt="Carousel Image">
+            <img src="{{ asset('storage/' . $section->image_path) }}" class="absolute block w-full h-full object-cover" alt="Carousel Image">
         </div>
         @endforeach
     </div>
     <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-        @foreach($carouselImages as $index => $image)
+        @foreach($homeSections as $index => $section)
         <button type="button" class="w-3 h-3 rounded-full" aria-current="{{ $index === 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}" data-carousel-slide-to="{{ $index }}"></button>
         @endforeach
     </div>
@@ -41,10 +42,7 @@
 </div>
 @endif
 
-
-
-<h1>TESTING ke 2</h1>
-
+<h1>TESTING ke 3</h1>
 
 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
     <div class="p-6 text-gray-900">
@@ -78,8 +76,6 @@
         </p>
     </div>
 </div>
-
-
 
 {{-- Tambahkan script untuk carousel --}}
 <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
