@@ -45,9 +45,7 @@ use App\Http\Controllers\penggunaMasjid\homeController;
 // ===================
 // 📌 GENERAL ROUTES
 // ===================
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [homeController::class, 'index']);
 
 // ===================
 // 📌 RISNHA ROUTES
