@@ -6,16 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\TampilanHomeSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\RunningText;
 
-class TampilanHomeSectionPenggunaController extends Controller
+// Mengembalikan nama controller agar konsisten
+class TampilanHomeSectionPenggunaController extends Controller 
 {
+    // ... (metode untuk homeSection tidak perlu diubah)
     public function homeSectionIndex()
     {
         $images = TampilanHomeSection::orderBy('order')->get();
         return view('dkm.tampilanPenggunaMasjid.homeSection', compact('images'));
     }
 
-    // Metode ini sekarang hanya untuk MENAMBAH gambar baru
     public function homeSectionStore(Request $request)
     {
         $request->validate([
@@ -27,7 +29,6 @@ class TampilanHomeSectionPenggunaController extends Controller
                 $path = $file->store('carousel', 'public');
                 TampilanHomeSection::create([
                     'image_path' => $path,
-                    // Dapatkan order terakhir dan tambahkan 1
                     'order' => TampilanHomeSection::max('order') + 1 + $index,
                 ]);
             }
@@ -36,17 +37,42 @@ class TampilanHomeSectionPenggunaController extends Controller
         return redirect()->back()->with('success', 'Gambar baru berhasil ditambahkan.');
     }
 
-    // Metode baru untuk MENGHAPUS gambar
     public function homeSectionDestroy($id)
     {
         $image = TampilanHomeSection::findOrFail($id);
         
-        // Hapus file dari storage
         Storage::disk('public')->delete($image->image_path);
         
-        // Hapus record dari database
         $image->delete();
 
         return redirect()->back()->with('success', 'Gambar berhasil dihapus.');
+    }
+
+    // RUNNNING TEXT
+    public function runningTextIndex()
+    {
+        $runningText = RunningText::first();
+        return view('dkm.tampilanPenggunaMasjid.runningText', compact('runningText'));
+    }
+
+    public function runningTextUpdate(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string',
+            'text_color' => 'required|string',
+            'background_color' => 'required|string',
+        ]);
+
+        RunningText::updateOrCreate(
+            ['id' => 1],
+            [
+                // Menggunakan metode input() untuk menghindari peringatan
+                'content' => $request->input('content'),
+                'text_color' => $request->input('text_color'),
+                'background_color' => $request->input('background_color'),
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Running text berhasil diperbarui.');
     }
 }
