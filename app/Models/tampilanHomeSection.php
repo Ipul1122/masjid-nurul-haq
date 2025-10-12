@@ -9,5 +9,6 @@ class TampilanHomeSection extends Model
 {
     use HasFactory;
 
+    protected $table = 'tampilan_home_sections';
     protected $fillable = ['image_path', 'order'];
 }
