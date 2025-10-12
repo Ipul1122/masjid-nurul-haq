@@ -38,6 +38,9 @@ use App\Http\Controllers\Risnha\KategoriKegiatanRisnhaController;
 use App\Http\Controllers\Risnha\KategoriArtikelRisnhaController;
 use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
 
+// USER ROUTES
+use App\Http\Controllers\penggunaMasjid\homeController;
+
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -187,6 +190,17 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
                 // Backup Data
                 Route::get('backupData', [BackupDataController::class, 'index'])->name('backupData.index');
                 Route::post('backupData/backup', [BackupDataController::class, 'backup'])->name('backupData.run');
+            });
+
+            // =================
+            // ⚙️ Manajemen Tampilan Pengguna
+            // =================
+            // ... rute dkm lainnya
+
+            Route::prefix('tampilanPenggunaMasjid')->name('tampilanPenggunaMasjid.')->group(function () {
+                Route::get('homeSection', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionIndex'])->name('homeSection.index');
+                Route::post('homeSection', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionStore'])->name('homeSection.store');
+                Route::delete('homeSection/{id}', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionDestroy'])->name('homeSection.destroy');
             });
 
             // ====================

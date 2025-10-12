@@ -15,9 +15,9 @@
     {{-- Navbar --}}
     @include('layouts.navbarPenggunaMasjid')
       {{-- Jadwal Sholat --}}
-    @include('layouts.jadwalSholat')
+    @include('layouts.runningText')
 
-    <main class="pt-20"> <div class="container mx-auto p-4 lg:p-6">
+    <main class=""> <div class="">
             @yield('content')
         </div>
     </main>
