@@ -110,10 +110,6 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         // ====================
         Route::prefix('manajemenKonten')->name('manajemenKonten.')->group(function () {
             
-            // ⚠️ PENTING: Route khusus HARUS diletakkan SEBELUM resource route
-            // --- Kegiatan Masjid ---
-            Route::delete('kegiatanMasjid/destroy-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])
-                ->name('kegiatanMasjid.destroyMultiple');
             
             Route::get('kegiatanMasjid/{kegiatanMasjid}/preview', [KegiatanMasjidController::class, 'preview'])
                 ->name('kegiatanMasjid.preview');
