@@ -199,6 +199,8 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
                     Route::get('homeSection', [HomeSectionController::class, 'index'])->name('homeSection.index');
                     Route::post('homeSection', [HomeSectionController::class, 'store'])->name('homeSection.store');
                     Route::delete('homeSection/{homeSection}', [HomeSectionController::class, 'destroy'])->name('homeSection.destroy');
+                    Route::get('runningText', [HomeSectionController::class, 'runningText'])->name('runningText.index');
+                    Route::post('runningText', [HomeSectionController::class, 'storeRunningText'])->name('runningText.store');
             });
 
             // ====================
