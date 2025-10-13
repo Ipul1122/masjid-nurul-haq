@@ -6,6 +6,7 @@ use App\Http\Controllers\Dkm\DkmAuthController;
 use App\Http\Controllers\Dkm\DashboardController;
 use App\Http\Controllers\Dkm\ManagePenggunaController;
 use App\Http\Controllers\Dkm\VerifyPinController;
+use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\HomeSectionController;
 use App\Http\Controllers\Dkm\ManajemenKontenController\KegiatanMasjidController;
 use App\Http\Controllers\Dkm\ArtikelController;
 use App\Http\Controllers\Dkm\KategoriController;
@@ -190,22 +191,15 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
                 Route::post('backupData/backup', [BackupDataController::class, 'backup'])->name('backupData.run');
             });
 
-            // =================
-            // ⚙️ Manajemen Tampilan Pengguna
-            // =================
-            // ... rute dkm lainnya
-
-            // Route::prefix('tampilanPenggunaMasjid')->name('tampilanPenggunaMasjid.')->group(function () {
-            //     Route::get('homeSection', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionIndex'])->name('homeSection.index');
-            //     Route::post('homeSection', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionStore'])->name('homeSection.store');
-            //     Route::delete('homeSection/{id}', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'homeSectionDestroy'])->name('homeSection.destroy');
-            //     Route::get('running-text', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'runningTextIndex'])->name('runningText.index');
-            //     Route::post('running-text', [\App\Http\Controllers\Dkm\TampilanHomeSectionPenggunaController::class, 'runningTextUpdate'])->name('runningText.update');
-
-            // });
-
             // ... rute homeSection
+            // 🧑 Manajamen TampilanPengunMasjid
+            // ===================
 
+            Route::prefix('tampilanPenggunaMasjid')->name('tampilanPenggunaMasjid.')->group(function () {
+                    Route::get('homeSection', [HomeSectionController::class, 'index'])->name('homeSection.index');
+                    Route::post('homeSection', [HomeSectionController::class, 'store'])->name('homeSection.store');
+                    Route::delete('homeSection/{homeSection}', [HomeSectionController::class, 'destroy'])->name('homeSection.destroy');
+            });
 
             // ====================
             // 👥 Manajemen Pengguna (butuh PIN)
