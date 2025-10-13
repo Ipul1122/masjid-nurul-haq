@@ -4,7 +4,7 @@
 
 @section('content')
 @if(isset($homeSections) && $homeSections->isNotEmpty())
-<div id="default-carousel" class="relative w-full" data-carousel="slide">
+<div id="default-carousel" class="relative w-full z-10" data-carousel="slide">
     <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
         @foreach($homeSections as $item)
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
@@ -49,6 +49,33 @@
 </div>
 @endif
 
+{{-- KONTEN  --}}
+<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
+    <div class="p-6 text-gray-900">
+        <h2 class="text-2xl font-semibold mb-4">Konten Terbaru</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($kontenTerbaru as $konten)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img class="h-48 w-full object-cover" src="{{ asset('storage/' . $konten->gambar) }}" alt="{{ $konten->judul }}">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">{{ $konten->judul }}</h3>
+                        <div class="flex items-center text-sm text-gray-600 mb-4">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <span>{{ $konten->created_at->format('d M Y') }}</span>
+                            <span class="mx-2">•</span>
+                            <span>1 minutes read</span>
+                        </div>
+                        @if($konten->type == 'artikel')
+                            <span class="inline-block bg-green-200 text-green-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">Berita</span>
+                        @else
+                            <span class="inline-block bg-blue-200 text-blue-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">Kegiatan</span>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
 
 <h1>TESTING ke 10000000</h1>
 

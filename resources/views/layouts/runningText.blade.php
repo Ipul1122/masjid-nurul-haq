@@ -5,7 +5,7 @@
 
 {{-- Kondisi ini hanya akan menampilkan div jika data ada DAN content-nya tidak kosong --}}
 @if($runningText && !empty($runningText->content))
-<div class="shadow-lg sticky top-16 z-20 overflow-hidden" style="background-color: {{ $runningText->background_color }}; color: {{ $runningText->text_color }};">
+<div class="shadow-lg sticky top-16  overflow-hidden" style="background-color: {{ $runningText->background_color }}; color: {{ $runningText->text_color }};">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="py-3">
             <p class="whitespace-nowrap animate-marquee">

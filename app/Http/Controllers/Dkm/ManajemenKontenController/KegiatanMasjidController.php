@@ -163,4 +163,6 @@ class KegiatanMasjidController extends Controller
     {
         return view('dkm.manajemenKonten.kegiatanMasjid.preview', compact('kegiatanMasjid'));
     }
+
+    
 }

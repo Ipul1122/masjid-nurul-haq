@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('gambar')->nullable();
             $table->dateTime('jadwal');
             $table->text('deskripsi')->nullable();
+            $table->string('status')->default('draft'); // Tambahkan baris ini
             $table->timestamps();
         });
     }
