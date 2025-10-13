@@ -1,82 +1,54 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preview: {{ $kegiatan->judul }}</title>
+@extends('layouts.dkm')
 
-    {{-- Memuat Tailwind CSS dari CDN --}}
-    <script src="https://cdn.tailwindcss.com"></script>
+@section('title', 'Preview Kegiatan Masjid')
 
-    {{-- Style tambahan untuk konten artikel (prose) --}}
-    <style>
-        .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-            color: #1f2937; /* gray-900 */
-        }
-        .prose p {
-            margin-bottom: 1.25em;
-        }
-        .prose ul, .prose ol {
-            margin-left: 1.25rem;
-            margin-bottom: 1.25em;
-        }
-        .prose ul {
-            list-style-type: disc;
-        }
-        .prose ol {
-            list-style-type: decimal;
-        }
-    </style>
-</head>
-<body class="bg-gray-50 font-sans">
+@section('content')
+<div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+    
+    {{-- Gambar Utama --}}
+    @if($kegiatan->gambar)
+        <img src="{{ asset('storage/' . $kegiatan->gambar) }}" alt="Gambar {{ $kegiatan->judul }}" class="w-full h-64 object-cover rounded-t-lg mb-6">
+    @endif
 
-    <main class="container mx-auto p-4 md:p-8">
-        <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
-    
-            <article>
-                {{-- Judul Artikel --}}
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-                    {{ $kegiatan->judul }}
-                </h1>
+    {{-- Judul dan Kategori --}}
+    <div class="mb-4">
+        <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">{{ $kegiatan->kategori->nama ?? 'Tanpa Kategori' }}</span>
+        <h1 class="text-3xl font-bold text-gray-800 mt-2">{{ $kegiatan->judul }}</h1>
+    </div>
 
-                {{-- Meta Info (Ustadz & Jadwal) --}}
-                <div class="flex flex-wrap items-center text-gray-500 text-sm mb-6">
-                    <span>Oleh: <strong>{{ $kegiatan->nama_ustadz }}</strong></span>
-                    <span class="mx-2">•</span>
-                    <span>{{ \Carbon\Carbon::parse($kegiatan->jadwal)->translatedFormat('l, d F Y H:i') }} WIB</span>
-                </div>
-    
-                <hr class="mb-6">
-    
-                {{-- Gambar Utama --}}
-                @if($kegiatan->gambar)
-                    <img src="{{ asset('storage/' . $kegiatan->gambar) }}" alt="{{ $kegiatan->judul }}" class="w-full h-auto max-h-96 object-cover rounded-lg mb-6">
-                @endif
-    
-    
-                {{-- Konten Deskripsi --}}
-                <div class="prose prose-lg max-w-none">
-                    {!! $kegiatan->deskripsi !!}
-                </div>
-            </article>
-    
-            {{-- Tombol Aksi --}}
-            <div class="mt-8 pt-6 border-t flex flex-col sm:flex-row justify-between items-center gap-4">
-                <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.index') }}" 
-                   class="w-full sm:w-auto inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-center">
-                    &larr; Kembali ke Daftar
-                </a>
-                
-                <form action="{{ route('dkm.manajemenKonten.kegiatanMasjid.publish', ['kegiatan' => $kegiatan->id]) }}" method="POST" class="w-full sm:w-auto">
-                    @csrf
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Kirim ke Publik &rarr;
-                    </button>
-                </form>
-            </div>
-    
-        </div>
-    </main>
+    {{-- Detail Kegiatan --}}
+    <div class="flex items-center text-gray-600 text-sm mb-6 border-b pb-4">
+        <span>Oleh: <strong>{{ $kegiatan->nama_ustadz }}</strong></span>
+        <span class="mx-2">|</span>
+        <span>Jadwal: <strong>{{ \Carbon\Carbon::parse($kegiatan->jadwal)->translatedFormat('l, d F Y \p\u\k\u\l H:i') }} WIB</strong></span>
+    </div>
 
-</body>
-</html>
+    {{-- Deskripsi --}}
+    <div class="prose max-w-none text-gray-700">
+        {!! $kegiatan->deskripsi !!}
+    </div>
+
+    <hr class="my-8">
+
+    {{-- Tombol Aksi --}}
+    <div class="flex items-center justify-between">
+        <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+            &larr; Kembali ke Daftar
+        </a>
+
+        {{-- Form untuk Publikasi --}}
+        @if($kegiatan->status == 'draft')
+            <form action="{{ route('dkm.manajemenKonten.kegiatanMasjid.publish', $kegiatan->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mempublikasikan kegiatan ini?')">
+                @csrf
+                @method('PUT') {{-- ✅ INI PERBAIKANNYA --}}
+                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    Kirim ke Publik &rarr;
+                </button>
+            </form>
+        @else
+            <span class="px-4 py-2 bg-green-200 text-green-800 rounded-lg font-semibold">Sudah Dipublikasikan</span>
+        @endif
+    </div>
+
+</div>
+@endsection
