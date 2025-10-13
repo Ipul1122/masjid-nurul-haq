@@ -84,18 +84,9 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
         Route::delete('/notifikasi/destroy-selected', [NotifikasiRisnhaController::class, 'destroySelected'])->name('notifikasiRisnha.destroySelected');
         Route::delete('/notifikasi/destroy-all', [NotifikasiRisnhaController::class, 'destroyAll'])->name('notifikasiRisnha.destroyAll');
 
-            // Tambahan untuk auto delete & count
+        // Tambahan untuk auto delete & count
         Route::get('/notifikasi/auto-delete-old', [NotifikasiRisnhaController::class, 'autoDeleteOld'])->name('notifikasiRisnha.autoDeleteOld');
         Route::get('/notifikasi/count', [NotifikasiRisnhaController::class, 'count'])->name('notifikasiRisnha.count');
-
-    //      Route::resource('kategori-artikel', KategoriArtikelRisnhaController::class)->names([
-    //         'index' => 'kategori.artikelRisnha.index',
-    //         'create' => 'kategori.artikelRisnha.create',
-    //         'store' => 'kategori.artikelRisnha.store',
-    //         'edit' => 'kategori.artikelRisnha.edit',
-    //         'update' => 'kategori.artikelRisnha.update',
-    //         'destroy' => 'kategori.artikelRisnha.destroy',
-    // ]);
     });
 });
 
@@ -106,116 +97,133 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
 Route::prefix('dkm')->name('dkm.')->group(function () {
     
     // 🔐 Auth
-        Route::get('/login', [DkmAuthController::class, 'showLoginForm'])->name('login');
-        Route::post('/login', [DkmAuthController::class, 'login'])->name('login.submit');
-        Route::post('/logout', [DkmAuthController::class, 'logout'])->name('logout');
+    Route::get('/login', [DkmAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [DkmAuthController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [DkmAuthController::class, 'logout'])->name('logout');
 
-        Route::middleware('auth.dkm')->group(function () {
-            Route::get('/dashboard', [DkmAuthController::class, 'dashboard'])->name('dashboard');
-            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-            // ====================
-            // 📌 Manajemen Konten
-            // ====================
-                // routes/web.php
+    Route::middleware('auth.dkm')->group(function () {
+        Route::get('/dashboard', [DkmAuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        
+        // ====================
+        // 📌 Manajemen Konten
+        // ====================
+        Route::prefix('manajemenKonten')->name('manajemenKonten.')->group(function () {
+            
+            // ⚠️ PENTING: Route khusus HARUS diletakkan SEBELUM resource route
+            // --- Kegiatan Masjid ---
+            Route::delete('kegiatanMasjid/destroy-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])
+                ->name('kegiatanMasjid.destroyMultiple');
+            
+            Route::get('kegiatanMasjid/{kegiatanMasjid}/preview', [KegiatanMasjidController::class, 'preview'])
+                ->name('kegiatanMasjid.preview');
+            
+            Route::put('kegiatanMasjid/{kegiatan}/publish', [KegiatanMasjidController::class, 'publish'])
+                ->name('kegiatanMasjid.publish');
+            
+            // Resource controller HARUS di akhir
+            Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
 
-                Route::prefix('manajemenKonten')->name('manajemenKonten.')->group(function () {
-                    // --- Kegiatan Masjid ---
+            
+            // --- Artikel Masjid & Jadwal Imam ---
+            Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])
+                ->name('artikel.bulkDelete');
+            
+            Route::get('artikel/preview', [ArtikelController::class, 'previewPage'])
+                ->name('artikel.previewPage');
+            
+            Route::get('artikel/preview/{artikel}', [ArtikelController::class, 'preview'])
+                ->name('artikel.preview');
+            
+            Route::resource('artikel', ArtikelController::class);
+            Route::resource('jadwalImam', JadwalImamController::class);
+        });
+        
+        // ====================
+        // 📌 Manajemen Keuangan
+        // ====================
+        Route::prefix('manajemenKeuangan')->name('manajemenKeuangan.')->group(function () {
+            // Manajemen Keuangan
+            Route::get('/', [ManajemenKeuanganController::class, 'index'])->name('index');
+            
+            // Hapus multiple pemasukkan
+            Route::delete('/pemasukkan/bulk-delete', [PemasukkanController::class, 'bulkDelete'])
+                ->name('pemasukkan.bulkDelete');
+            
+            // Hapus multiple pengeluaran
+            Route::delete('/pengeluaran/bulk-delete', [PengeluaranController::class, 'bulkDelete'])
+                ->name('pengeluaran.bulkDelete');
+            
+            // Pemasukkan
+            Route::resource('pemasukkan', PemasukkanController::class);
+            
+            // Pengeluaran
+            Route::resource('pengeluaran', PengeluaranController::class);
+        });
 
-                    // ✅ Letakkan route khusus SEBELUM Route::resource
-                    // ✅ Route untuk Hapus Multiple
-                    Route::delete('kegiatanMasjid/destroy-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])->name('kegiatanMasjid.destroyMultiple');
-                    Route::get('kegiatanMasjid/{kegiatanMasjid}/preview', [KegiatanMasjidController::class, 'preview'])->name('kegiatanMasjid.preview');
-                    Route::put('kegiatanMasjid/{kegiatan}/publish', [KegiatanMasjidController::class, 'publish'])->name('kegiatanMasjid.publish');
-                    Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
+        // ====================
+        // 📌 Manajemen Fasilitas
+        // ====================
+        Route::prefix('manajemenFasilitas')->name('manajemenFasilitas.')->group(function () {
+            // Galeri
+            Route::resource('galeri', GaleriController::class);
+        });
 
+        // ====================
+        // 📌 Kategori
+        // ====================
+        Route::prefix('kategori')->name('kategori.')->group(function () {
+            Route::get('/', [KategoriController::class, 'index'])->name('index'); 
+            Route::resource('kegiatanMasjid', KategoriKegiatanMasjidController::class);
+            Route::resource('artikel', KategoriArtikelController::class);
+            Route::resource('pemasukkan', KategoriPemasukkanController::class);
+            Route::resource('pengeluaran', KategoriPengeluaranController::class);
+            Route::resource('galeri', KategoriGaleriController::class);
+        });
 
-                    // ... (route artikel dan jadwal imam Anda)
-                    // --- Artikel Masjid ---
-                    Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])->name('artikel.bulkDelete');
-                    Route::get('artikel/preview', [ArtikelController::class, 'previewPage'])->name('artikel.previewPage');
-                    Route::get('artikel/preview/{artikel}', [ArtikelController::class, 'preview'])->name('artikel.preview');
-                    Route::resource('artikel', ArtikelController::class);
+        // ====================
+        // 🔔 Notifikasi
+        // ====================
+        Route::delete('notifikasi/auto-delete-old', [NotifikasiController::class, 'autoDeleteOld'])
+            ->name('notifikasi.autoDeleteOld');
+        
+        Route::get('notifikasi/count', [NotifikasiController::class, 'count'])
+            ->name('notifikasi.count');
+        
+        Route::delete('notifikasi/bulk-delete', [NotifikasiController::class, 'bulkDelete'])
+            ->name('notifikasi.bulkDelete');
+        
+        Route::resource('notifikasi', NotifikasiController::class);
 
-                    // --- Jadwal Imam ---
-                    Route::resource('jadwalImam', JadwalImamController::class);
-                });
-            // ====================
-            // 📌 ManajemeKeuangan
-            // ====================
-            Route::prefix('manajemenKeuangan')->name('manajemenKeuangan.')->group(function () {
-                // Manajemen Keuangan
-                Route::get('/', [ManajemenKeuanganController::class, 'index'])->name('index');
-                // Hapus multiple pemasukkan
-                Route::delete('/pemasukkan/bulk-delete', [PemasukkanController::class, 'bulkDelete'])->name('pemasukkan.bulkDelete');
-                // Hapus multiple pengeluaran
-                Route::delete('/pengeluaran/bulk-delete', [PengeluaranController::class, 'bulkDelete'])->name('pengeluaran.bulkDelete');
-                // Pemasukkan
-                Route::resource('pemasukkan', PemasukkanController::class);
-                // Pengeluaran
-                Route::resource('pengeluaran', PengeluaranController::class);
-            });
+        // ====================
+        // 🔐 Verifikasi PIN
+        // ====================
+        Route::get('/verify-pin', [VerifyPinController::class, 'showVerifyForm'])->name('verifyPinForm');
+        Route::post('/verify-pin', [VerifyPinController::class, 'verify'])->name('verifyPin');
 
-            // ====================
-            // 📌 Manajeme Fasilitais
-            // ====================
-            Route::prefix('manajemenFasilitas')->name('manajemenFasilitas.')->group(function () {
-                // Galeri
-                Route::resource('galeri', GaleriController::class);
-            });
+        // ================
+        // ⚙️ Manajemen Pengaturan
+        // ===============
+        Route::prefix('manajemenPengaturan')->name('manajemenPengaturan.')->group(function () {
+            // Backup Data
+            Route::get('backupData', [BackupDataController::class, 'index'])->name('backupData.index');
+            Route::post('backupData/backup', [BackupDataController::class, 'backup'])->name('backupData.run');
+        });
 
-            // ====================
-            // 📌 Kategori
-            // ====================
-            Route::prefix('kategori')->name('kategori.')->group(function () {
-                Route::get('/', [KategoriController::class, 'index'])->name('index'); 
-                Route::resource('kegiatanMasjid', KategoriKegiatanMasjidController::class);
-                Route::resource('artikel', KategoriArtikelController::class);
-                Route::resource('pemasukkan', KategoriPemasukkanController::class);
-                Route::resource('pengeluaran', KategoriPengeluaranController::class);
-                Route::resource('galeri', KategoriGaleriController::class);
-            });
+        // 🧑 Manajemen Tampilan Pengguna Masjid
+        Route::prefix('tampilanPenggunaMasjid')->name('tampilanPenggunaMasjid.')->group(function () {
+            Route::get('homeSection', [HomeSectionController::class, 'index'])->name('homeSection.index');
+            Route::post('homeSection', [HomeSectionController::class, 'store'])->name('homeSection.store');
+            Route::delete('homeSection/{homeSection}', [HomeSectionController::class, 'destroy'])->name('homeSection.destroy');
+            Route::get('runningText', [HomeSectionController::class, 'runningText'])->name('runningText.index');
+            Route::post('runningText', [HomeSectionController::class, 'storeRunningText'])->name('runningText.store');
+        });
 
-            // ====================
-            // 🔔 Notifikasi
-            // ====================
-            Route::delete('notifikasi/auto-delete-old', [NotifikasiController::class, 'autoDeleteOld'])->name('notifikasi.autoDeleteOld');
-            Route::get('notifikasi/count', [NotifikasiController::class, 'count'])->name('notifikasi.count');
-            Route::delete('notifikasi/bulk-delete', [NotifikasiController::class, 'bulkDelete'])->name('notifikasi.bulkDelete');
-            Route::resource('notifikasi', NotifikasiController::class);
-
-            // ====================
-            // 🔐 Verifikasi PIN
-            // ====================
-            Route::get('/verify-pin', [VerifyPinController::class, 'showVerifyForm'])->name('verifyPinForm');
-            Route::post('/verify-pin', [VerifyPinController::class, 'verify'])->name('verifyPin');
-
-             // ================
-            // ⚙️ Manajemen Pengaturan
-            // ===============
-            Route::prefix('manajemenPengaturan')->name('manajemenPengaturan.')->group(function () {
-                // Backup Data
-                Route::get('backupData', [BackupDataController::class, 'index'])->name('backupData.index');
-                Route::post('backupData/backup', [BackupDataController::class, 'backup'])->name('backupData.run');
-            });
-
-            // ... rute homeSection
-            // 🧑 Manajamen TampilanPengunMasjid
-            // ===================
-
-            Route::prefix('tampilanPenggunaMasjid')->name('tampilanPenggunaMasjid.')->group(function () {
-                    Route::get('homeSection', [HomeSectionController::class, 'index'])->name('homeSection.index');
-                    Route::post('homeSection', [HomeSectionController::class, 'store'])->name('homeSection.store');
-                    Route::delete('homeSection/{homeSection}', [HomeSectionController::class, 'destroy'])->name('homeSection.destroy');
-                    Route::get('runningText', [HomeSectionController::class, 'runningText'])->name('runningText.index');
-                    Route::post('runningText', [HomeSectionController::class, 'storeRunningText'])->name('runningText.store');
-            });
-
-            // ====================
-            // 👥 Manajemen Pengguna (butuh PIN)
-            // ====================
-            Route::middleware('auth.dkm.pin')->group(function () {
-                Route::resource('managePengguna', ManagePenggunaController::class);
-
-            });
+        // ====================
+        // 👥 Manajemen Pengguna (butuh PIN)
+        // ====================
+        Route::middleware('auth.dkm.pin')->group(function () {
+            Route::resource('managePengguna', ManagePenggunaController::class);
+        });
     });
 });
