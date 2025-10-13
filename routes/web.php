@@ -116,24 +116,29 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             // ====================
             // 📌 Manajemen Konten
             // ====================
-            Route::prefix('manajemenKonten')->name('manajemenKonten.')->group(function () {
-                // Kegiatan Masjid
-                Route::delete('kegiatanMasjid/delete-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])->name('kegiatanMasjid.destroyMultiple');
-                Route::get('kegiatanMasjid/{kegiatanMasjid}/preview', [KegiatanMasjidController::class, 'preview'])->name('kegiatanMasjid.preview');
-                Route::get('kegiatanMasjid/{kegiatan}/preview', [KegiatanMasjidController::class, 'preview'])->name('kegiatanMasjid.preview');
-                Route::post('kegiatanMasjid/{kegiatan}/publish', [KegiatanMasjidController::class, 'publish'])->name('kegiatanMasjid.publish');
-                Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
-                // Artikel Masjid
-                Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])->name('artikel.bulkDelete');
-                // Route baru untuk halaman template preview
-                Route::get('artikel/preview', [ArtikelController::class, 'previewPage'])->name('artikel.previewPage');
-                Route::get('artikel/preview/{artikel}', [ArtikelController::class, 'preview'])->name('artikel.preview');
-                Route::resource('artikel', ArtikelController::class);
+                // routes/web.php
 
-                // Jadwal Imam
-                Route::resource('jadwalImam', JadwalImamController::class);
-            });
+                Route::prefix('manajemenKonten')->name('manajemenKonten.')->group(function () {
+                    // --- Kegiatan Masjid ---
 
+                    // ✅ Letakkan route khusus SEBELUM Route::resource
+                    // ✅ Route untuk Hapus Multiple
+                    Route::delete('kegiatanMasjid/destroy-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])->name('kegiatanMasjid.destroyMultiple');
+                    Route::get('kegiatanMasjid/{kegiatanMasjid}/preview', [KegiatanMasjidController::class, 'preview'])->name('kegiatanMasjid.preview');
+                    Route::put('kegiatanMasjid/{kegiatan}/publish', [KegiatanMasjidController::class, 'publish'])->name('kegiatanMasjid.publish');
+                    Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
+
+
+                    // ... (route artikel dan jadwal imam Anda)
+                    // --- Artikel Masjid ---
+                    Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])->name('artikel.bulkDelete');
+                    Route::get('artikel/preview', [ArtikelController::class, 'previewPage'])->name('artikel.previewPage');
+                    Route::get('artikel/preview/{artikel}', [ArtikelController::class, 'preview'])->name('artikel.preview');
+                    Route::resource('artikel', ArtikelController::class);
+
+                    // --- Jadwal Imam ---
+                    Route::resource('jadwalImam', JadwalImamController::class);
+                });
             // ====================
             // 📌 ManajemeKeuangan
             // ====================

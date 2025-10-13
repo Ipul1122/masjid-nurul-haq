@@ -16,11 +16,15 @@ class KegiatanMasjidController extends Controller
         $kategori = Kategori::all();
 
         $query = Kegiatan::with('kategori');
+
         if ($request->filled('kategori_id')) {
             $query->where('kategori_id', $request->kategori_id);
         }
 
-        // ✅ gunakan paginate(10) + withQueryString agar filter tetap jalan
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
         $kegiatanMasjid = $query->latest()->paginate(10)->withQueryString();
 
         return view('dkm.manajemenKonten.kegiatanMasjid.index', compact('kegiatanMasjid', 'kategori'));
@@ -37,9 +41,9 @@ class KegiatanMasjidController extends Controller
         $request->validate([
             'judul'       => 'required|string|max:255',
             'nama_ustadz' => 'required|string|max:255',
-            'gambar'      => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'gambar'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'jadwal'      => 'required|date',
-            'deskripsi'     => 'nullable|string',
+            'deskripsi'   => 'nullable|string',
             'kategori_id' => 'required|exists:kategoris,id',
         ]);
 
@@ -48,24 +52,23 @@ class KegiatanMasjidController extends Controller
             $data['gambar'] = $request->file('gambar')->store('kegiatan', 'public');
         }
 
+        $data['status'] = 'draft';
         $kegiatan = Kegiatan::create($data);
 
-        // Notifikasi create
         Notifikasi::create([
             'dkm_id' => session('dkm_id'),
             'aksi' => 'create',
             'tabel' => 'kegiatan',
-            'keterangan' => $kegiatan->judul,
+            'keterangan' => 'Menambahkan kegiatan baru: ' . $kegiatan->judul,
         ]);
 
         return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index')
-            ->with('success', 'Kegiatan berhasil ditambahkan.');
+            ->with('success', 'Kegiatan berhasil ditambahkan sebagai draft.');
     }
 
     public function edit(Request $request, Kegiatan $kegiatanMasjid)
     {
         $kategori = Kategori::all();
-        // ✅ kirim juga nomor halaman agar bisa balik ke page yang sama
         $page = $request->query('page', 1);
 
         return view('dkm.manajemenKonten.kegiatanMasjid.edit', compact('kegiatanMasjid', 'kategori', 'page'));
@@ -78,12 +81,11 @@ class KegiatanMasjidController extends Controller
             'nama_ustadz' => 'required|string|max:255',
             'gambar'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'jadwal'      => 'required|date',
-            'deskripsi'     => 'nullable|string',
+            'deskripsi'   => 'nullable|string',
             'kategori_id' => 'required|exists:kategoris,id',
         ]);
 
         $data = $request->all();
-
         if ($request->hasFile('gambar')) {
             if ($kegiatanMasjid->gambar) {
                 Storage::disk('public')->delete($kegiatanMasjid->gambar);
@@ -93,18 +95,32 @@ class KegiatanMasjidController extends Controller
 
         $kegiatanMasjid->update($data);
 
-        // Notifikasi update
         Notifikasi::create([
             'dkm_id' => session('dkm_id'),
             'aksi' => 'update',
             'tabel' => 'kegiatan',
-            'keterangan' => $kegiatanMasjid->judul,
+            'keterangan' => 'Memperbarui kegiatan: ' . $kegiatanMasjid->judul,
         ]);
 
-        // ✅ setelah update, kembali ke page yang sama
         return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index', [
             'page' => $request->input('page', 1),
         ])->with('success', 'Kegiatan berhasil diperbarui.');
+    }
+
+    public function publish(Request $request, Kegiatan $kegiatan)
+    {
+        $kegiatan->update(['status' => 'published']);
+
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'publish',
+            'tabel' => 'kegiatan',
+            'keterangan' => 'Mempublikasikan kegiatan: ' . $kegiatan->judul,
+        ]);
+
+        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index', [
+            'page' => $request->input('page', 1),
+        ])->with('success', 'Kegiatan berhasil dipublikasikan.');
     }
 
     public function destroy(Request $request, Kegiatan $kegiatanMasjid)
@@ -116,12 +132,11 @@ class KegiatanMasjidController extends Controller
         }
         $kegiatanMasjid->delete();
 
-        // Notifikasi delete
         Notifikasi::create([
             'dkm_id' => session('dkm_id'),
             'aksi' => 'delete',
             'tabel' => 'kegiatan',
-            'keterangan' => $judul,
+            'keterangan' => 'Menghapus kegiatan: ' . $judul,
         ]);
 
         return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index', [
@@ -143,26 +158,22 @@ class KegiatanMasjidController extends Controller
                 Storage::disk('public')->delete($kegiatan->gambar);
             }
 
-            // Notifikasi delete
             Notifikasi::create([
                 'dkm_id' => session('dkm_id'),
                 'aksi' => 'delete',
                 'tabel' => 'kegiatan',
-                'keterangan' => $kegiatan->judul,
+                'keterangan' => 'Menghapus kegiatan: ' . $kegiatan->judul,
             ]);
         }
 
         Kegiatan::whereIn('id', $request->ids)->delete();
 
-        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index', [
-            'page' => $request->input('page', 1),
-        ])->with('success', 'Kegiatan terpilih berhasil dihapus.');
+        return redirect()->route('dkm.manajemenKonten.kegiatanMasjid.index')
+            ->with('success', 'Kegiatan terpilih berhasil dihapus.');
     }
 
     public function preview(Kegiatan $kegiatanMasjid)
     {
         return view('dkm.manajemenKonten.kegiatanMasjid.preview', compact('kegiatanMasjid'));
     }
-
-    
 }
