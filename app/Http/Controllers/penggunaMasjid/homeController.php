@@ -1,17 +1,17 @@
 <?php
 
+
 namespace App\Http\Controllers\penggunaMasjid;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\TampilanPenggunaMasjid\HomeSection;
 
 class homeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('index');
+        $homeSections = HomeSection::all();
+        return view('index', compact('homeSections'));
     }
 }

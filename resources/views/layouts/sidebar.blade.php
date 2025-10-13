@@ -174,10 +174,10 @@
                 </div>
 
 
-                {{-- <a href="{{ route('dkm.tampilanPenggunaMasjid.homeSection.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
+                <a href="{{ route('dkm.tampilanPenggunaMasjid.homeSection.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
                     <i class="fas fa-desktop w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
                     <span class="font-medium">Atur Tampilan</span>
-                </a> --}}
+                </a>
 
 
                 {{-- <a href="{{ route('dkm.tampilanPenggunaMasjid.runningText.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group"> --}}
