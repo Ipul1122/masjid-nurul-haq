@@ -15,6 +15,7 @@ class Kegiatan extends Model
         'jadwal',
         'deskripsi',
         'kategori_id',
+        'status',
     ];
 
     public function kategori()

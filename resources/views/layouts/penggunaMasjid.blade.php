@@ -17,7 +17,7 @@
       {{-- Jadwal Sholat --}}
     @include('layouts.runningText')
 
-    <main class=""> <div class="">
+    <main class="py-5"> <div class="">
             @yield('content')
         </div>
     </main>

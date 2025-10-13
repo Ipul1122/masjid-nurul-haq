@@ -120,6 +120,8 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
                 // Kegiatan Masjid
                 Route::delete('kegiatanMasjid/delete-multiple', [KegiatanMasjidController::class, 'destroyMultiple'])->name('kegiatanMasjid.destroyMultiple');
                 Route::get('kegiatanMasjid/{kegiatanMasjid}/preview', [KegiatanMasjidController::class, 'preview'])->name('kegiatanMasjid.preview');
+                Route::get('kegiatanMasjid/{kegiatan}/preview', [KegiatanMasjidController::class, 'preview'])->name('kegiatanMasjid.preview');
+                Route::post('kegiatanMasjid/{kegiatan}/publish', [KegiatanMasjidController::class, 'publish'])->name('kegiatanMasjid.publish');
                 Route::resource('kegiatanMasjid', KegiatanMasjidController::class);
                 // Artikel Masjid
                 Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])->name('artikel.bulkDelete');

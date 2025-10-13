@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preview: {{ $kegiatanMasjid->judul }}</title>
+    <title>Preview: {{ $kegiatan->judul }}</title>
 
     {{-- Memuat Tailwind CSS dari CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
@@ -36,38 +36,45 @@
             <article>
                 {{-- Judul Artikel --}}
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-                    {{ $kegiatanMasjid->judul }}
+                    {{ $kegiatan->judul }}
                 </h1>
 
                 {{-- Meta Info (Ustadz & Jadwal) --}}
                 <div class="flex flex-wrap items-center text-gray-500 text-sm mb-6">
-                    <span>Oleh: <strong>{{ $kegiatanMasjid->nama_ustadz }}</strong></span>
+                    <span>Oleh: <strong>{{ $kegiatan->nama_ustadz }}</strong></span>
                     <span class="mx-2">•</span>
-                    <span>{{ \Carbon\Carbon::parse($kegiatanMasjid->jadwal)->translatedFormat('l, d F Y H:i') }} WIB</span>
+                    <span>{{ \Carbon\Carbon::parse($kegiatan->jadwal)->translatedFormat('l, d F Y H:i') }} WIB</span>
                 </div>
-        
+    
                 <hr class="mb-6">
-        
+    
                 {{-- Gambar Utama --}}
-                @if($kegiatanMasjid->gambar)
-                    <img src="{{ asset('storage/' . $kegiatanMasjid->gambar) }}" alt="{{ $kegiatanMasjid->judul }}" class="w-full h-auto max-h-96 object-cover rounded-lg mb-6">
+                @if($kegiatan->gambar)
+                    <img src="{{ asset('storage/' . $kegiatan->gambar) }}" alt="{{ $kegiatan->judul }}" class="w-full h-auto max-h-96 object-cover rounded-lg mb-6">
                 @endif
-        
-        
+    
+    
                 {{-- Konten Deskripsi --}}
                 <div class="prose prose-lg max-w-none">
-                    {!! $kegiatanMasjid->deskripsi !!}
+                    {!! $kegiatan->deskripsi !!}
                 </div>
             </article>
-        
-            {{-- Tombol Kembali --}}
-            <div class="mt-8 pt-6 border-t">
+    
+            {{-- Tombol Aksi --}}
+            <div class="mt-8 pt-6 border-t flex flex-col sm:flex-row justify-between items-center gap-4">
                 <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.index') }}" 
-                   class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                    &larr; Kembali ke Daftar Kegiatan
+                   class="w-full sm:w-auto inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-center">
+                    &larr; Kembali ke Daftar
                 </a>
+                
+                <form action="{{ route('dkm.manajemenKonten.kegiatanMasjid.publish', ['kegiatan' => $kegiatan->id]) }}" method="POST" class="w-full sm:w-auto">
+                    @csrf
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Kirim ke Publik &rarr;
+                    </button>
+                </form>
             </div>
-        
+    
         </div>
     </main>
 

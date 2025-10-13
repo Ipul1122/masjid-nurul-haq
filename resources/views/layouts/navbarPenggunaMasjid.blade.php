@@ -13,22 +13,18 @@
             <div class="hidden md:flex md:items-center">
                 <div class="ml-10 flex items-baseline space-x-1">
                     <a href="/" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Beranda</a>
-
                     <div class="relative group">
                         <button class="flex items-center text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium focus:outline-none">
-                            <span>Profil</span>
-                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            <span>Profil</span> <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </button>
                         <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-1 py-1 w-48 z-40">
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Visi Misi</a>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Sejarah Masjid</a>
                         </div>
                     </div>
-
                     <div class="relative group">
                         <button class="flex items-center text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium focus:outline-none">
-                            <span>Konten</span>
-                             <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            <span>Konten</span> <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </button>
                         <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-1 py-1 w-48 z-40">
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Artikel</a>
@@ -36,11 +32,13 @@
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Jadwal Masjid</a>
                         </div>
                     </div>
-
                     <a href="#" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Keuangan</a>
                     <a href="#" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Galeri</a>
                     <a href="#" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Risnha</a>
                 </div>
+                
+                <div class="live-clock-display text-sm font-medium text-gray-600 ml-6"></div>
+
                 <a href="{{ route('dkm.login') }}" class="ml-6 bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
                     Login
                 </a>
@@ -57,8 +55,10 @@
 
     <div class="md:hidden hidden" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
-            <a href="/" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
+            
+            <div class="live-clock-display text-center text-gray-700 py-3 text-sm font-medium border-b mb-2"></div>
 
+            <a href="/" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
             <div>
                 <button class="mobile-dropdown-toggle w-full flex justify-between items-center text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">
                     <span>Profil</span>
@@ -69,7 +69,6 @@
                     <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Sejarah Masjid</a>
                 </div>
             </div>
-
             <div>
                 <button class="mobile-dropdown-toggle w-full flex justify-between items-center text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">
                     <span>Konten</span>
@@ -81,11 +80,9 @@
                     <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Jadwal Masjid</a>
                 </div>
             </div>
-            
             <a href="#" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Keuangan</a>
             <a href="#" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Galeri</a>
             <a href="#" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Risnha</a>
-
             <div class="border-t border-gray-200 my-2"></div>
             <a href="dkm/login.blade.php" class="block text-center bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium">Login</a>
         </div>
@@ -94,39 +91,51 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // --- Logika untuk membuka/menutup menu mobile utama ---
+        // --- Logika untuk menu mobile ---
         const menuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('mobile-menu-icon');
-
         menuButton.addEventListener('click', function () {
-            const isMenuOpen = !mobileMenu.classList.contains('hidden');
             mobileMenu.classList.toggle('hidden');
-            
-            if (isMenuOpen) {
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            } else {
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-times');
-            }
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
         });
 
-        // --- Logika untuk dropdown di dalam menu mobile ---
         const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
-
         dropdownToggles.forEach(button => {
             button.addEventListener('click', () => {
-                // Cari sub-menu yang berdekatan setelah tombol
                 const dropdownMenu = button.nextElementSibling;
-                // Cari ikon di dalam tombol
                 const icon = button.querySelector('i');
-
-                // Tampilkan atau sembunyikan sub-menu
                 dropdownMenu.classList.toggle('hidden');
-                // Putar ikon panah untuk indikator
                 icon.classList.toggle('rotate-180');
             });
         });
+
+        // --- [DISESUAIKAN] Logika untuk Jam Responsif ---
+        // Menggunakan class selector untuk menargetkan kedua elemen jam
+        const clockElements = document.querySelectorAll('.live-clock-display');
+
+        function updateClock() {
+            const now = new Date();
+            const options = {
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const formattedTime = now.toLocaleString('id-ID', options).replace(/\./g, ':');
+            
+            // Memperbarui setiap elemen jam yang ditemukan
+            clockElements.forEach(element => {
+                element.textContent = formattedTime;
+            });
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
     });
 </script>
