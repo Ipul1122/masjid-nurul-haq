@@ -37,8 +37,45 @@
 </div>
 @endif
 
+{{-- Running Text --}}
+{{-- Data untuk view ini dikirim melalui AppServiceProvider --}}
+@if(isset($runningText) && $runningText->content)
+<div class="bg-emerald-600 text-white py-2 shadow-md">
+    <div class="container mx-auto px-4">
+        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+            <span class="font-medium">{{ $runningText->content }}</span>
+        </marquee>
+    </div>
+</div>
+@endif
+
+
 <h1>TESTING ke 10000000</h1>
 
+<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
+    <div class="p-6 text-gray-900">
+        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
+        <p>
+            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
+        </p>
+    </div>
+</div>
+<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
+    <div class="p-6 text-gray-900">
+        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
+        <p>
+            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
+        </p>
+    </div>
+</div>
+<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
+    <div class="p-6 text-gray-900">
+        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
+        <p>
+            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
+        </p>
+    </div>
+</div>
 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
     <div class="p-6 text-gray-900">
         <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
