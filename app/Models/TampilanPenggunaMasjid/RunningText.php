@@ -17,4 +17,5 @@ class RunningText extends Model
     protected $fillable = [
         'content',
     ];
+    
 }
