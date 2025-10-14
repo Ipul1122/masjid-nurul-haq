@@ -22,16 +22,7 @@
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Sejarah Masjid</a>
                         </div>
                     </div>
-                    <div class="relative group">
-                        <button class="flex items-center text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium focus:outline-none">
-                            <span>Konten</span> <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-1 py-1 w-48 z-40">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Artikel</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Kegiatan Masjid</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Jadwal Masjid</a>
-                        </div>
-                    </div>
+                    <a href="{{ route('penggunaMasjid.lihatKonten.kontenMasjid') }}" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Konten</a>
                     <a href="#" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Keuangan</a>
                     <a href="#" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Galeri</a>
                     <a href="#" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Risnha</a>

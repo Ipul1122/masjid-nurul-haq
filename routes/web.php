@@ -42,6 +42,7 @@ use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
 // USER ROUTES
 use App\Http\Controllers\penggunaMasjid\homeController;
 use App\Http\Controllers\penggunaMasjid\LihatKontenController;
+use App\Http\Controllers\PenggunaMasjid\KontenMasjidController;
 
 
 // ===================
@@ -49,6 +50,7 @@ use App\Http\Controllers\penggunaMasjid\LihatKontenController;
 // ===================
 Route::get('/', [homeController::class, 'index']);
 Route::get('/konten/{type}/{id}', [LihatKontenController::class, 'show'])->name('konten.show');
+Route::get('/konten-masjid', [KontenMasjidController::class, 'index'])->name('penggunaMasjid.lihatKonten.kontenMasjid');
 
 // ===================
 // 📌 RISNHA ROUTES
