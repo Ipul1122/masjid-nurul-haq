@@ -39,6 +39,8 @@
 
     {{-- Script lama tetap --}}
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
+    {{-- <script src="http://localhost:8000/tinymce.js"></script> --}}
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         const sidebarToggle = document.getElementById('sidebarToggle');

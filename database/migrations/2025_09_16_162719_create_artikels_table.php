@@ -13,7 +13,9 @@ return new class extends Migration
             $table->string('judul');
             $table->string('gambar')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->date('tanggal_rilis')->default(now()); // default hari ini
+            $table->date('tanggal_rilis')->default(now());
+            $table->string('status')->default('draft');
+            $table->unsignedInteger('views')->default(0); // Tambahkan baris ini
             $table->timestamps();
         });
     }

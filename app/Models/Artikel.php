@@ -16,6 +16,7 @@ class Artikel extends Model
         'deskripsi',
         'tanggal_rilis',
         'kategori_id',
+        'status',
     ];
 
     protected $casts = [

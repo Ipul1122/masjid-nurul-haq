@@ -49,29 +49,37 @@
 </div>
 @endif
 
-{{-- KONTEN  --}}
+{{-- KONTEN --}}
 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
     <div class="p-6 text-gray-900">
         <h2 class="text-2xl font-semibold mb-4">Konten Terbaru</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($kontenTerbaru as $konten)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <a href="{{ route('konten.show', ['type' => $konten->type, 'id' => $konten->id]) }}" class="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
                     <img class="h-48 w-full object-cover" src="{{ asset('storage/' . $konten->gambar) }}" alt="{{ $konten->judul }}">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">{{ $konten->judul }}</h3>
+                        
+                        {{-- Bagian yang diubah ada di sini --}}
                         <div class="flex items-center text-sm text-gray-600 mb-4">
+                            {{-- Tanggal --}}
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             <span>{{ $konten->created_at->format('d M Y') }}</span>
+                            
                             <span class="mx-2">•</span>
-                            <span>1 minutes read</span>
+                            
+                            {{-- Jumlah Dilihat --}}
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            <span>{{ $konten->views ?? 0 }}</span>
                         </div>
+                        
                         @if($konten->type == 'artikel')
-                            <span class="inline-block bg-green-200 text-green-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">Berita</span>
+                            <span class="inline-block bg-green-200 text-green-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">Artikel</span>
                         @else
-                            <span class="inline-block bg-blue-200 text-blue-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">Kegiatan</span>
+                            <span class="inline-block bg-blue-200 text-blue-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">Kegiatan Masjid</span>
                         @endif
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
     </div>
