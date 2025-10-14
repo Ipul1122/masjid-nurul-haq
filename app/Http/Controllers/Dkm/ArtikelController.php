@@ -43,6 +43,7 @@ class ArtikelController extends Controller
 
         $data = $request->all();
         $data['tanggal_rilis'] = now();
+        $data['status'] = 'draft'; 
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('artikel', 'public');
@@ -59,7 +60,7 @@ class ArtikelController extends Controller
 
         return redirect()
             ->route('dkm.manajemenKonten.artikel.index', ['page' => $request->page ?? 1])
-            ->with('success', 'Artikel berhasil ditambahkan.');
+            ->with('success', 'Artikel berhasil ditambahkan sebagai draf.');
     }
 
     public function edit(Artikel $artikel, Request $request)
@@ -157,5 +158,21 @@ class ArtikelController extends Controller
 
     public function preview(Artikel $artikel){
         return view('dkm.manajemenKonten.artikel.preview', compact('artikel'));
+    }
+
+      // Method untuk publish artikel
+    public function publish(Artikel $artikel)
+    {
+        $artikel->update(['status' => 'published']);
+
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'publish',
+            'tabel' => 'artikel',
+            'keterangan' => 'Mempublikasikan artikel: ' . $artikel->judul,
+        ]);
+
+        return redirect()->route('dkm.manajemenKonten.artikel.index')
+            ->with('success', 'Artikel berhasil dipublikasikan.');
     }
 }

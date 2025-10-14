@@ -41,12 +41,14 @@ use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
 
 // USER ROUTES
 use App\Http\Controllers\penggunaMasjid\homeController;
+use App\Http\Controllers\penggunaMasjid\LihatKontenController;
 
 
 // ===================
 // 📌 GENERAL ROUTES
 // ===================
 Route::get('/', [homeController::class, 'index']);
+Route::get('/konten/{type}/{id}', [LihatKontenController::class, 'show'])->name('konten.show');
 
 // ===================
 // 📌 RISNHA ROUTES
@@ -122,14 +124,12 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
 
             
             // --- Artikel Masjid & Jadwal Imam ---
-            Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])
-                ->name('artikel.bulkDelete');
+            Route::delete('artikel/bulk-delete', [ArtikelController::class, 'bulkDelete'])->name('artikel.bulkDelete');
             
-            Route::get('artikel/preview', [ArtikelController::class, 'previewPage'])
-                ->name('artikel.previewPage');
+            Route::get('artikel/preview', [ArtikelController::class, 'previewPage'])->name('artikel.previewPage');
             
-            Route::get('artikel/preview/{artikel}', [ArtikelController::class, 'preview'])
-                ->name('artikel.preview');
+            Route::get('artikel/preview/{artikel}', [ArtikelController::class, 'preview'])->name('artikel.preview');
+            Route::put('artikel/{artikel}/publish', [ArtikelController::class, 'publish'])->name('artikel.publish');
             
             Route::resource('artikel', ArtikelController::class);
             Route::resource('jadwalImam', JadwalImamController::class);

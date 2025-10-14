@@ -1,57 +1,52 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preview: {{ $artikel->judul }}</title>
-    {{-- Menggunakan Tailwind CSS via CDN untuk styling --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-    {{-- Plugin Typography untuk styling otomatis konten dari Trix Editor --}}
-    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-</head>
-<body class="bg-gray-100">
+@extends('layouts.dkm')
 
-    <main class="container mx-auto max-w-3xl my-8 p-6 sm:p-8 bg-white rounded-lg shadow-md">
-        
-        {{-- Judul Artikel --}}
-        <h1 class="text-3xl md:text-4xl font-bold mb-2 text-gray-800">{{ $artikel->judul }}</h1>
+@section('title', 'Preview Artikel')
 
-        {{-- Meta Data: Tanggal & Kategori --}}
-        <div class="text-sm text-gray-500 mb-6 border-b pb-4">
-            <span>Dirilis pada: {{ \Carbon\Carbon::parse($artikel->tanggal_rilis)->translatedFormat('d F Y') }}</span>
-            <span class="mx-2">|</span>
-            <span>Kategori: {{ $artikel->kategori->nama ?? 'Tidak ada kategori' }}</span>
-        </div>
+@section('content')
+<div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
 
-        {{-- Gambar Utama --}}
-        @php
-            $firstImage = null;
-            if ($artikel->gambar) {
-                $gambarList = is_string($artikel->gambar) ? json_decode($artikel->gambar, true) ?? [$artikel->gambar] : $artikel->gambar;
-                $firstImage = trim($gambarList[0] ?? null);
-            }
-        @endphp
+    {{-- Gambar Utama --}}
+    @if($artikel->gambar)
+        <img src="{{ asset('storage/' . $artikel->gambar) }}" alt="Gambar {{ $artikel->judul }}" class="w-full h-64 object-cover rounded-t-lg mb-6">
+    @endif
 
-        @if ($firstImage)
-            <img src="{{ asset('storage/' . $firstImage) }}" alt="{{ $artikel->judul }}" class="w-full h-auto object-cover rounded-lg mb-6">
+    {{-- Judul dan Kategori --}}
+    <div class="mb-4">
+        <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">{{ $artikel->kategori->nama ?? 'Tanpa Kategori' }}</span>
+        <h1 class="text-3xl font-bold text-gray-800 mt-2">{{ $artikel->judul }}</h1>
+    </div>
+
+    {{-- Detail Artikel --}}
+    <div class="flex items-center text-gray-600 text-sm mb-6 border-b pb-4">
+        <span>Tanggal Rilis: <strong>{{ \Carbon\Carbon::parse($artikel->tanggal_rilis)->translatedFormat('l, d F Y') }}</strong></span>
+    </div>
+
+    {{-- Deskripsi --}}
+    <div class="prose max-w-none text-gray-700">
+        {!! $artikel->deskripsi !!}
+    </div>
+
+    <hr class="my-8">
+
+    {{-- Tombol Aksi --}}
+    <div class="flex items-center justify-between">
+        <a href="{{ route('dkm.manajemenKonten.artikel.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+            &larr; Kembali ke Daftar
+        </a>
+
+        {{-- Form untuk Publikasi --}}
+        @if($artikel->status == 'draft')
+            <form action="{{ route('dkm.manajemenKonten.artikel.publish', $artikel->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mempublikasikan artikel ini?')">
+                @csrf
+                @method('PUT')
+                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    Publish &rarr;
+                </button>
+            </form>
+        @else
+            <span class="px-4 py-2 bg-green-200 text-green-800 rounded-lg font-semibold">Sudah Dipublikasikan</span>
         @endif
+    </div>
 
-        {{-- Deskripsi/Isi Artikel --}}
-        
-           
-        <div class="prose prose-lg max-w-none text-gray-700 break-words">
-            {!! $artikel->deskripsi !!}
-        </div>
-
-        {{-- Tombol Kembali --}}
-            <div class="mt-8 pt-6 border-t">
-                <a href="{{ route('dkm.manajemenKonten.artikel.index') }}" 
-                   class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                    &larr; Kembali ke Daftar Kegiatan
-                </a>
-            </div>
-
-    </main>
-
-</body>
-</html>
+</div>
+@endsection

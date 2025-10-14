@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('kegiatans', function (Blueprint $table) {
@@ -18,15 +15,12 @@ return new class extends Migration
             $table->string('gambar')->nullable();
             $table->dateTime('jadwal');
             $table->text('deskripsi')->nullable();
-            $table->string('status')->default('draft'); // Tambahkan baris ini
+            $table->string('status')->default('draft');
+            $table->unsignedInteger('views')->default(0); // Tambahkan baris ini
             $table->timestamps();
         });
     }
-    
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('kegiatans');
