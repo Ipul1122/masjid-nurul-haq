@@ -10,6 +10,8 @@
     @method('PUT')
         @csrf @method('PUT')
 
+    <input type="hidden" name="page" value="{{ $page }}">
+
         <div class="mb-3">
             <label class="block mb-1">Judul</label>
             <input type="text" name="judul" value="{{ $artikel->judul }}" class="w-full border px-3 py-2 rounded" required>
@@ -37,7 +39,7 @@
             <label class="block mb-1">Kategori</label>
             <select name="kategori_id" class="w-full border px-3 py-2 rounded">
                 <option value="">-- Pilih Kategori --</option>
-                @foreach($kategori as $kat)
+                @foreach($kategoriArtikels as $kat)
                     <option value="{{ $kat->id }}" 
                         {{ old('kategori_id', $kegiatanMasjid->kategori_id ?? '') == $kat->id ? 'selected' : '' }}>
                         {{ $kat->nama }}
