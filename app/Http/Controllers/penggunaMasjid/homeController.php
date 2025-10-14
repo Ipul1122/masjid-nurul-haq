@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TampilanPenggunaMasjid\HomeSection;
 use App\Models\Artikel;
 use App\Models\Kegiatan;
+use App\Models\JadwalImam; 
 use Illuminate\Http\Request;
 
 // app/Http/Controllers/penggunaMasjid/homeController.php
@@ -41,8 +42,10 @@ class HomeController extends Controller
         // Menggabungkan dan mengurutkan berdasarkan tanggal terbaru
          $kontenTerbaru = $artikel->merge($kegiatan)
                                  ->sortByDesc('created_at')
-                                 ->take(3); 
+                                 ->take(6); 
 
-        return view('index', compact('homeSections', 'kontenTerbaru'));
+        $jadwalImam = JadwalImam::latest()->get();
+
+        return view('index', compact('homeSections', 'kontenTerbaru', 'jadwalImam'));
     }
 }
