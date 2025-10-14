@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masjid Nurul Haq | @yield('title')</title>
+    <title> @yield('title')</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
@@ -14,13 +14,15 @@
 
     {{-- Navbar --}}
     @include('layouts.navbarPenggunaMasjid')
-      {{-- Jadwal Sholat --}}
+    {{-- Running Text --}}
     @include('layouts.runningText')
+    {{-- Footer --}}
+    
+    <main class=""> <div class="">
+        @yield('content')
+    </div>
+</main>
 
-    <main class="py-5"> <div class="">
-            @yield('content')
-        </div>
-    </main>
-
+    @include('layouts.footerPenggunaMasjid')
 </body>
 </html>

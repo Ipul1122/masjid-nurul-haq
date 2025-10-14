@@ -3,206 +3,173 @@
 @section('title', 'Beranda')
 
 @section('content')
-@if(isset($homeSections) && $homeSections->isNotEmpty())
-<div id="default-carousel" class="relative w-full z-10" data-carousel="slide">
-    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-        @foreach($homeSections as $item)
-        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            {{-- Perubahan: Gunakan Storage::url() untuk mendapatkan URL yang benar --}}
-            <img src="{{ Storage::url($item->image_path) }}" class="absolute block w-full h-full object-cover" alt="Gambar Masjid Nurul Haq">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50">
+    
+    {{-- Hero Carousel --}}
+    @if(isset($homeSections) && $homeSections->isNotEmpty())
+    <div class="relative">
+        <div id="default-carousel" class="relative w-full" data-carousel="slide">
+            <div class="relative h-64 md:h-[32rem] overflow-hidden">
+                @foreach($homeSections as $item)
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+                    <img src="{{ Storage::url($item->image_path) }}" class="absolute block w-full h-full object-cover" alt="Gambar Masjid Nurul Haq">
+                </div>
+                @endforeach
+            </div>
+            
+            {{-- Carousel Indicators --}}
+            <div class="absolute z-20 flex -translate-x-1/2 bottom-6 left-1/2 space-x-2">
+                @foreach($homeSections as $key => $item)
+                <button type="button" class="w-2 h-2 rounded-full bg-white/60 hover:bg-white transition-all" aria-current="{{ $loop->first ? 'true' : 'false' }}" aria-label="Slide {{ $key + 1 }}" data-carousel-slide-to="{{ $key }}"></button>
+                @endforeach
+            </div>
+            
+            {{-- Navigation Buttons --}}
+            <button type="button" class="absolute top-1/2 left-4 z-20 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-3 transition-all group" data-carousel-prev>
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button type="button" class="absolute top-1/2 right-4 z-20 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-3 transition-all group" data-carousel-next>
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
         </div>
-        @endforeach
     </div>
-    <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-        @foreach($homeSections as $key => $item)
-        <button type="button" class="w-3 h-3 rounded-full" aria-current="{{ $loop->first ? 'true' : 'false' }}" aria-label="Slide {{ $key + 1 }}" data-carousel-slide-to="{{ $key }}"></button>
-        @endforeach
-    </div>
-    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-            </svg>
-            <span class="sr-only">Previous</span>
-        </span>
-    </button>
-    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-            </svg>
-            <span class="sr-only">Next</span>
-        </span>
-    </button>
-</div>
-@endif
+    @endif
 
-{{-- Running Text --}}
-{{-- Data untuk view ini dikirim melalui AppServiceProvider --}}
-@if(isset($runningText) && $runningText->content)
-<div class="bg-emerald-600 relative z-20 text-white py-2 shadow-md">
-    <div class="container mx-auto px-4">
-        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-            <span class="font-medium">{{ $runningText->content }}</span>
-        </marquee>
+    {{-- Running Text --}}
+    @if(isset($runningText) && $runningText->content)
+    <div class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white py-3 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 flex-shrink-0 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+                </svg>
+                <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" class="font-medium">
+                    {{ $runningText->content }}
+                </marquee>
+            </div>
+        </div>
     </div>
-</div>
-@endif
+    @endif
 
-{{-- KONTEN --}}
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Konten Terbaru</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($kontenTerbaru as $konten)
-                <a href="{{ route('konten.show', ['type' => $konten->type, 'id' => $konten->id]) }}" class="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                    <img class="h-48 w-full object-cover" src="{{ asset('storage/' . $konten->gambar) }}" alt="{{ $konten->judul }}">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">{{ $konten->judul }}</h3>
-                        
-                        {{-- Bagian yang diubah ada di sini --}}
-                        <div class="flex items-center text-sm text-gray-600 mb-4">
-                            {{-- Tanggal --}}
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <span>{{ $konten->created_at->format('d M Y') }}</span>
-                            
-                            <span class="mx-2">•</span>
-                            
-                            {{-- Jumlah Dilihat --}}
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            <span>{{ $konten->views ?? 0 }}</span>
+    {{-- Main Content Container --}}
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
+        
+        {{-- Konten Terbaru Section --}}
+        <div class="mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-1 h-8 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-full"></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Konten Terbaru</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($kontenTerbaru as $konten)
+                <a href="{{ route('konten.show', ['type' => $konten->type, 'id' => $konten->id]) }}" class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img class="h-48 w-full object-cover group-hover:scale-110 transition-transform duration-500" src="{{ asset('storage/' . $konten->gambar) }}" alt="{{ $konten->judul }}">
+                        <div class="absolute top-3 right-3">
+                            @if($konten->type == 'artikel')
+                            <span class="bg-emerald-500 text-white text-xs px-3 py-1 rounded-full font-semibold shadow-lg">Artikel</span>
+                            @else
+                            <span class="bg-blue-500 text-white text-xs px-3 py-1 rounded-full font-semibold shadow-lg">Kegiatan</span>
+                            @endif
                         </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-emerald-600 transition-colors">{{ $konten->judul }}</h3>
                         
-                        @if($konten->type == 'artikel')
-                            <span class="inline-block bg-green-200 text-green-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">Artikel</span>
-                        @else
-                            <span class="inline-block bg-blue-200 text-blue-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">Kegiatan Masjid</span>
-                        @endif
+                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <span>{{ $konten->created_at->format('d M Y') }}</span>
+                            </div>
+                            
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                                <span>{{ $konten->views ?? 0 }}</span>
+                            </div>
+                        </div>
                     </div>
                 </a>
-            @endforeach
+                @endforeach
+            </div>
         </div>
-    </div>
-</div>
 
-{{-- JADWAL IMAM --}}
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Jadwal Imam</h2>
+        {{-- Jadwal Imam Section --}}
+        <div class="bg-white rounded-2xl shadow-md p-6 md:p-8 z-10">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-1 h-8 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-full"></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Jadwal Imam</h2>
+            </div>
 
-        @if(isset($jadwalImam) && $jadwalImam->isNotEmpty())
-
-            {{-- Jika data LEBIH DARI 3, gunakan carousel --}}
-            @if($jadwalImam->count() > 3)
-                <div class="relative w-full">
+            @if(isset($jadwalImam) && $jadwalImam->isNotEmpty())
+                
+                {{-- Carousel untuk data > 3 --}}
+                @if($jadwalImam->count() > 3)
+                <div class="relative">
                     <div id="jadwal-imam-container" class="overflow-hidden">
                         <div id="jadwal-imam-slider" class="flex transition-transform duration-500 ease-out">
                             @foreach($jadwalImam as $jadwal)
-                                <div class="w-1/3 flex-shrink-0 px-2">
-                                    <div class="bg-gray-50 border rounded-lg p-4 flex flex-col items-center text-center h-full">
-                                        <img src="{{ $jadwal->gambar ? asset('storage/'.$jadwal->gambar) : 'https://ui-avatars.com/api/?name='.urlencode($jadwal->nama).'&background=random' }}" class="w-24 h-24 object-cover rounded-full shadow-md mb-4" alt="{{ $jadwal->nama }}">
-                                        <h3 class="text-xl font-bold text-gray-800">{{ $jadwal->nama }}</h3>
-                                        <p class="text-gray-600">{{ $jadwal->waktu_sholat }}</p>
+                            <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-2 md:px-3">
+                                <div class="bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+                                    <div class="relative mb-4">
+                                        <div class="absolute inset-0 bg-emerald-400 rounded-full blur-xl opacity-20"></div>
+                                        <img src="{{ $jadwal->gambar ? asset('storage/'.$jadwal->gambar) : 'https://ui-avatars.com/api/?name='.urlencode($jadwal->nama).'&background=10b981&color=fff' }}" class="relative w-24 h-24 object-cover rounded-full shadow-lg ring-4 ring-white" alt="{{ $jadwal->nama }}">
                                     </div>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-1">{{ $jadwal->nama }}</h3>
+                                    <p class="text-emerald-600 font-medium">{{ $jadwal->waktu_sholat }}</p>
                                 </div>
+                            </div>
                             @endforeach
                         </div>
                     </div>
 
-                    <button id="prev-btn" class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition opacity-50 cursor-not-allowed">
-                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <button id="prev-btn" class="absolute top-1/2 -left-4 -translate-y-1/2 bg-white hover:bg-emerald-50 rounded-full p-3 shadow-lg transition-all opacity-50 cursor-not-allowed disabled:opacity-50">
+                        <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
                     
-                    <button id="next-btn" class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition">
-                         <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <button id="next-btn" class="absolute top-1/2 -right-4 -translate-y-1/2 bg-white hover:bg-emerald-50 rounded-full p-3 shadow-lg transition-all">
+                        <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
 
-            {{-- Jika data 3 ATAU KURANG, tampilkan grid biasa --}}
-            @else
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {{-- Grid untuk data <= 3 --}}
+                @else
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($jadwalImam as $jadwal)
-                        <div class="bg-gray-50 border rounded-lg p-4 flex flex-col items-center text-center">
-                            <img src="{{ $jadwal->gambar ? asset('storage/'.$jadwal->gambar) : 'https://ui-avatars.com/api/?name='.urlencode($jadwal->nama).'&background=random' }}" class="w-24 h-24 object-cover rounded-full shadow-md mb-4" alt="{{ $jadwal->nama }}">
-                            <h3 class="text-xl font-bold text-gray-800">{{ $jadwal->nama }}</h3>
-                            <p class="text-gray-600">{{ $jadwal->waktu_sholat }}</p>
+                    <div class="bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+                        <div class="relative mb-4">
+                            <div class="absolute inset-0 bg-emerald-400 rounded-full blur-xl opacity-20"></div>
+                            <img src="{{ $jadwal->gambar ? asset('storage/'.$jadwal->gambar) : 'https://ui-avatars.com/api/?name='.urlencode($jadwal->nama).'&background=10b981&color=fff' }}" class="relative w-24 h-24 object-cover rounded-full shadow-lg ring-4 ring-white" alt="{{ $jadwal->nama }}">
                         </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-1">{{ $jadwal->nama }}</h3>
+                        <p class="text-emerald-600 font-medium">{{ $jadwal->waktu_sholat }}</p>
+                    </div>
                     @endforeach
                 </div>
+                @endif
+
+            @else
+                <div class="text-center py-12">
+                    <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <p class="text-gray-500 font-medium">Belum ada jadwal imam yang ditambahkan.</p>
+                </div>
             @endif
-
-        @else
-            {{-- Tampilan jika tidak ada data sama sekali --}}
-            <div class="text-center py-10">
-                <p class="text-gray-500">Belum ada jadwal imam yang ditambahkan.</p>
-            </div>
-        @endif
+        </div>
     </div>
 </div>
 
-
-<h1>TESTING ke 10000000</h1>
-
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
-        <p>
-            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
-        </p>
-    </div>
-</div>
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
-        <p>
-            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
-        </p>
-    </div>
-</div>
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
-        <p>
-            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
-        </p>
-    </div>
-</div>
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
-        <p>
-            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
-        </p>
-    </div>
-</div>
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
-        <p>
-            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
-        </p>
-    </div>
-</div>
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
-        <p>
-            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
-        </p>
-    </div>
-</div>
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-    <div class="p-6 text-gray-900">
-        <h2 class="text-2xl font-semibold mb-4">Selamat Datang!</h2>
-        <p>
-            Ini adalah halaman utama untuk para jamaah Masjid Nurul Haq. Silakan gunakan menu di navigasi untuk melihat informasi lainnya.
-        </p>
-    </div>
-</div>
-
-{{-- Tambahkan script untuk carousel --}}
+{{-- Scripts --}}
 <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
-{{-- SCRIPT UNTUK CAROUSEL --}}
+
 @if(isset($jadwalImam) && $jadwalImam->count() > 3)
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -212,21 +179,22 @@
 
         let currentIndex = 0;
         const totalItems = {{ $jadwalImam->count() }};
-        const itemsPerPage = 3;
-        const maxIndex = totalItems - itemsPerPage;
+        const itemsPerPage = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+        let maxIndex = totalItems - itemsPerPage;
 
         function updateSlider() {
-            // Geser slider sejauh `currentIndex` dikali lebar satu grup (33.33%)
-            slider.style.transform = `translateX(-${currentIndex * (100 / itemsPerPage)}%)`;
+            const percentage = 100 / itemsPerPage;
+            slider.style.transform = `translateX(-${currentIndex * percentage}%)`;
 
-            // Atur kondisi tombol prev
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex >= maxIndex;
+
             if (currentIndex === 0) {
                 prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
             } else {
                 prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             }
 
-            // Atur kondisi tombol next
             if (currentIndex >= maxIndex) {
                 nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
             } else {
@@ -248,7 +216,13 @@
             }
         });
 
-        // Panggil sekali saat inisialisasi untuk set kondisi tombol awal
+        window.addEventListener('resize', () => {
+            const newItemsPerPage = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+            maxIndex = totalItems - newItemsPerPage;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+            updateSlider();
+        });
+
         updateSlider();
     });
 </script>
