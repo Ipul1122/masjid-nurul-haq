@@ -45,6 +45,7 @@ use App\Http\Controllers\penggunaMasjid\LihatKontenController;
 use App\Http\Controllers\PenggunaMasjid\KontenMasjidController;
 use App\Http\Controllers\PenggunaMasjid\KeuanganMasjidController;
 use App\Http\Controllers\PenggunaMasjid\DetailPemasukkanMasjidController;
+use App\Http\Controllers\PenggunaMasjid\DetailPengeluaranMasjidController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -54,6 +55,7 @@ Route::get('/konten/{type}/{id}', [LihatKontenController::class, 'show'])->name(
 Route::get('/konten-masjid', [KontenMasjidController::class, 'index'])->name('penggunaMasjid.lihatKonten.kontenMasjid');
 Route::get('/keuangan-masjid', [KeuanganMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.index');
 Route::get('/detail-pemasukkan-masjid', [DetailPemasukkanMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.detailPemasukkanMasjid');
+Route::get('/detail-pengeluaran-masjid', [DetailPengeluaranMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.detailPengeluaranMasjid');
 
 // ===================
 // 📌 RISNHA ROUTES
