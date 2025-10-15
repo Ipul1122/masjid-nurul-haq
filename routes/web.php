@@ -43,7 +43,8 @@ use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
 use App\Http\Controllers\penggunaMasjid\homeController;
 use App\Http\Controllers\penggunaMasjid\LihatKontenController;
 use App\Http\Controllers\PenggunaMasjid\KontenMasjidController;
-
+use App\Http\Controllers\PenggunaMasjid\KeuanganMasjidController;
+use App\Http\Controllers\PenggunaMasjid\DetailPemasukkanMasjidController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -51,6 +52,8 @@ use App\Http\Controllers\PenggunaMasjid\KontenMasjidController;
 Route::get('/', [homeController::class, 'index']);
 Route::get('/konten/{type}/{id}', [LihatKontenController::class, 'show'])->name('konten.show');
 Route::get('/konten-masjid', [KontenMasjidController::class, 'index'])->name('penggunaMasjid.lihatKonten.kontenMasjid');
+Route::get('/keuangan-masjid', [KeuanganMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.index');
+Route::get('/detail-pemasukkan-masjid', [DetailPemasukkanMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.detailPemasukkanMasjid');
 
 // ===================
 // 📌 RISNHA ROUTES
