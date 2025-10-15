@@ -81,7 +81,125 @@
 
     {{-- Jadwal Imam Section --}}
     <div class="bg-white rounded-2xl shadow-md p-6 md:p-8 z-10">
-    {{-- ... (Kode untuk Jadwal Imam biarkan seperti semula) ... --}}
+      <div class="flex items-center gap-3 mb-6">
+                <div class="w-1 h-8 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-full"></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Jadwal Imam</h2>
+            </div>
+
+            @if(isset($jadwalImam) && $jadwalImam->isNotEmpty())
+                
+                {{-- Carousel untuk data > 3 --}}
+                @if($jadwalImam->count() > 3)
+                <div class="relative">
+                    <div id="jadwal-imam-container" class="overflow-hidden">
+                        <div id="jadwal-imam-slider" class="flex transition-transform duration-500 ease-out">
+                            @foreach($jadwalImam as $jadwal)
+                            <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-2 md:px-3">
+                                <div class="bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+                                    <div class="relative mb-4">
+                                        <div class="absolute inset-0 bg-emerald-400 rounded-full blur-xl opacity-20"></div>
+                                        <img src="{{ $jadwal->gambar ? asset('storage/'.$jadwal->gambar) : 'https://ui-avatars.com/api/?name='.urlencode($jadwal->nama).'&background=10b981&color=fff' }}" class="relative w-24 h-24 object-cover rounded-full shadow-lg ring-4 ring-white" alt="{{ $jadwal->nama }}">
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-1">{{ $jadwal->nama }}</h3>
+                                    <p class="text-emerald-600 font-medium">{{ $jadwal->waktu_sholat }}</p>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <button id="prev-btn" class="absolute top-1/2 -left-4 -translate-y-1/2 bg-white hover:bg-emerald-50 rounded-full p-3 shadow-lg transition-all opacity-50 cursor-not-allowed disabled:opacity-50">
+                        <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    
+                    <button id="next-btn" class="absolute top-1/2 -right-4 -translate-y-1/2 bg-white hover:bg-emerald-50 rounded-full p-3 shadow-lg transition-all">
+                        <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+
+                {{-- Grid untuk data <= 3 --}}
+                @else
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($jadwalImam as $jadwal)
+                    <div class="bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-xl p-6 flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+                        <div class="relative mb-4">
+                            <div class="absolute inset-0 bg-emerald-400 rounded-full blur-xl opacity-20"></div>
+                            <img src="{{ $jadwal->gambar ? asset('storage/'.$jadwal->gambar) : 'https://ui-avatars.com/api/?name='.urlencode($jadwal->nama).'&background=10b981&color=fff' }}" class="relative w-24 h-24 object-cover rounded-full shadow-lg ring-4 ring-white" alt="{{ $jadwal->nama }}">
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-1">{{ $jadwal->nama }}</h3>
+                        <p class="text-emerald-600 font-medium">{{ $jadwal->waktu_sholat }}</p>
+                    </div>
+                    @endforeach
+                </div>
+                @endif
+
+            @else
+                <div class="text-center py-12">
+                    <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <p class="text-gray-500 font-medium">Belum ada jadwal imam yang ditambahkan.</p>
+                </div>
+            @endif
+        </div>
     </div>
 </div>
+
+@if(isset($jadwalImam) && $jadwalImam->count() > 3)
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const slider = document.getElementById('jadwal-imam-slider');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        let currentIndex = 0;
+        const totalItems = {{ $jadwalImam->count() }};
+        const itemsPerPage = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+        let maxIndex = totalItems - itemsPerPage;
+
+        function updateSlider() {
+            const percentage = 100 / itemsPerPage;
+            slider.style.transform = `translateX(-${currentIndex * percentage}%)`;
+
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex >= maxIndex;
+
+            if (currentIndex === 0) {
+                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            if (currentIndex >= maxIndex) {
+                nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            const newItemsPerPage = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+            maxIndex = totalItems - newItemsPerPage;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+            updateSlider();
+        });
+
+        updateSlider();
+    });
+</script>
+@endif
 @endsection
