@@ -77,7 +77,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <a href="{{ route('dkm.manajemenKeuangan.pengeluaran.index') }}" class="text-sm text-blue-600 hover:underline">
+                <a href="{{ route('penggunaMasjid.keuanganMasjid.detailPengeluaranMasjid') }}" class="text-sm text-blue-600 hover:underline">
                     Lihat detail pengeluaran →
                 </a>
             </div>

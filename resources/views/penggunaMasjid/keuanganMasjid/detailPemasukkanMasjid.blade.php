@@ -1,7 +1,7 @@
 @extends('layouts.penggunaMasjid')
 @section('title', 'Detail Pemasukkan Masjid')
 @section('content')
-<div class="bg-white p-6 rounded shadow mt-16">
+<div class="bg-white p-6 rounded shadow">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-bold">Detail Pemasukkan</h2>
         {{-- <div class="flex gap-2">
@@ -11,7 +11,7 @@
     </div>
 
     {{-- Filter Bulan & Tahun --}}
-    <form method="GET" action="{{ route('dkm.manajemenKeuangan.pemasukkan.index') }}" class="mb-4 flex gap-2 items-center">
+    <form method="GET" action="{{ route('penggunaMasjid.keuanganMasjid.detailPemasukkanMasjid') }}" class="mb-4 flex gap-2 items-center">
         {{-- Dropdown Bulan --}}
         <select name="bulan" class="border px-3 py-2 rounded">
             <option value="">-- Pilih Bulan --</option>
@@ -45,7 +45,7 @@
         </select>
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Filter</button>
-        <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.index', []) }}" class="bg-gray-300 text-black px-4 py-2 rounded">Reset ke Bulan Ini</a>
+        <a href="{{ route('penggunaMasjid.keuanganMasjid.detailPemasukkanMasjid', []) }}" class="bg-gray-300 text-black px-4 py-2 rounded">Reset ke Bulan Ini</a>
     </form>
 
     @if(session('success'))
@@ -110,7 +110,7 @@
     </table>
 </div>
 
-<script>
+{{-- <script>
 document.getElementById('selectAll')?.addEventListener('change', function() {
     document.querySelectorAll('.selectItem').forEach(cb => cb.checked = this.checked);
 });
@@ -126,5 +126,5 @@ document.getElementById('bulkDeleteForm')?.addEventListener('submit', function(e
     }
     document.getElementById('bulkDeleteIds').value = ids.join(',');
 });
-</script>
+</script> --}}
 @endsection
