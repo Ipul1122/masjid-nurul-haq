@@ -1,132 +1,168 @@
-<nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-30">
-    <div class="px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex-shrink-0">
-                <a href="/" class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-mosque text-white text-lg"></i>
+  <!-- Navbar -->
+    <nav class="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-2.5 flex-shrink-0">
+                    <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
+                        <i class="fas fa-mosque text-white text-base"></i>
                     </div>
-                    <h1 class="font-bold text-lg text-gray-800 leading-tight">Masjid Nurul Haq</h1>
+                    <span class="font-semibold text-gray-900 text-base hidden sm:block">Masjid Nurul Haq</span>
                 </a>
-            </div>
 
-            <div class="hidden md:flex md:items-center">
-                <div class="ml-10 flex items-baseline space-x-1">
-                    <a href="/" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Beranda</a>
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center space-x-1">
+                    <a href="{{ route('index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Beranda
+                    </a>
+                    
+                    <!-- Dropdown Profil -->
                     <div class="relative group">
-                        <button class="flex items-center text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium focus:outline-none">
-                            <span>Profil</span> <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        <button class="flex items-center space-x-1 text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                            <span>Profil</span>
+                            <i class="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
                         </button>
-                        <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-1 py-1 w-48 z-40">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Visi Misi</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50">Sejarah Masjid</a>
+                        <div class="absolute left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Visi Misi</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Sejarah Masjid</a>
                         </div>
                     </div>
-                    <a href="{{ route('penggunaMasjid.lihatKonten.kontenMasjid') }}" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Konten</a>
-                    <a href="{{ route('penggunaMasjid.keuanganMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Keuangan</a>
-                    <a href="{{ route('penggunaMasjid.galeriMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Galeri</a>
-                    <a href="#" class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium">Risnha</a>
-                </div>
-                
-                <div class="live-clock-display text-sm font-medium text-gray-600 ml-6"></div>
 
-                <a href="{{ route('dkm.login') }}" class="ml-6 bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
-                    Login
+                    <a href="{{ route('penggunaMasjid.lihatKonten.kontenMasjid') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Konten
+                    </a>
+                    <a href="{{ route('penggunaMasjid.keuanganMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Keuangan
+                    </a>
+                    <a href="{{ route('penggunaMasjid.galeriMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Galeri
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Risnha
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Kontak
+                    </a>
+                </div>
+
+                <!-- Clock & Login -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <div class="live-clock text-xs font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg"></div>
+                    <a href="#" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                        Login
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-toggle" class="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden hidden border-t border-gray-100">
+            <div class="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
+                <!-- Clock Mobile -->
+                <div class="live-clock text-center text-sm font-medium text-gray-700 bg-gray-50 py-2 rounded-lg mb-3"></div>
+
+                <a href="{{ route('index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Beranda
                 </a>
-            </div>
+                
+                <!-- Mobile Dropdown -->
+                <div>
+                    <button class="mobile-dropdown-toggle w-full flex justify-between items-center text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                        <span>Profil</span>
+                        <i class="fas fa-chevron-down text-xs transition-transform"></i>
+                    </button>
+                    <div class="mobile-dropdown-content hidden mt-1 ml-4 space-y-1">
+                        <a href="#" class="block text-gray-600 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2 rounded-lg text-sm transition-colors">Visi Misi</a>
+                        <a href="#" class="block text-gray-600 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2 rounded-lg text-sm transition-colors">Sejarah Masjid</a>
+                    </div>
+                </div>
 
-            <div class="-mr-2 flex md:hidden">
-                <button id="mobile-menu-button" type="button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-emerald-600 hover:bg-gray-100 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <i id="mobile-menu-icon" class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="md:hidden hidden" id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
-            
-            <div class="live-clock-display text-center text-gray-700 py-3 text-sm font-medium border-b mb-2"></div>
-
-            <a href="/" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
-            <div>
-                <button class="mobile-dropdown-toggle w-full flex justify-between items-center text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">
-                    <span>Profil</span>
-                    <i class="fas fa-chevron-down text-sm transition-transform duration-200"></i>
-                </button>
-                <div class="mobile-dropdown-menu hidden pl-4 mt-1 space-y-1">
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Visi Misi</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Sejarah Masjid</a>
+                <a href="{{route('penggunaMasjid.lihatKonten.kontenMasjid')}}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Konten
+                </a>
+                <a href="{{route('penggunaMasjid.keuanganMasjid.index')}}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Keuangan
+                </a>
+                <a href="{{ route('penggunaMasjid.galeriMasjid.index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Galeri
+                </a>
+                <a href="#" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Risnha
+                </a>
+                <a href="#" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Kontak
+                </a>
+                
+                <div class="pt-3">
+                    <a href="#" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                        Login
+                    </a>
                 </div>
             </div>
-            <div>
-                <button class="mobile-dropdown-toggle w-full flex justify-between items-center text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md text-base font-medium">
-                    <span>Konten</span>
-                    <i class="fas fa-chevron-down text-sm transition-transform duration-200"></i>
-                </button>
-                <div class="mobile-dropdown-menu hidden pl-4 mt-1 space-y-1">
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Artikel</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Kegiatan Masjid</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Jadwal Masjid</a>
-                </div>
-            </div>
-            <a href="#" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Keuangan</a>
-            <a href="#" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Galeri</a>
-            <a href="#" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Risnha</a>
-            <div class="border-t border-gray-200 my-2"></div>
-            <a href="dkm/login.blade.php" class="block text-center bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium">Login</a>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // --- Logika untuk menu mobile ---
-        const menuButton = document.getElementById('mobile-menu-button');
+    
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('mobile-menu-icon');
-        menuButton.addEventListener('click', function () {
+        const mobileIcon = mobileToggle.querySelector('i');
+
+        mobileToggle.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-            menuIcon.classList.toggle('fa-bars');
-            menuIcon.classList.toggle('fa-times');
+            mobileIcon.classList.toggle('fa-bars');
+            mobileIcon.classList.toggle('fa-times');
         });
 
+        // Mobile Dropdown
         const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
-        dropdownToggles.forEach(button => {
-            button.addEventListener('click', () => {
-                const dropdownMenu = button.nextElementSibling;
-                const icon = button.querySelector('i');
-                dropdownMenu.classList.toggle('hidden');
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                const icon = toggle.querySelector('i');
+                content.classList.toggle('hidden');
                 icon.classList.toggle('rotate-180');
             });
         });
 
-        // --- [DISESUAIKAN] Logika untuk Jam Responsif ---
-        // Menggunakan class selector untuk menargetkan kedua elemen jam
-        const clockElements = document.querySelectorAll('.live-clock-display');
-
+        // Live Clock
+        const clockElements = document.querySelectorAll('.live-clock');
+        
         function updateClock() {
             const now = new Date();
             const options = {
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
+                weekday: 'short',
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
                 hour12: false
             };
-            const formattedTime = now.toLocaleString('id-ID', options).replace(/\./g, ':');
+            const time = now.toLocaleString('id-ID', options);
             
-            // Memperbarui setiap elemen jam yang ditemukan
-            clockElements.forEach(element => {
-                element.textContent = formattedTime;
+            clockElements.forEach(el => {
+                el.textContent = time;
             });
         }
 
         updateClock();
         setInterval(updateClock, 1000);
-    });
-</script>
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+                mobileIcon.classList.remove('fa-times');
+                mobileIcon.classList.add('fa-bars');
+            }
+        });
+    </script>
