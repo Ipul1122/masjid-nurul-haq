@@ -18,6 +18,8 @@ class ArtikelController extends Controller
     {
         $query = Artikel::with('kategori')->latest();
 
+        
+
         // Terapkan filter berdasarkan status jika ada
         if ($request->filled('status')) {
             $query->where('status', $request->status);
