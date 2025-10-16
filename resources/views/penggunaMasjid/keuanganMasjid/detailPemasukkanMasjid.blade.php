@@ -15,7 +15,7 @@
                 <!-- Dropdown Bulan -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Bulan</label>
-                    <select name="bulan" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                    <select name="bulan" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
                         <option value="">Semua Bulan</option>
                         @for($m = 1; $m <= 12; $m++)
                             @php
@@ -36,7 +36,7 @@
                 <!-- Dropdown Tahun -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tahun</label>
-                    <select name="tahun" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                    <select name="tahun" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
                         <option value="">Semua Tahun</option>
                         @foreach($tahunList as $th)
                             @php
@@ -51,7 +51,7 @@
 
                 <!-- Action Buttons -->
                 <div class="flex items-end gap-2">
-                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition duration-200 shadow-sm">
+                    <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg font-medium transition duration-200 shadow-sm">
                         Filter
                     </button>
                     <a href="{{ route('penggunaMasjid.keuanganMasjid.detailPemasukkanMasjid', []) }}" 
@@ -94,7 +94,7 @@
                                 {{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->translatedFormat('l, d F Y') }}
                             </td>
                             <td class="px-6 py-4">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     {{ $item->kategori?->nama ?? 'Tidak Dikategorikan' }}
                                 </span>
                             </td>
@@ -117,11 +117,11 @@
 
                 @if($pemasukkans->count() > 0)
                 <tfoot>
-                    <tr class="bg-gradient-to-r from-blue-50 to-blue-100 border-t-2 border-blue-200">
+                    <tr class="bg-gradient-to-r from-green-50 to-green-100 border-t-2 border-green-200">
                         <td colspan="2" class="px-6 py-4 text-sm font-bold text-gray-700 uppercase">
                             Total Pemasukkan
                         </td>
-                        <td class="px-6 py-4 text-right text-lg font-bold text-blue-700">
+                        <td class="px-6 py-4 text-right text-lg font-bold text-green-700">
                             Rp {{ number_format($totalPemasukkan, 0, ',', '.') }}
                         </td>
                     </tr>
@@ -143,7 +143,7 @@
                                 {{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->translatedFormat('l') }}
                             </p>
                         </div>
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                             {{ $item->kategori?->nama ?? 'Tidak Dikategorikan' }}
                         </span>
                     </div>
@@ -164,10 +164,10 @@
             @endforelse
 
             @if($pemasukkans->count() > 0)
-                <div class="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-t-2 border-blue-200">
+                <div class="p-4 bg-gradient-to-r from-green-50 to-green-100 border-t-2 border-green-200">
                     <div class="flex justify-between items-center">
                         <span class="text-sm font-bold text-gray-700 uppercase">Total Pemasukkan</span>
-                        <span class="text-lg font-bold text-blue-700">Rp {{ number_format($totalPemasukkan, 0, ',', '.') }}</span>
+                        <span class="text-lg font-bold text-green-700">Rp {{ number_format($totalPemasukkan, 0, ',', '.') }}</span>
                     </div>
                 </div>
             @endif

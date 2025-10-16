@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\penggunaMasjid;
 
 use App\Http\Controllers\Controller;
@@ -20,18 +19,34 @@ class LihatKontenController extends Controller
         try {
             if ($type === 'artikel') {
                 $konten = Artikel::where('status', 'published')->findOrFail($id);
+                
+                // Ambil artikel terbaru (kecuali artikel yang sedang dibuka)
+                $latestUpdates = Artikel::where('status', 'published')
+                    ->where('id', '!=', $id)
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get();
+                    
             } elseif ($type === 'kegiatan') {
                 $konten = Kegiatan::where('status', 'published')->findOrFail($id);
+                
+                // Ambil kegiatan terbaru (kecuali kegiatan yang sedang dibuka)
+                $latestUpdates = Kegiatan::where('status', 'published')
+                    ->where('id', '!=', $id)
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get();
+                    
             } else {
                 abort(404); // Tipe konten tidak valid
             }
 
-             $konten->increment('views');
+            $konten->increment('views');
 
         } catch (ModelNotFoundException $e) {
             abort(404); // Konten tidak ditemukan atau belum dipublikasikan
         }
 
-        return view('penggunaMasjid.lihatKonten.index', compact('konten'));
+        return view('penggunaMasjid.lihatKonten.index', compact('konten', 'latestUpdates', 'type'));
     }
 }
