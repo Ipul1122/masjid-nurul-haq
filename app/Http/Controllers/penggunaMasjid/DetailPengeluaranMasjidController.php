@@ -20,11 +20,16 @@ class DetailPengeluaranMasjidController extends Controller
             ->orderBy('tahun', 'desc')
             ->pluck('tahun');
 
+         $bulanList = Pengeluaran::selectRaw('MONTH(tanggal) as bulan, YEAR(tanggal) as tahun')
+            ->distinct()
+            ->get();
+
+
         if ($showAll) {
             $pengeluarans = Pengeluaran::with('kategori')
                 ->orderBy('tanggal', 'desc')
                 ->get();
-            $totalpengeluaran = $pengeluarans->sum('total');
+            $totalPengeluaran = $pengeluarans->sum('total');
 
             $selectedBulan = null;
             $selectedTahun = null;
@@ -38,12 +43,13 @@ class DetailPengeluaranMasjidController extends Controller
                 ->orderBy('tanggal', 'desc')
                 ->get();
 
-            $totalpengeluaran = $pengeluarans->sum('total');
+            $totalPengeluaran = $pengeluarans->sum('total');
         }
 
         return view('penggunaMasjid.keuanganMasjid.detailPengeluaranMasjid', compact(
             'pengeluarans',
-            'totalpengeluaran',
+            'totalPengeluaran',
+            'bulanList',
             'tahunList',
             'selectedBulan',
             'selectedTahun',

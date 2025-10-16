@@ -48,7 +48,7 @@
                 <!-- Clock & Login -->
                 <div class="hidden lg:flex items-center space-x-4">
                     <div class="live-clock text-xs font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg"></div>
-                    <a href="#" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                    <a href="#" class="bg-blue-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
                         Login
                     </a>
                 </div>
