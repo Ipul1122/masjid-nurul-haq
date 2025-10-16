@@ -51,7 +51,7 @@ use App\Http\Controllers\PenggunaMasjid\GaleriMasjidController;
 // ===================
 // 📌 GENERAL ROUTES
 // ===================
-Route::get('/', [homeController::class, 'index']);
+Route::get('/', [homeController::class, 'index'])->name('index');;
 Route::get('/konten/{type}/{id}', [LihatKontenController::class, 'show'])->name('konten.show');
 Route::get('/konten-masjid', [KontenMasjidController::class, 'index'])->name('penggunaMasjid.lihatKonten.kontenMasjid');
 Route::get('/keuangan-masjid', [KeuanganMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.index');
