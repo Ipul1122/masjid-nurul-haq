@@ -11,10 +11,38 @@ use Illuminate\Support\Facades\Storage;
 
 class GaleriController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
-        $galeris = Galeri::with('kategori')->latest()->get();
-        return view('dkm.manajemenFasilitas.galeri.index', compact('galeris'));
+        $query = Galeri::with('kategori')->latest();
+
+        if ($request->filled('kategori_id')) {
+            $query->where('kategori_id', $request->kategori_id);
+        }
+
+        if ($request->filled('bulan')) {
+            $query->whereMonth('tanggal', $request->bulan);
+        }
+
+        if ($request->filled('tahun')) {
+            $query->whereYear('tanggal', $request->tahun);
+        }
+
+        $galeris = $query->paginate(10);
+
+        // Mengambil tahun unik dari data galeri yang ada
+        $years = Galeri::selectRaw('YEAR(tanggal) as year')
+                        ->distinct()
+                        ->orderBy('year', 'desc')
+                        ->pluck('year');
+
+        // Berdasarkan kategori
+        $kategoris = KategoriGaleri::all();
+
+        return view('dkm.manajemenFasilitas.galeri.index', compact(
+            'galeris', 
+            'years',
+                        'kategoris'));
     }
 
     public function create()
