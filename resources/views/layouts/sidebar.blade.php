@@ -173,7 +173,48 @@
                     </div>
                 </div>
 
+                {{-- Kelola Tampilan --}}
+                <div class="menu-group">
+                    <button class="menu-toggle w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
+                        <div class="flex items-center">
+                            <i class="fas fa-desktop w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
+                            <span class="font-medium">Kelola Tampilan </span>
+                        </div>
+                        <i class="fas fa-chevron-down transition-transform duration-200"></i>
+                    </button>
+                    <div class="menu-submenu max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="ml-8 mt-2 mb-2 space-y-1">
+                            <a href="{{ route('dkm.tampilanPenggunaMasjid.homeSection.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                                {{-- Icon diubah menjadi 'image' untuk Banner --}}
+                                <i class="fas fa-image w-4 h-4 mr-2"></i>
+                                Kelola Banner
+                            </a>
+                        </div>
+                        <div class="ml-8 mt-2 mb-2 space-y-1">
+                            <a href="{{ route('dkm.tampilanPenggunaMasjid.runningText.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                                {{-- Icon diubah menjadi 'text-width' untuk Running Text --}}
+                                <i class="fas fa-text-width w-4 h-4 mr-2"></i>
+                                Kelola Running Text
+                            </a>
+                        </div>
+                        <div class="ml-8 mt-2 mb-2 space-y-1">
+                            <a href="{{ route('dkm.tampilanPenggunaMasjid.visiMisi.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                                {{-- Icon diubah menjadi 'bullseye' untuk Visi Misi --}}
+                                <i class="fas fa-bullseye w-4 h-4 mr-2"></i>
+                                Kelola Visi Misi
+                            </a>
+                        </div>
+                        <div class="ml-8 mt-2 mb-2 space-y-1">
+                            <a href="{{ route('dkm.tampilanPenggunaMasjid.sejarah.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                                {{-- Icon diubah menjadi 'history' untuk Sejarah --}}
+                                <i class="fas fa-history w-4 h-4 mr-2"></i>
+                                Kelola Sejarah
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
+{{-- 
                 <a href="{{ route('dkm.tampilanPenggunaMasjid.homeSection.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
                     <i class="fas fa-desktop w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
                     <span class="font-medium">Atur Tampilan</span>
@@ -189,6 +230,11 @@
                     <span class="font-medium">Atur Visi Misi</span>
                 </a>
 
+                <a href="{{ route('dkm.tampilanPenggunaMasjid.sejarah.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group">
+                    <i class="fas fa-desktop w-5 h-5 mr-3 group-hover:text-emerald-600"></i>
+                    <span class="font-medium">Atur Sejarah</span>
+                </a>
+                 --}}
 
                 {{-- <a href="{{ route('dkm.tampilanPenggunaMasjid.runningText.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-xl hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-200 group"> --}}
                     {{-- <i class="fas fa-text-width w-5 h-5 mr-3 group-hover:text-emerald-600"></i>

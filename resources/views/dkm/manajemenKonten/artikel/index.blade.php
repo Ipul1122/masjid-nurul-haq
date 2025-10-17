@@ -96,7 +96,8 @@
 </div>
 
 {{-- MODAL KONFIRMASI HAPUS --}}
-<div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+{{-- Perbaikan: class 'flex' dihapus dari sini --}}
+<div id="delete-modal" class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 hidden">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
         <div class="text-center">
             <h3 class="text-lg font-bold text-gray-900">Konfirmasi Penghapusan</h3>
@@ -122,19 +123,31 @@ document.addEventListener('DOMContentLoaded', function () {
     const deleteButtons = document.querySelectorAll('.delete-button');
     let formToSubmit = null;
 
+    // Fungsi untuk menampilkan modal
+    function showModal() {
+        if (formToSubmit) {
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex'); // Perbaikan: Tambahkan 'flex' saat modal tampil
+        }
+    }
+
+    // Fungsi untuk menyembunyikan modal
+    function hideModal() {
+        deleteModal.classList.add('hidden');
+        deleteModal.classList.remove('flex'); // Perbaikan: Hapus 'flex' saat modal sembunyi
+        formToSubmit = null;
+    }
+
     deleteButtons.forEach(button => {
         button.addEventListener('click', function () {
             const formId = this.getAttribute('data-form-id');
             formToSubmit = document.getElementById(formId);
-            if (formToSubmit) {
-                deleteModal.classList.remove('hidden');
-            }
+            showModal();
         });
     });
 
     cancelDeleteButton.addEventListener('click', function () {
-        deleteModal.classList.add('hidden');
-        formToSubmit = null;
+        hideModal();
     });
 
     confirmDeleteButton.addEventListener('click', function () {
@@ -145,8 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('click', function (event) {
         if (event.target === deleteModal) {
-            deleteModal.classList.add('hidden');
-            formToSubmit = null;
+            hideModal();
         }
     });
 });
