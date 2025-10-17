@@ -40,7 +40,7 @@
                     <a href="#" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Risnha
                     </a>
-                    <a href="#" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                    <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Kontak
                     </a>
                 </div>
@@ -48,7 +48,7 @@
                 <!-- Clock & Login -->
                 <div class="hidden lg:flex items-center space-x-4">
                     <div class="live-clock text-xs font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg"></div>
-                    <a href="#" class="bg-blue-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('dkm.login') }}" class="bg-blue-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
                         Login
                     </a>
                 </div>
@@ -94,12 +94,12 @@
                 <a href="#" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Risnha
                 </a>
-                <a href="#" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Kontak
                 </a>
                 
                 <div class="pt-3">
-                    <a href="#" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('dkm.login') }}" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
                         Login
                     </a>
                 </div>
