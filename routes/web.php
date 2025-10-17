@@ -8,6 +8,7 @@ use App\Http\Controllers\Dkm\ManagePenggunaController;
 use App\Http\Controllers\Dkm\VerifyPinController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\HomeSectionController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\VisiMisiController;
+use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\SejarahController;
 use App\Http\Controllers\Dkm\ManajemenKontenController\KegiatanMasjidController;
 use App\Http\Controllers\Dkm\ArtikelController;
 use App\Http\Controllers\Dkm\KategoriController;
@@ -224,6 +225,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::delete('homeSection/{homeSection}', [HomeSectionController::class, 'destroy'])->name('homeSection.destroy');
             Route::get('runningText', [HomeSectionController::class, 'runningText'])->name('runningText.index');
             Route::post('runningText', [HomeSectionController::class, 'storeRunningText'])->name('runningText.store');
+            Route::resource('sejarah', SejarahController::class);
             Route::resource('visiMisi', VisiMisiController::class);
         });
 

@@ -37,6 +37,9 @@
     <!-- Backdrop -->
     <div id="sidebarBackdrop" class="fixed inset-0 z-30 bg-black bg-opacity-50 hidden lg:hidden"></div>
 
+    {{-- Alpine JS --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     {{-- Script lama tetap --}}
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 
