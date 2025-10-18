@@ -53,12 +53,12 @@
     @endif
 
     {{-- Main Content Container --}}
-    <div class="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-7xl mt-16">
         
         {{-- Konten Terbaru Section --}}
         <div class="mb-12">
             <div class="flex items-center gap-3 mb-6">
-                <div class="w-1 h-8 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-full"></div>
+                <div class="w-1 h-8 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-full ml-8"></div>
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Konten Terbaru</h2>
             </div>
             
