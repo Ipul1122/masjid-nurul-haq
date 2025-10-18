@@ -4,60 +4,66 @@
 @section('page-icon', asset('icons/bell-icon.svg'))
 
 @section('content')
-<div class="bg-white p-6 rounded shadow">
-    <h2 class="text-xl font-bold mb-4">📢 Notifikasi Aktivitas</h2>
+<div class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="@yield('page-icon')" class="h-8 w-8 mr-3" alt="Notifikasi Icon">
+                    <h2 class="text-2xl font-bold text-gray-800">Notifikasi</h2>
+                </div>
+                <form action="{{ route('dkm.notifikasi.bulkDelete') }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus notifikasi yang dipilih?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 ease-in-out flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        Hapus Terpilih
+                    </button>
+                </form>
+            </div>
 
-    <form action="{{ route('dkm.notifikasi.bulkDelete') }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus notifikasi yang dipilih?')">
-        @csrf
-        @method('DELETE')
-
-        <div class="mb-3">
-            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                Hapus Terpilih
-            </button>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border-t border-b border-gray-200" id="notifikasi-table">
+                    <thead class="bg-blue-500 text-white">
+                        <tr>
+                            <th class="p-3 text-left w-12"><input type="checkbox" id="check-all" class="form-checkbox h-5 w-5 text-blue-600"></th>
+                            <th class="p-3 text-left font-semibold">Pengguna</th>
+                            <th class="p-3 text-left font-semibold">Aksi</th>
+                            <th class="p-3 text-left font-semibold">Tabel</th>
+                            <th class="p-3 text-left font-semibold">Keterangan</th>
+                            <th class="p-3 text-left font-semibold">Waktu</th>
+                            <th class="p-3 text-left font-semibold">Auto Hapus Dalam</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        @forelse ($notifikasis as $notif)
+                        <tr data-id="{{ $notif->id }}" data-created="{{ $notif->created_at }}" class="hover:bg-gray-100 transition duration-300 ease-in-out">
+                            <td class="p-3 text-center">
+                                <input type="checkbox" name="ids[]" value="{{ $notif->id }}" class="form-checkbox h-5 w-5 text-blue-600">
+                            </td>
+                            <td class="p-3">{{ $notif->dkm->username ?? 'Tidak diketahui' }}</td>
+                            <td class="p-3">{{ ucfirst($notif->aksi) }}</td>
+                            <td class="p-3">{{ ucfirst($notif->tabel) }}</td>
+                            <td class="p-3">{{ $notif->keterangan }}</td>
+                            <td class="p-3">{{ $notif->created_at->translatedFormat('l, d F Y. H:i') }}</td>
+                            <td class="p-3 countdown font-mono text-sm">--</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="p-3 text-center text-gray-500">Belum ada notifikasi</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-        <table class="table-auto w-full border" id="notifikasi-table">
-            <thead>
-                <tr>
-                    <th class="border p-2"><input type="checkbox" id="check-all"></th>
-                    <th class="border p-2">Pengguna</th>
-                    <th class="border p-2">Aksi</th>
-                    <th class="border p-2">Tabel</th>
-                    <th class="border p-2">Keterangan</th>
-                    <th class="border p-2">Waktu</th>
-                    <th class="border p-2">Auto Hapus Dalam</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($notifikasis as $notif)
-                <tr data-id="{{ $notif->id }}" data-created="{{ $notif->created_at }}">
-                    <td class="border p-2 text-center">
-                        <input type="checkbox" name="ids[]" value="{{ $notif->id }}">
-                    </td>
-                    <td class="border p-2">{{ $notif->dkm->username ?? 'Tidak diketahui' }}</td>
-                    <td class="border p-2">{{ ucfirst($notif->aksi) }}</td>
-                    <td class="border p-2">{{ ucfirst($notif->tabel) }}</td>
-                    <td class="border p-2">{{ $notif->keterangan }}</td>
-                    <td class="border p-2">{{ $notif->created_at->translatedFormat('l, d F Y. H:i') }}</td>
-                    <td class="border p-2 countdown">--</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="7" class="border p-2 text-center">Belum ada notifikasi</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </form>
+    </div>
 </div>
 @endsection
 
-{{-- PERBAIKAN: Skrip ditempatkan di dalam section 'scripts' --}}
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // 1. Fungsi untuk checkbox "Pilih Semua"
         const checkAll = document.getElementById('check-all');
         if (checkAll) {
             checkAll.addEventListener('change', function(e) {
@@ -66,39 +72,32 @@
             });
         }
 
-        // 2. Fungsi untuk countdown visual di setiap baris
         function updateCountdown() {
             const rows = document.querySelectorAll("#notifikasi-table tbody tr[data-id]");
             const now = new Date().getTime();
 
             rows.forEach(row => {
                 const createdStr = row.dataset.created;
-                // Mengganti spasi dengan 'T' untuk kompatibilitas parsing tanggal di semua browser
                 const createdAt = new Date(createdStr.replace(' ', 'T')).getTime();
-                
-                // Tambah 5 menit (dalam milidetik)
-                const expiredAt = createdAt + (5 * 60 * 1000); 
+                const expiredAt = createdAt + (5 * 60 * 1000);
                 const diff = expiredAt - now;
 
                 const countdownCell = row.querySelector(".countdown");
                 if (!countdownCell) return;
 
                 if (diff <= 0) {
-                    // Cukup tampilkan "Expired". 
-                    // Skrip global di layout akan menghapus baris ini dari DOM.
-                    countdownCell.textContent = "Expired"; 
+                    countdownCell.textContent = "Expired";
+                    countdownCell.classList.add('text-red-500', 'font-semibold');
                 } else {
                     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
                     countdownCell.textContent = `${minutes}m ${seconds}s`;
+                    countdownCell.classList.remove('text-red-500', 'font-semibold');
                 }
             });
         }
 
-        // Jalankan countdown setiap detik
         setInterval(updateCountdown, 1000);
-
-        // Panggil sekali saat halaman dimuat untuk tampilan awal
         updateCountdown();
     });
 </script>
