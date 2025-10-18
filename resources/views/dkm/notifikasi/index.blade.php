@@ -1,9 +1,9 @@
 @extends('layouts.dkm')
 
 @section('title', 'Notifikasi')
-@section('content')
 @section('page-icon', asset('icons/bell-icon.svg'))
 
+@section('content')
 <div class="bg-white p-6 rounded shadow">
     <h2 class="text-xl font-bold mb-4">📢 Notifikasi Aktivitas</h2>
 
@@ -51,46 +51,55 @@
         </table>
     </form>
 </div>
+@endsection
 
+{{-- PERBAIKAN: Skrip ditempatkan di dalam section 'scripts' --}}
+@section('scripts')
 <script>
-    // Check all
-    document.getElementById('check-all')?.addEventListener('change', function(e) {
-        let checkboxes = document.querySelectorAll('input[name="ids[]"]');
-        checkboxes.forEach(cb => cb.checked = e.target.checked);
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Fungsi untuk checkbox "Pilih Semua"
+        const checkAll = document.getElementById('check-all');
+        if (checkAll) {
+            checkAll.addEventListener('change', function(e) {
+                let checkboxes = document.querySelectorAll('input[name="ids[]"]');
+                checkboxes.forEach(cb => cb.checked = e.target.checked);
+            });
+        }
+
+        // 2. Fungsi untuk countdown visual di setiap baris
+        function updateCountdown() {
+            const rows = document.querySelectorAll("#notifikasi-table tbody tr[data-id]");
+            const now = new Date().getTime();
+
+            rows.forEach(row => {
+                const createdStr = row.dataset.created;
+                // Mengganti spasi dengan 'T' untuk kompatibilitas parsing tanggal di semua browser
+                const createdAt = new Date(createdStr.replace(' ', 'T')).getTime();
+                
+                // Tambah 5 menit (dalam milidetik)
+                const expiredAt = createdAt + (5 * 60 * 1000); 
+                const diff = expiredAt - now;
+
+                const countdownCell = row.querySelector(".countdown");
+                if (!countdownCell) return;
+
+                if (diff <= 0) {
+                    // Cukup tampilkan "Expired". 
+                    // Skrip global di layout akan menghapus baris ini dari DOM.
+                    countdownCell.textContent = "Expired"; 
+                } else {
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    countdownCell.textContent = `${minutes}m ${seconds}s`;
+                }
+            });
+        }
+
+        // Jalankan countdown setiap detik
+        setInterval(updateCountdown, 1000);
+
+        // Panggil sekali saat halaman dimuat untuk tampilan awal
+        updateCountdown();
     });
-
-    // Countdown per notifikasi (UI only)
-    function updateCountdown() {
-        let rows = document.querySelectorAll("#notifikasi-table tbody tr[data-id]");
-        let now = new Date().getTime();
-
-        rows.forEach(row => {
-            const createdStr = row.dataset.created;
-            // convert to JS Date; ensure format is ISO-friendly — Laravel's created_at should work
-            let createdAt = new Date(createdStr).getTime();
-            // if new Date parse fails (NaN), try replace space with 'T'
-            if (isNaN(createdAt)) {
-                createdAt = new Date(createdStr.replace(' ', 'T')).getTime();
-            }
-            let expiredAt = createdAt + (5 * 60 * 1000); // 5 menit
-            let diff = expiredAt - now;
-
-            let countdownCell = row.querySelector(".countdown");
-
-            if (!countdownCell) return;
-
-            if (diff <= 0) {
-                // visual hapus row dari DOM
-                row.remove();
-            } else {
-                let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                let seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                countdownCell.textContent = `${minutes}m ${seconds}s`;
-            }
-        });
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
 </script>
 @endsection
