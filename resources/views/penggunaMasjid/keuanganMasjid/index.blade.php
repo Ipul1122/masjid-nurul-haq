@@ -6,7 +6,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {{-- Header Section --}}
-        <div class="mb-8">
+        <div class="mb-8 mt-16">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Keuangan Masjid</h1>
             <p class="text-gray-600 text-sm md:text-base">Pantau laporan keuangan masjid secara real-time</p>
         </div>

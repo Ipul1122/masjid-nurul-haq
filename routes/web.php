@@ -58,15 +58,32 @@ use App\Http\Controllers\PenggunaMasjid\SejarahMasjidController;
 // ===================
 Route::get('/', [homeController::class, 'index'])->name('index');;
 Route::get('/konten/{type}/{id}', [LihatKontenController::class, 'show'])->name('konten.show');
-Route::get('/konten-masjid', [KontenMasjidController::class, 'index'])->name('penggunaMasjid.lihatKonten.kontenMasjid');
-Route::get('/keuangan-masjid', [KeuanganMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.index');
-Route::get('/detail-pemasukkan-masjid', [DetailPemasukkanMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.detailPemasukkanMasjid');
-Route::get('/detail-pengeluaran-masjid', [DetailPengeluaranMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.detailPengeluaranMasjid');
-Route::get('/galeri-masjid', [GaleriMasjidController::class, 'index'])->name('penggunaMasjid.galeriMasjid.index');
-Route::get('/kontak-masjid', [KontakMasjidController::class, 'index'])->name('penggunaMasjid.kontakMasjid.index');
-Route::get('/visi-dan-misi-masjid', [VisiDanMisiController::class, 'index'])->name('penggunaMasjid.profile.visiMisiMasjid');
-Route::get('/sejarah-masjid', [SejarahMasjidController::class, 'index'])->name('penggunaMasjid.profile.sejarahMasjid');
-// ===================
+
+
+// ===============================================
+//  ROUTES GROUP UNTUK PENGGUNA MASJID
+// (Mengelompokkan kode tanpa mengubah URL)
+// ===============================================
+Route::name('penggunaMasjid.')->group(function () {
+    
+    Route::get('/konten-masjid', [KontenMasjidController::class, 'index'])->name('lihatKonten.kontenMasjid');
+
+    Route::name('keuanganMasjid.')->group(function () {
+        Route::get('/keuangan-masjid', [KeuanganMasjidController::class, 'index'])->name('index');
+        Route::get('/detail-pemasukkan-masjid', [DetailPemasukkanMasjidController::class, 'index'])->name('detailPemasukkanMasjid');
+        Route::get('/detail-pengeluaran-masjid', [DetailPengeluaranMasjidController::class, 'index'])->name('detailPengeluaranMasjid');
+    });
+
+    Route::get('/galeri-masjid', [GaleriMasjidController::class, 'index'])->name('galeriMasjid.index');
+    
+    Route::get('/kontak-masjid', [KontakMasjidController::class, 'index'])->name('kontakMasjid.index');
+
+    Route::name('profile.')->group(function () {
+        Route::get('/visi-dan-misi-masjid', [VisiDanMisiController::class, 'index'])->name('visiMisiMasjid');
+        Route::get('/sejarah-masjid', [SejarahMasjidController::class, 'index'])->name('sejarahMasjid');
+    });
+    
+});// ===================
 // 📌 RISNHA ROUTES
 // ===================
 

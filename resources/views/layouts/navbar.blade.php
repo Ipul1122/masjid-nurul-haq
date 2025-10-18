@@ -39,18 +39,28 @@
                     {{ ($notifCount ?? 0) > 9 ? '9+' : ($notifCount ?? 0) }}
                 </span>
             </a>
-            <div class="flex items-center space-x-3 px-3 py-2 bg-gray-50 rounded-xl">
-                <div class="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center">
-                    <i class="fas fa-user text-white text-sm"></i>
-                </div>
-                <div class="text-sm">
-                    <p class="font-medium text-gray-900">Admin</p>
-                    <p class="text-gray-600">Online</p>
+            <div class="relative">
+                <button id="dropdown-button" class="flex items-center space-x-3 px-3 py-2 bg-gray-50 rounded-xl">
+                    <div class="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                    <div class="text-sm">
+                        <p class="font-medium text-gray-900">Admin</p>
+                        <p class="text-gray-600">Online</p>
+                    </div>
+                </button>
+                <div id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                    <a href="{{ url('dkm/verify-pin') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Verify PIN</a>
+                    <hr class="my-1">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block px-4 py-2 text-sm  hover:bg-gray-100 text-red-700">Logout</a>
                 </div>
             </div>
         </div>
     </div>
 </header>
+<form id="logout-form" action="{{ route('dkm.logout') }}" method="POST" style="display: none; ">
+    @csrf
+</form>
 
 {{-- Kode HTML lainnya seperti <aside> dan <main> tidak perlu diubah, jadi saya hapus dari sini --}}
 
@@ -73,6 +83,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         updateClock();
         setInterval(updateClock, 1000);
+    }
+
+    const dropdownButton = document.getElementById('dropdown-button');
+    const dropdownMenu = document.getElementById('dropdown-menu');
+
+    if (dropdownButton) {
+        dropdownButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (!dropdownButton.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
     }
 });
 </script>

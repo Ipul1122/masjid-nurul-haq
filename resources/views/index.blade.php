@@ -3,7 +3,7 @@
 @section('title', 'Beranda')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50 mt-10">
     
     {{-- Hero Carousel --}}
     @if(isset($homeSections) && $homeSections->isNotEmpty())

@@ -2,7 +2,7 @@
 @section('title', 'Kontak Kami - Masjid Nurul Haq')
 @section('content')
 
-<div class="bg-gray-50 py-12">
+<div class="bg-gray-50 py-12 mt-16">
     <div class="max-w-6xl mx-auto px-6">
         <div class="text-center mb-10">
             <h2 class="text-3xl font-bold text-gray-800">Hubungi Kami</h2>

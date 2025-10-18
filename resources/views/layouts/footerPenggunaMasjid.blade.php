@@ -3,6 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
             <div class="col-span-1 lg:col-span-2">
+                {{-- ATUR LOGO --}}
                 <h3 class="text-2xl font-bold mb-4">Masjid Nurul Haq</h3>
                 <p class="text-gray-300 mb-4 max-w-md">
                     Menjadi pusat ibadah dan kegiatan komunitas yang menebar rahmat dan manfaat bagi seluruh umat di lingkungan sekitar.
