@@ -1,4 +1,4 @@
-<header class="lg:hidden fixed top-0 left-0 right-0 z-30 bg-white shadow-md h-14 ">
+<header class="lg:hidden  top-0 left-0 right-0 z-30 bg-white shadow-md h-14 ">
     <div class="flex items-center justify-between px-4 h-full">
         <button id="sidebarToggle" class="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
             <i class="fas fa-bars text-xl"></i>
@@ -19,7 +19,7 @@
     </div>
 </header>
 
-<header class="hidden lg:flex fixed top-0 left-0 right-0 z-30 bg-white shadow-sm border-b border-gray-200 h-20  ">
+<header class="hidden lg:flex  top-0 left-0 right-0 z-30 bg-white shadow-sm border-b border-gray-200 h-20  ">
     <div class="flex items-center justify-between w-full px-6">
         <div>
             <h2 class="text-2xl font-bold text-gray-900">Dashboard</h2>

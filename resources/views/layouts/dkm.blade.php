@@ -30,7 +30,7 @@
     {{-- Navbar --}}
     @include('layouts.navbar')
 
-    <div class="lg:ml-72">
+    <div class="lg:ml-72 ">
         <main class="p-4 lg:p-6 mt-16 lg:mt-0 min-h-screen bg-gray-50">
             @yield('content')
         </main>
@@ -44,7 +44,7 @@
     {{-- Script lama tetap --}}
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    {{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script> --}}
     
     {{-- Skrip Sidebar dan Menu Toggle Anda (TIDAK DIHAPUS) --}}
     <script>

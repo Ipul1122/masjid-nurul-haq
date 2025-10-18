@@ -1,6 +1,7 @@
 @extends('layouts.dkm')
 
 @section('title', 'Jadwal Imam')
+
 @section('content')
 <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
 
@@ -33,7 +34,7 @@
         {{-- Loop Data Jadwal Imam --}}
         @forelse($jadwal as $j)
             <div class="bg-gray-50 border rounded-lg p-4 grid grid-cols-1 lg:grid-cols-4 gap-4 items-center hover:bg-gray-100 transition duration-300">
-                
+
                 {{-- Kolom Foto Imam --}}
                 <div class="flex justify-center lg:justify-start">
                     @if($j->gambar)
@@ -62,12 +63,16 @@
                     <a href="{{ route('dkm.manajemenKonten.jadwalImam.edit', $j->id) }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-300 text-sm">
                        <i class="fas fa-edit"></i> <span class="hidden sm:inline">Edit</span>
                     </a>
-                    <form method="POST" action="{{ route('dkm.manajemenKonten.jadwalImam.destroy', $j->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?')">
+
+                    {{-- Tombol Hapus yang memicu modal --}}
+                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition duration-300 text-sm delete-button" data-form-id="delete-form-{{ $j->id }}">
+                        <i class="fas fa-trash"></i> <span class="hidden sm:inline">Hapus</span>
+                    </button>
+
+                    {{-- Form Hapus yang tersembunyi --}}
+                    <form id="delete-form-{{ $j->id }}" class="hidden" action="{{ route('dkm.manajemenKonten.jadwalImam.destroy', $j->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition duration-300 text-sm">
-                            <i class="fas fa-trash"></i> <span class="hidden sm:inline">Hapus</span>
-                        </button>
                     </form>
                 </div>
 
@@ -79,7 +84,7 @@
         @endforelse
     </div>
 
-    {{-- Tombol Tambah Bawah --}}
+    {{-- Tombol Tambah Bawah (Opsional, jika masih diperlukan) --}}
     <div class="mt-8 flex justify-end">
          <a href="{{ route('dkm.manajemenKonten.jadwalImam.create') }}" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow transition duration-300 text-center">
             <i class="fas fa-plus mr-2"></i>Tambah Jadwal
@@ -87,4 +92,73 @@
     </div>
 
 </div>
+
+{{-- MODAL KONFIRMASI HAPUS --}}
+<div id="delete-modal" class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+        <div class="text-center">
+            <h3 class="text-lg font-bold text-gray-900">Konfirmasi Penghapusan</h3>
+            <p class="mt-2 text-sm text-gray-600">Apakah Anda yakin ingin menghapus jadwal ini? Tindakan ini tidak dapat dibatalkan.</p>
+        </div>
+        <div class="mt-6 flex justify-center gap-4">
+            <button id="cancel-delete" type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
+                Batal
+            </button>
+            <button id="confirm-delete" type="button" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                Ya, Hapus
+            </button>
+        </div>
+    </div>
+</div>
+
+{{-- JAVASCRIPT UNTUK MODAL --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteModal = document.getElementById('delete-modal');
+    const cancelDeleteButton = document.getElementById('cancel-delete');
+    const confirmDeleteButton = document.getElementById('confirm-delete');
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    let formToSubmit = null;
+
+    // Fungsi untuk menampilkan modal
+    function showModal() {
+        if (formToSubmit) {
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
+        }
+    }
+
+    // Fungsi untuk menyembunyikan modal
+    function hideModal() {
+        deleteModal.classList.add('hidden');
+        deleteModal.classList.remove('flex');
+        formToSubmit = null;
+    }
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const formId = this.getAttribute('data-form-id');
+            formToSubmit = document.getElementById(formId);
+            showModal();
+        });
+    });
+
+    cancelDeleteButton.addEventListener('click', function () {
+        hideModal();
+    });
+
+    confirmDeleteButton.addEventListener('click', function () {
+        if (formToSubmit) {
+            formToSubmit.submit();
+        }
+    });
+
+    // Sembunyikan modal jika klik di luar area modal
+    window.addEventListener('click', function (event) {
+        if (event.target === deleteModal) {
+            hideModal();
+        }
+    });
+});
+</script>
 @endsection
