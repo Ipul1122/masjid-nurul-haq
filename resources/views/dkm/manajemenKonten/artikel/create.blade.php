@@ -44,4 +44,7 @@
         <a href="{{ route('dkm.manajemenKonten.artikel.index') }}" class="ml-2 text-gray-600">Batal</a>
     </form>
 </div>
+
+
+{{-- <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script> --}}
 @endsection
