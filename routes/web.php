@@ -50,6 +50,8 @@ use App\Http\Controllers\PenggunaMasjid\DetailPemasukkanMasjidController;
 use App\Http\Controllers\PenggunaMasjid\DetailPengeluaranMasjidController;
 use App\Http\Controllers\PenggunaMasjid\GaleriMasjidController;
 use App\Http\Controllers\PenggunaMasjid\KontakMasjidController;
+use App\Http\Controllers\PenggunaMasjid\VisiDanMisiController;
+use App\Http\Controllers\PenggunaMasjid\SejarahMasjidController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -62,6 +64,8 @@ Route::get('/detail-pemasukkan-masjid', [DetailPemasukkanMasjidController::class
 Route::get('/detail-pengeluaran-masjid', [DetailPengeluaranMasjidController::class, 'index'])->name('penggunaMasjid.keuanganMasjid.detailPengeluaranMasjid');
 Route::get('/galeri-masjid', [GaleriMasjidController::class, 'index'])->name('penggunaMasjid.galeriMasjid.index');
 Route::get('/kontak-masjid', [KontakMasjidController::class, 'index'])->name('penggunaMasjid.kontakMasjid.index');
+Route::get('/visi-dan-misi-masjid', [VisiDanMisiController::class, 'index'])->name('penggunaMasjid.profile.visiMisiMasjid');
+Route::get('/sejarah-masjid', [SejarahMasjidController::class, 'index'])->name('penggunaMasjid.profile.sejarahMasjid');
 // ===================
 // 📌 RISNHA ROUTES
 // ===================
