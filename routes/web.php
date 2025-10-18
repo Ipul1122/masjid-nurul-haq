@@ -52,6 +52,7 @@ use App\Http\Controllers\PenggunaMasjid\GaleriMasjidController;
 use App\Http\Controllers\PenggunaMasjid\KontakMasjidController;
 use App\Http\Controllers\PenggunaMasjid\VisiDanMisiController;
 use App\Http\Controllers\PenggunaMasjid\SejarahMasjidController;
+use App\Http\Controllers\PenggunaMasjid\DonasiMasjidController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -82,6 +83,8 @@ Route::name('penggunaMasjid.')->group(function () {
         Route::get('/visi-dan-misi-masjid', [VisiDanMisiController::class, 'index'])->name('visiMisiMasjid');
         Route::get('/sejarah-masjid', [SejarahMasjidController::class, 'index'])->name('sejarahMasjid');
     });
+
+    Route::get('/donasi-masjid', [DonasiMasjidController::class, 'index'])->name('donasi.index');
     
 });// ===================
 // 📌 RISNHA ROUTES
