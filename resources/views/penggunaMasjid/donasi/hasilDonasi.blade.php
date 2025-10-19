@@ -1,5 +1,7 @@
 @extends('layouts.penggunaMasjid')
 
+@section('title', 'Hasil Donasi')
+
 @section('content')
 <div class="mt-16 bg-green-50 font-sans p-8 md:py-12">
     <div class="container mx-auto max-w-4xl">
@@ -43,7 +45,7 @@
             </div>
 
             <div class="text-center mt-10">
-                <a href="{{ route('penggunaMasjid.donasi.index') }}" class="bg-orange-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-orange-600 transition-colors duration-300">
+                <a href="{{ route('penggunaMasjid.donasi.index') }}" class="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300">
                     Kembali ke Halaman Donasi
                 </a>
             </div>

@@ -1,25 +1,31 @@
 @extends('layouts.penggunaMasjid')
 
+@section('title', 'Kirim Bukti')
+
 @section('content')
+
+{{-- ELEMEN POPOVER START --}}
+<div id="success-popover" class="fixed top-5 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl transform transition-all duration-300 ease-in-out z-50 translate-x-full hidden">
+    <div class="flex items-center space-x-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <p class="font-semibold">Bukti Anda sudah dikirim dan akan segera diinformasikan.</p>
+    </div>
+</div>
+{{-- ELEMEN POPOVER END --}}
+
 <div class="mt-16 bg-green-50 font-sans p-8 md:py-12">
     <div class="container mx-auto max-w-2xl">
         <div class="bg-white rounded-2xl shadow-lg p-8">
             <h2 class="text-2xl font-bold text-emerald-800 mb-6 text-center">Kirim Bukti Transfer Donasi</h2>
-
-            {{-- CATATAN PENTING:
-                 Pastikan route 'donasi.kirimBukti.store' sudah didefinisikan di file web.php Anda.
-                 Contoh: Route::post('/penggunaMasjid/donasi/kirimBukti', [DonasiController::class, 'storeBukti'])->name('donasi.kirimBukti.store');
-                 Validasi (ukuran maks 5MB dan format) sebaiknya dilakukan di sisi server (Controller).
-            --}}
             
-            <form action="#" method="POST" enctype="multipart/form-data" id="uploadForm" class="space-y-6">
+            <form action="{{ route('penggunaMasjid.donasi.kirimBukti.store') }}" method="POST" enctype="multipart/form-data" id="uploadForm" class="space-y-6">
                 @csrf
 
                 <div>
                     <label for="nama_donatur" class="block text-sm font-medium text-gray-700 mb-1">Nama Anda</label>
                     <input type="text" name="nama_donatur" id="nama_donatur" required
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 ease-in-out"
-                           placeholder="Masukkan nama lengkap Anda">
+                           placeholder="Jika tidak masukkan nama, boleh hamba allah">
                 </div>
 
                 <div>
@@ -32,8 +38,14 @@
 
                 <div>
                     <button type="submit"
-                            class="w-full bg-emerald-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out">
-                        Kirim
+                            id="submit-button"
+                            class="w-full bg-emerald-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out flex items-center justify-center space-x-2">
+                        <span>Kirim</span>
+                        {{-- SPINNER UNTUK INDIKATOR LOADING --}}
+                        <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
                     </button>
                 </div>
             </form>
@@ -43,27 +55,52 @@
 
 <script>
 document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Mencegah form dikirim secara langsung
+
+    const form = this;
     const fileInput = document.getElementById('bukti_transfer');
     const fileError = document.getElementById('file-error');
+    const submitButton = document.getElementById('submit-button');
+    const loadingSpinner = document.getElementById('loading-spinner');
     
-    // Sembunyikan pesan error sebelumnya
     fileError.classList.add('hidden');
     fileError.textContent = '';
 
-    // Cek apakah ada file yang dipilih
     if (fileInput.files.length === 0) {
-        return; // Validasi 'required' dari HTML akan menangani ini
+        // Biarkan validasi 'required' HTML yang menangani
+        form.reportValidity(); 
+        return;
     }
 
     const file = fileInput.files[0];
-    const maxSize = 5 * 1024 * 1024; // 5 MB in bytes
+    const maxSize = 5 * 1024 * 1024; // 5 MB
 
-    // Cek ukuran file
     if (file.size > maxSize) {
-        event.preventDefault(); // Mencegah form dikirim
         fileError.textContent = 'Ukuran file tidak boleh lebih dari 5 MB.';
         fileError.classList.remove('hidden');
+        return;
     }
+
+    // Nonaktifkan tombol dan tunjukkan spinner
+    submitButton.disabled = true;
+    submitButton.classList.add('cursor-not-allowed', 'bg-emerald-700');
+    loadingSpinner.classList.remove('hidden');
+
+    // Tampilkan popover
+    const popover = document.getElementById('success-popover');
+    popover.classList.remove('hidden');
+    setTimeout(() => {
+        popover.classList.remove('translate-x-full'); // Animasi masuk
+    }, 10);
+
+    // Setelah 3 detik, sembunyikan popover dan kirim form
+    setTimeout(() => {
+        popover.classList.add('translate-x-full'); // Animasi keluar
+        setTimeout(() => {
+            popover.classList.add('hidden');
+            form.submit(); // Kirim form setelah animasi selesai
+        }, 300);
+    }, 3000); // 3000 milidetik = 3 detik
 });
 </script>
 @endsection

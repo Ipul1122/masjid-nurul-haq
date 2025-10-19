@@ -43,12 +43,23 @@
                     <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Kontak
                     </a>
-                    <a href="{{ route('penggunaMasjid.donasi.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                    {{-- <a href="{{ route('penggunaMasjid.donasi.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Donasi
                     </a>
                     <a href="{{ route('penggunaMasjid.donasi.hasilDonasi') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Hasil Donasi
-                    </a>
+                    </a> --}}
+
+                    <div class="relative group">
+                        <button class="flex items-center space-x-1 text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                            <span>Donasi</span>
+                            <i class="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
+                        </button>
+                        <div class="absolute left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-1">
+                            <a href="{{ route('penggunaMasjid.donasi.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Donasi</a>
+                            <a href="{{ route('penggunaMasjid.donasi.hasilDonasi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Hasil Donasi</a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Clock & Login -->
