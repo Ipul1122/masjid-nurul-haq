@@ -24,6 +24,7 @@ use App\Http\Controllers\Dkm\GaleriController;
 use App\Http\Controllers\Dkm\KategoriGaleriController;
 use App\Http\Controllers\Dkm\NotifikasiController;
 use App\Http\Controllers\Dkm\BackupDataController;
+use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\BuktiDonasiMasjidController;
 
 
 // Risnha Routes
@@ -53,6 +54,7 @@ use App\Http\Controllers\PenggunaMasjid\KontakMasjidController;
 use App\Http\Controllers\PenggunaMasjid\VisiDanMisiController;
 use App\Http\Controllers\PenggunaMasjid\SejarahMasjidController;
 use App\Http\Controllers\PenggunaMasjid\DonasiMasjidController;
+use App\Http\Controllers\PenggunaMasjid\BuktiDonasiController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -82,11 +84,28 @@ Route::name('penggunaMasjid.')->group(function () {
     Route::name('profile.')->group(function () {
         Route::get('/visi-dan-misi-masjid', [VisiDanMisiController::class, 'index'])->name('visiMisiMasjid');
         Route::get('/sejarah-masjid', [SejarahMasjidController::class, 'index'])->name('sejarahMasjid');
+
     });
 
-    Route::get('/donasi-masjid', [DonasiMasjidController::class, 'index'])->name('donasi.index');
+    // == PENGGUNA MASJID ROUTES UNTUK DONASI ==
+Route::prefix('penggunaMasjid/donasi')->name('donasi.')->group(function () {
+    // Route untuk halaman utama donasi (GET /penggunaMasjid/donasi)
+    Route::get('/donasi-masjid', [DonasiMasjidController::class, 'index'])->name('index');
     
-});// ===================
+    // Route untuk menampilkan form kirim bukti (GET /penggunaMasjid/donasi/kirimBukti)
+    Route::get('/kirimBukti', [DonasiMasjidController::class, 'kirimBukti'])->name('kirimBukti');
+    
+    // Route untuk memproses form kirim bukti (POST /penggunaMasjid/donasi/kirimBukti)
+    Route::post('/kirimBukti', [DonasiMasjidController::class, 'storeBukti'])->name('kirimBukti.store');
+
+    // Route untuk menampilkan hasil donasi yang terverifikasi (GET /penggunaMasjid/donasi/hasil)
+    Route::get('/hasil', [DonasiMasjidController::class, 'hasilDonasi'])->name('hasilDonasi');
+});
+   
+    
+});
+
+// ===================
 // 📌 RISNHA ROUTES
 // ===================
 
@@ -251,8 +270,13 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::post('runningText', [HomeSectionController::class, 'storeRunningText'])->name('runningText.store');
             Route::resource('sejarah', SejarahController::class);
             Route::resource('visiMisi', VisiMisiController::class);
+            // Verifikasi Donasi
+            Route::get('/bukti-donasi', [BuktiDonasiMasjidController::class, 'index'])->name('buktiDonasi.index');
+            Route::patch('/bukti-donasi/{donasi}/verify', [BuktiDonasiMasjidController::class, 'verify'])->name('buktiDonasi.verify');
+            Route::delete('/bukti-donasi/{donasi}/reject', [BuktiDonasiMasjidController::class, 'reject'])->name('buktiDonasi.reject');
         });
 
+        
         // ====================
         // 👥 Manajemen Pengguna (butuh PIN)
         // ====================
@@ -260,4 +284,4 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::resource('managePengguna', ManagePenggunaController::class);
         });
     });
-});
+}); 
