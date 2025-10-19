@@ -211,6 +211,13 @@
                                 Kelola Sejarah
                             </a>
                         </div>
+                        <div class="ml-8 mt-2 mb-2 space-y-1">
+                            <a href="{{ route('dkm.tampilanPenggunaMasjid.buktiDonasi.index') }}" class="block px-4 py-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all duration-200">
+                                {{-- Icon diubah menjadi 'history' untuk Sejarah --}}
+                                <i class="fas fa-history w-4 h-4 mr-2"></i>
+                                Donasi
+                            </a>
+                        </div>
                     </div>
                 </div>
 

@@ -59,10 +59,9 @@
                         <div class="w-full">
                             <strong class="text-gray-800">Konfirmasi Donasi Anda</strong><br>
                             <small class="text-gray-500 block mb-3">Ini bersifat opsional, namun akan membantu kami dalam pencatatan.</small>
-                            <input type="file" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100" id="buktiTransfer">
-                            <button class="mt-3 w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors duration-300">
+                            <a href="{{ url('penggunaMasjid/donasi/kirimBukti') }}" class="mt-3 w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors duration-300 text-center block">
                                 Kirim Bukti Transfer
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -99,20 +98,16 @@ function copyToClipboard() {
     const rekeningElement = document.getElementById('rekening-nomor');
     const rekeningText = rekeningElement.innerText.replace(/\s/g, '');
 
-    // Coba metode modern (navigator.clipboard) terlebih dahulu
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(rekeningText).then(() => {
             setSuccessState();
         }).catch(err => {
             console.error('Gagal menyalin dengan navigator.clipboard: ', err);
-            // Jika gagal, coba metode fallback di bawah
         });
     } else {
-        // Metode Fallback untuk HTTP atau browser lama
         const textArea = document.createElement('textarea');
         textArea.value = rekeningText;
         
-        // Buat textarea tidak terlihat
         textArea.style.position = 'fixed';
         textArea.style.top = '-9999px';
         textArea.style.left = '-9999px';
