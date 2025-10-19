@@ -1,5 +1,7 @@
 @extends('layouts.penggunaMasjid')
 
+@section('title', 'Donasi Yuk')
+
 @section('content')
 
 {{-- 
