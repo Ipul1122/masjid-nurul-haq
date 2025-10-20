@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ArtikelRisnha extends Model
 {
@@ -12,8 +13,9 @@ class ArtikelRisnha extends Model
     protected $fillable = [
         'nama',
         'kategori_artikel_risnha_id',
-        'foto',
+        'gambar',
         'deskripsi',
+        'status',
     ];
 
     /**
@@ -22,5 +24,10 @@ class ArtikelRisnha extends Model
     public function kategori()
     {
         return $this->belongsTo(KategoriArtikelRisnha::class, 'kategori_artikel_risnha_id');
+    }
+
+    public function getSlugAttribute(): string
+    {
+        return Str::slug($this->judul);
     }
 }

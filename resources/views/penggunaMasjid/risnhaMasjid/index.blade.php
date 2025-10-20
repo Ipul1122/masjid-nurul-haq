@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-<div class="container py-5">
+<div class="container py-5 mt-16">
     <div class="text-center mb-5">
         <h1 class="display-4 fw-bold">Kegiatan RISNHA</h1>
         <p class="lead text-muted">Ikuti berbagai kegiatan menarik dan bermanfaat yang diselenggarakan oleh Remaja Islam Masjid Nurul Haq.</p>

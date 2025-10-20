@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->foreignId('kategori_artikel_risnha_id')->constrained('kategori_artikel_risnhas')->onDelete('cascade');
-            $table->string('foto')->nullable();
+            $table->string('gambar')->nullable();
             $table->text('deskripsi')->nullable();
+            $table->string('status')->default('draft');
             $table->timestamps();
         });
     }
