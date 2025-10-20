@@ -9,9 +9,6 @@
         <div class="card-body">
             <form action="{{ route('risnha.manajemenKontenRisnha.kegiatanRisnha.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
-                
-
                 <div class="mb-3">
                     <label class="form-label">Nama Kegiatan</label>
                     <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" required>
@@ -39,8 +36,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Deskripsi</label>
-                    <textarea name="deskripsi" class="form-control" rows="4">{{ old('deskripsi') }}</textarea>
+                    <label class="form-label" for="deskripsi">Deskripsi</label>
+                    <input id="deskripsi" type="hidden" name="deskripsi" value="{{ old('deskripsi') }}">
+                    <trix-editor input="deskripsi" class="w-full border px-3 py-2 rounded"></trix-editor>
                 </div>
 
                 <div class="d-flex justify-content-between">

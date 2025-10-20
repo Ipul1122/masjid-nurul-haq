@@ -98,6 +98,7 @@ Route::name('penggunaMasjid.')->group(function () {
     // == PENGGUNA MASJID ROUTES UNTUK RISNHA ==
     Route::prefix('penggunaMasjid/risnhaMasjid')->name('risnhaMasjid.')->group(function () {
         Route::get('/risnha-masjid', [RisnhaHomeController::class, 'index'])->name('index');
+        Route::get('/risnha-masjid/{kegiatan}/{slug?}', [RisnhaHomeController::class, 'show'])->name('show');
 });
    
     
@@ -117,6 +118,10 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
         // Manajemen Konten Risnha
         Route::prefix('manajemenKontenRisnha')->name('manajemenKontenRisnha.')->group(function () {
+            // Tambahkan route ini sebelum resource controller
+            Route::get('kegiatan-risnha/{id}/preview', [KegiatanRisnhaController::class, 'preview'])->name('kegiatanRisnha.preview');
+            Route::patch('kegiatan-risnha/{id}/publish', [KegiatanRisnhaController::class, 'publish'])->name('kegiatanRisnha.publish');
+            Route::resource('kegiatan-risnha', KegiatanRisnhaController::class, ['names' => 'kegiatanRisnha']);
             Route::resource('kegiatanRisnha', KegiatanRisnhaController::class);
 
             // ✅ Route untuk Artikel Risnha
