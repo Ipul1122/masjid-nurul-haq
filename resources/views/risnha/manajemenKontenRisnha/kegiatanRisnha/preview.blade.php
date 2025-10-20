@@ -7,8 +7,8 @@
 
     <div class="card shadow-sm">
         <div class="card-body">
-            @if($kegiatan->foto)
-                <img src="{{ asset('storage/' . $kegiatan->foto) }}" class="img-fluid rounded mb-3" style="max-height: 400px; object-fit: cover; width: 100%;" alt="Foto Kegiatan">
+            @if($kegiatan->gambar)
+                <img src="{{ asset('storage/' . $kegiatan->gambar) }}" class="img-fluid rounded mb-3" style="max-height: 400px; object-fit: cover; width: 100%;" alt="gambar Kegiatan">
             @endif
             <h4 class="card-title">{{ $kegiatan->nama }}</h4>
             <hr>

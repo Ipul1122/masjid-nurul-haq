@@ -14,18 +14,11 @@ return new class extends Migration
         Schema::create('kegiatan_risnhas', function (Blueprint $table) {
             $table->id();
             $table->integer('no')->nullable();
+            $table->foreignId('kategori_kegiatan_risnha_id')->constrained('kategori_kegiatan_risnhas')->onDelete('cascade');
             $table->string('nama');
-            $table->string('foto')->nullable();
+            $table->string('gambar')->nullable();
             $table->text('deskripsi')->nullable();
             $table->string('status')->default('draft');
-
-            // 🔗 Foreign key ke kategori
-            // $table->unsignedBigInteger('kategori_kegiatan_risnha_id');
-            // $table->foreign('kategori_kegiatan_risnha_id')
-            //     ->references('id')
-            //     ->on('kategori_kegiatan_risnhas')
-            //     ->onDelete('cascade'); // jika kategori dihapus, kegiatan ikut terhapus
-
             $table->timestamps();
         });
     }

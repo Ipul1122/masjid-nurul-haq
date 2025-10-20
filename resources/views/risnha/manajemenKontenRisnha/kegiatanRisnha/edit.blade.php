@@ -32,14 +32,14 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Foto Saat Ini</label><br>
-                    @if ($kegiatan->foto)
-                        <img src="{{ asset('storage/' . $kegiatan->foto) }}" alt="foto" width="120" class="rounded mb-2">
+                    <label class="form-label">gambar Saat Ini</label><br>
+                    @if ($kegiatan->gambar)
+                        <img src="{{ asset('storage/' . $kegiatan->gambar) }}" alt="gambar" width="120" class="rounded mb-2">
                     @else
-                        <p class="text-muted">Belum ada foto</p>
+                        <p class="text-muted">Belum ada gambar</p>
                     @endif
-                    <input type="file" name="foto" class="form-control" accept=".jpg,.jpeg,.png">
-                    <small class="text-muted">Kosongkan jika tidak ingin mengubah foto</small>
+                    <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png">
+                    <small class="text-muted">Kosongkan jika tidak ingin mengubah gambar</small>
                 </div>
 
                 <div class="mb-3">

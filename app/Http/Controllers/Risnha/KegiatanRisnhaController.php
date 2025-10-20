@@ -28,13 +28,13 @@ class KegiatanRisnhaController extends Controller
             'nama' => 'required|string|max:255',
             'kategori_kegiatan_risnha_id' => 'required|exists:kategori_kegiatan_risnhas,id',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        if ($request->hasFile('foto')) {
+        if ($request->hasFile('gambar')) {
             // Hapus 'public/' dari path store
-            $path = $request->file('foto')->store('kegiatan_risnha', 'public');
-            $validatedData['foto'] = $path;
+            $path = $request->file('gambar')->store('kegiatan_risnha', 'public');
+            $validatedData['gambar'] = $path;
         }
 
         $validatedData['status'] = 'draft';
@@ -70,16 +70,16 @@ class KegiatanRisnhaController extends Controller
             'nama' => 'required|string|max:255',
             'kategori_kegiatan_risnha_id' => 'required|exists:kategori_kegiatan_risnhas,id',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        if ($request->hasFile('foto')) {
-            if ($kegiatanRisnha->foto) {
-                Storage::disk('public')->delete($kegiatanRisnha->foto);
+        if ($request->hasFile('gambar')) {
+            if ($kegiatanRisnha->gambar) {
+                Storage::disk('public')->delete($kegiatanRisnha->gambar);
             }
             // Hapus 'public/' dari path store
-            $path = $request->file('foto')->store('kegiatan_risnha', 'public');
-            $validatedData['foto'] = $path;
+            $path = $request->file('gambar')->store('kegiatan_risnha', 'public');
+            $validatedData['gambar'] = $path;
         }
 
         $kegiatanRisnha->update($validatedData);
@@ -89,9 +89,9 @@ class KegiatanRisnhaController extends Controller
 
     public function destroy(KegiatanRisnha $kegiatanRisnha)
     {
-        // Hapus foto dari storage
-        if ($kegiatanRisnha->foto) {
-            Storage::delete('public/' . $kegiatanRisnha->foto);
+        // Hapus gambar dari storage
+        if ($kegiatanRisnha->gambar) {
+            Storage::delete('public/' . $kegiatanRisnha->gambar);
         }
 
         $kegiatanRisnha->delete();
