@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('foto')->nullable();
             $table->text('deskripsi')->nullable();
+            $table->string('status')->default('draft');
 
             // 🔗 Foreign key ke kategori
             $table->unsignedBigInteger('kategori_kegiatan_risnha_id');

@@ -5,127 +5,96 @@ namespace App\Http\Controllers\Risnha;
 use App\Http\Controllers\Controller;
 use App\Models\KegiatanRisnha;
 use App\Models\KategoriKegiatanRisnha;
-use App\Models\NotifikasiRisnha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class KegiatanRisnhaController extends Controller
 {
-    /**
-     * Tampilkan semua kegiatan.
-     */
     public function index()
     {
-        $kegiatan = KegiatanRisnha::with('kategori')->latest()->get();
-        return view('risnha.manajemenKontenRisnha.kegiatanRisnha.index', compact('kegiatan'));
+        $kegiatanRisnha = KegiatanRisnha::with('kategori')->latest()->get();
+        return view('risnha.manajemenKontenRisnha.kegiatanRisnha.index', compact('kegiatanRisnha'));
     }
 
-    /**
-     * Tampilkan form tambah kegiatan.
-     */
     public function create()
     {
         $kategori = KategoriKegiatanRisnha::all();
         return view('risnha.manajemenKontenRisnha.kegiatanRisnha.create', compact('kategori'));
     }
 
-    /**
-     * Simpan kegiatan baru.
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
             'kategori_kegiatan_risnha_id' => 'required|exists:kategori_kegiatan_risnhas,id',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('risnha/kegiatan', 'public');
+            // Hapus 'public/' dari path store
+            $path = $request->file('foto')->store('kegiatan_risnha', 'public');
+            $validatedData['foto'] = $path;
         }
 
-        $kegiatan = KegiatanRisnha::create($validated);
+        $validatedData['status'] = 'draft';
+        KegiatanRisnha::create($validatedData);
 
-        // Notifikasi untuk membuat kegiatan baru
-        NotifikasiRisnha::create([
-            'risnha_id' => session('risnha_id'),
-            'aksi' => 'create',
-            'tabel' => 'kegiatan_risnha',
-            'keterangan' => "Menambahkan kegiatan: " . $kegiatan->nama,
-        ]);
-
-        return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')
-            ->with('success', 'Kegiatan berhasil ditambahkan.');
+        return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')->with('success', 'Kegiatan berhasil disimpan sebagai draf.');
     }
 
-    /**
-     * Tampilkan form edit kegiatan.
-     */
-    public function edit($id)
+    public function preview($id)
+    {
+        $kegiatan = KegiatanRisnha::with('kategori')->findOrFail($id);
+        return view('risnha.manajemenKontenRisnha.kegiatanRisnha.preview', compact('kegiatan'));
+    }
+
+    public function publish($id)
     {
         $kegiatan = KegiatanRisnha::findOrFail($id);
+        $kegiatan->status = 'published';
+        $kegiatan->save();
+
+        return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')->with('success', 'Kegiatan berhasil dipublikasikan.');
+    }
+
+    public function edit(KegiatanRisnha $kegiatanRisnha)
+    {
         $kategori = KategoriKegiatanRisnha::all();
-        return view('risnha.manajemenKontenRisnha.kegiatanRisnha.edit', compact('kegiatan', 'kategori'));
+        return view('risnha.manajemenKontenRisnha.kegiatanRisnha.edit', ['kegiatan' => $kegiatanRisnha, 'kategori' => $kategori]);
     }
 
-    /**
-     * Update kegiatan.
-     */
-    public function update(Request $request, $id)
+   public function update(Request $request, KegiatanRisnha $kegiatanRisnha)
     {
-        $kegiatan = KegiatanRisnha::findOrFail($id);
-
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
             'kategori_kegiatan_risnha_id' => 'required|exists:kategori_kegiatan_risnhas,id',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($request->hasFile('foto')) {
-            if ($kegiatan->foto) {
-                Storage::disk('public')->delete($kegiatan->foto);
+            if ($kegiatanRisnha->foto) {
+                Storage::disk('public')->delete($kegiatanRisnha->foto);
             }
-            $validated['foto'] = $request->file('foto')->store('risnha/kegiatan', 'public');
+            // Hapus 'public/' dari path store
+            $path = $request->file('foto')->store('kegiatan_risnha', 'public');
+            $validatedData['foto'] = $path;
         }
 
-        $kegiatan->update($validated);
+        $kegiatanRisnha->update($validatedData);
 
-        // Notifikasi untuk memperbarui kegiatan
-        NotifikasiRisnha::create([
-            'risnha_id' => session('risnha_id'),
-            'aksi' => 'update',
-            'tabel' => 'kegiatan_risnha',
-            'keterangan' => "Memperbarui kegiatan: " . $kegiatan->nama,
-        ]);
-
-        return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')
-            ->with('success', 'Kegiatan berhasil diperbarui.');
+        return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')->with('success', 'Kegiatan berhasil diperbarui.');
     }
 
-    /**
-     * Hapus kegiatan.
-     */
-    public function destroy($id)
+    public function destroy(KegiatanRisnha $kegiatanRisnha)
     {
-        $kegiatan = KegiatanRisnha::findOrFail($id);
-
-        if ($kegiatan->foto) {
-            Storage::disk('public')->delete($kegiatan->foto);
+        // Hapus foto dari storage
+        if ($kegiatanRisnha->foto) {
+            Storage::delete('public/' . $kegiatanRisnha->foto);
         }
 
-        // Notifikasi untuk menghapus kegiatan
-        NotifikasiRisnha::create([
-            'risnha_id' => session('risnha_id'),
-            'aksi' => 'delete',
-            'tabel' => 'kegiatan_risnha',
-            'keterangan' => "Menghapus kegiatan: " . $kegiatan->nama,
-        ]);
-
-        $kegiatan->delete();
-
-        return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')
-            ->with('success', 'Kegiatan berhasil dihapus.');
+        $kegiatanRisnha->delete();
+        return redirect()->route('risnha.manajemenKontenRisnha.kegiatanRisnha.index')->with('success', 'Kegiatan berhasil dihapus.');
     }
 }
