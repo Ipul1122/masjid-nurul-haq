@@ -4,7 +4,9 @@ namespace App\Http\Controllers\penggunaMasjid;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Artikel;
+use App\Models\ArtikelRisnha;
 use App\Models\Kegiatan;
+use App\Models\KegiatanRisnha;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LihatKontenController extends Controller

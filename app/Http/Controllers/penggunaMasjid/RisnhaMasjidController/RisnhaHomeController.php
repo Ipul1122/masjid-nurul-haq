@@ -4,46 +4,46 @@ namespace App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController;
 
 use App\Http\Controllers\Controller;
 use App\Models\KegiatanRisnha;
-use App\Models\ArtikelRisnha; // <-- Import the ArtikelRisnha model
+use App\Models\ArtikelRisnha;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class RisnhaHomeController extends Controller
 {
-    // app/Http/Controllers/penggunaMasjid/RisnhaMasjidController/RisnhaHomeController.php
-
     public function index()
     {
-        // Ambil kegiatan dan standarkan nama propertinya
+        // Ambil kegiatan dan standarkan atributnya
         $kegiatan = KegiatanRisnha::where('status', 'published')
             ->latest()
             ->get()
-            ->map(function($item) {
-                $item->judul = $item->nama; // Mengubah 'nama' menjadi 'judul'
-                $item->foto = $item->gambar; // Mengubah 'foto' menjadi 'gambar'
+            ->map(function ($item) {
+                $item->judul = $item->nama;
+                $item->foto = $item->gambar;
                 $item->type = 'kegiatan';
                 return $item;
             });
 
-        // Ambil artikel dan standarkan nama propertinya
+        // Ambil artikel dan standarkan atributnya
         $artikel = ArtikelRisnha::where('status', 'published')
             ->latest()
             ->get()
-            ->map(function($item) {
-                $item->judul = $item->nama; // Mengubah 'nama' menjadi 'judul'
-                // Properti 'gambar' sudah ada, jadi tidak perlu diubah
+            ->map(function ($item) {
+                $item->judul = $item->nama;
                 $item->type = 'artikel';
                 return $item;
             });
 
-        // Gabungkan, urutkan, dan kirim ke view
-        $kontenRisnha = $kegiatan->merge($artikel)
-                                ->sortByDesc('created_at')
-                                ->take(6);
+        // ✅ Gunakan concat agar tidak overwrite
+        $kontenRisnha = $kegiatan
+            ->concat($artikel) // tidak overwrite key numerik
+            ->sortByDesc('created_at')
+            ->values() // reset key
+            ->take(6);
 
         return view('penggunaMasjid.risnhaMasjid.index', compact('kontenRisnha'));
     }
 
-    // Method untuk menampilkan detail kegiatan
+    // Menampilkan detail kegiatan
     public function show(KegiatanRisnha $kegiatan, $slug = null)
     {
         if ($kegiatan->status !== 'published') {
@@ -56,25 +56,22 @@ class RisnhaHomeController extends Controller
                 'slug' => $kegiatan->slug
             ], 301);
         }
-        
+
         return view('penggunaMasjid.risnhaMasjid.lihatKontenRisnha', ['item' => $kegiatan]);
     }
 
-    /**
-     * Perbarui method ini untuk menerima dan memvalidasi slug.
-     */
+    // Menampilkan detail artikel
     public function showArtikel(ArtikelRisnha $artikel, $slug = null)
     {
         if ($artikel->status !== 'published') {
             abort(404);
         }
 
-        // Jika slug di URL tidak cocok dengan slug yang seharusnya, arahkan ke URL yang benar
         if ($slug !== $artikel->slug) {
             return redirect()->route('penggunaMasjid.risnhaMasjid.showArtikel', [
                 'artikel' => $artikel->id,
                 'slug' => $artikel->slug
-            ], 301); // 301 redirect baik untuk SEO
+            ], 301);
         }
 
         return view('penggunaMasjid.risnhaMasjid.lihatKontenRisnha', ['item' => $artikel]);
