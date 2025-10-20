@@ -10,7 +10,7 @@ class RisnhaHomeController extends Controller
 {
     public function index()
     {
-        $kegiatanRisnha = KegiatanRisnha::where('status', 'published')->latest()->paginate(9); 
+        $kegiatanRisnha = KegiatanRisnha::where('status', 'published')->latest()->paginate(6); 
         return view('penggunaMasjid.risnhaMasjid.index', compact('kegiatanRisnha'));
     }
 

@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('status')->default('draft');
 
             // 🔗 Foreign key ke kategori
-            $table->unsignedBigInteger('kategori_kegiatan_risnha_id');
-            $table->foreign('kategori_kegiatan_risnha_id')
-                ->references('id')
-                ->on('kategori_kegiatan_risnhas')
-                ->onDelete('cascade'); // jika kategori dihapus, kegiatan ikut terhapus
+            // $table->unsignedBigInteger('kategori_kegiatan_risnha_id');
+            // $table->foreign('kategori_kegiatan_risnha_id')
+            //     ->references('id')
+            //     ->on('kategori_kegiatan_risnhas')
+            //     ->onDelete('cascade'); // jika kategori dihapus, kegiatan ikut terhapus
 
             $table->timestamps();
         });

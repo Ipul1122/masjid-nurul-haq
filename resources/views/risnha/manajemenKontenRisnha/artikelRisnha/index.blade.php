@@ -1,61 +1,77 @@
 @extends('layouts.risnha')
 
-@section('title', 'Artikel Risnha')
+@section('title', 'Manajemen Artikel Risnha')
 @section('content')
 <div class="container mt-4">
-    <h3 class="mb-3">Daftar Artikel Risnha</h3>
-
-    <a href="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.create') }}" class="btn btn-primary mb-3">
-        <i class="fa fa-plus me-2"></i>Tambah Artikel
-    </a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Manajemen Artikel Risnha</h3>
+        <a href="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.create') }}" class="btn btn-success">
+            <i class="fa fa-plus me-1"></i> Tambah Artikel
+        </a>
+    </div>
 
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-striped align-middle">
+                <table class="table table-bordered table-hover align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 5%">No</th>
+                            <th style="width: 5%;">#</th>
                             <th>Nama Artikel</th>
                             <th>Kategori</th>
-                            <th>Foto</th>
-                            <th>Deskripsi</th>
-                            <th class="text-center" style="width: 15%">Aksi</th>
+                            <th>Gambar</th>
+                            <th>Status</th>
+                            <th class="text-center" style="width: 15%;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($artikelRisnha as $index => $artikel)
+                        @forelse ($artikel as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $artikel->nama }}</td>
-                                <td>{{ $artikel->kategori->nama ?? '-' }}</td>
+                                <td>{{ $item->nama }}</td>
                                 <td>
-                                    @if ($artikel->foto)
-                                        <img src="{{ asset('storage/' . $artikel->foto) }}" 
-                                             alt="foto artikel" 
-                                             width="80" 
-                                             class="rounded shadow-sm border">
+                                    {{ $item->kategori->nama ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    @if ($item->gambar)
+                                        <img src="{{ asset('storage/' . $item->gambar) }}" 
+                                             alt="Gambar Artikel" 
+                                             width="100" 
+                                             class="img-thumbnail rounded">
                                     @else
-                                        <small class="text-muted">Tidak ada</small>
+                                        <small class="text-muted">-</small>
                                     @endif
                                 </td>
-                                <td>{{ Str::limit($artikel->deskripsi, 60) }}</td>
+                                <td>
+                                    @if($item->status == 'published')
+                                        <span class="badge bg-success">Dipublikasikan</span>
+                                    @else
+                                        <span class="badge bg-warning text-dark">Draf</span>
+                                    @endif
+                                </td>
                                 <td class="text-center">
-                                    <a href="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.edit', $artikel->id) }}" 
-                                       class="btn btn-sm btn-warning me-1">
+                                    <a href="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.preview', $item->id) }}" 
+                                       class="btn btn-sm btn-info" title="Pratinjau">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.edit', $item->id) }}" 
+                                       class="btn btn-sm btn-primary" title="Edit">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <form action="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.destroy', $artikel->id) }}" 
+                                    <form action="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.destroy', $item->id) }}" 
                                           method="POST" 
                                           class="d-inline" 
                                           onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">
+                                        <button class="btn btn-sm btn-danger" type="submit" title="Hapus">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </form>
@@ -63,21 +79,17 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center text-muted">Belum ada artikel</td>
+                                <td colspan="6" class="text-center text-muted">Belum ada artikel.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
 
-            {{-- Menampilkan pagination jika ada --}}
-            @if (method_exists($artikelRisnha, 'links'))
-                <div class="mt-3">
-                    {{ $artikelRisnha->links() }}
-                </div>
-            @endif
+            <div class="mt-3">
+                {{ $artikel->links() }}
+            </div>
         </div>
     </div>
 </div>
 @endsection
-

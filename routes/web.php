@@ -125,7 +125,9 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
             Route::resource('kegiatanRisnha', KegiatanRisnhaController::class);
 
             // ✅ Route untuk Artikel Risnha
-            Route::get('artikelRisnha/preview/{artikelRisnha}', [ArtikelRisnhaController::class, 'preview'])->name('artikelRisnha.preview');
+            Route::get('artikel-risnha/{id}/preview', [ArtikelRisnhaController::class, 'preview'])->name('artikelRisnha.preview');
+            Route::patch('artikel-risnha/{id}/publish', [ArtikelRisnhaController::class, 'publish'])->name('artikelRisnha.publish');
+            // Route::get('artikelRisnha/preview/{artikelRisnha}', [ArtikelRisnhaController::class, 'preview'])->name('artikelRisnha.preview');
             Route::resource('artikelRisnha', ArtikelRisnhaController::class);
             Route::resource('galeriRisnha', GaleriRisnhaController::class);
         });
