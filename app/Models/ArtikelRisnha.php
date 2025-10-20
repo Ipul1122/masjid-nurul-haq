@@ -28,6 +28,6 @@ class ArtikelRisnha extends Model
 
     public function getSlugAttribute(): string
     {
-        return Str::slug($this->judul);
+        return Str::slug($this->nama);
     }
 }

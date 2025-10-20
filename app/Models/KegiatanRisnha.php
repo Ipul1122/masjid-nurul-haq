@@ -13,7 +13,7 @@ class KegiatanRisnha extends Model
     protected $fillable = [
         'no',
         'nama',
-        'foto',
+        'gambar',
         'deskripsi',
         'kategori_kegiatan_risnha_id',
         'status',

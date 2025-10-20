@@ -29,10 +29,10 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Foto</label>
-                    <input type="file" name="foto" class="form-control" accept=".jpg,.jpeg,.png">
+                    <label class="form-label">gambar</label>
+                    <input type="file" name="gambar" class="form-control" accept=".jpg,.jpeg,.png">
                     <small class="text-muted">Maks 2MB (jpg, jpeg, png)</small>
-                    @error('foto') <small class="text-danger">{{ $message }}</small> @enderror
+                    @error('gambar') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 <div class="mb-3">

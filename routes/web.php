@@ -96,9 +96,17 @@ Route::name('penggunaMasjid.')->group(function () {
 });
 
     // == PENGGUNA MASJID ROUTES UNTUK RISNHA ==
-    Route::prefix('penggunaMasjid/risnhaMasjid')->name('risnhaMasjid.')->group(function () {
-        Route::get('/risnha-masjid', [RisnhaHomeController::class, 'index'])->name('index');
-        Route::get('/risnha-masjid/{kegiatan}/{slug?}', [RisnhaHomeController::class, 'show'])->name('show');
+
+Route::prefix('penggunaMasjid/risnhaMasjid')->name('risnhaMasjid.')->group(function () {
+    
+    // URL: .../penggunaMasjid/risnhaMasjid
+    Route::get('/risnha-masjid', [RisnhaHomeController::class, 'index'])->name('index');
+    
+    // URL Kegiatan: .../penggunaMasjid/risnhaMasjid/kegiatan/{id}/{slug}
+    Route::get('/kegiatan/{kegiatan}/{slug?}', [RisnhaHomeController::class, 'show'])->name('show');
+    
+    // URL Artikel: .../penggunaMasjid/risnhaMasjid/artikel/{id}/{slug}
+    Route::get('/artikel/{artikel}/{slug?}', [RisnhaHomeController::class, 'showArtikel'])->name('showArtikel');
 });
    
     

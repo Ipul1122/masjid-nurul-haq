@@ -12,7 +12,7 @@
             <h4 class="card-title">{{ $artikel->judul }}</h4>
             <hr>
             <div class="mb-3">
-                <strong>Kategori:</strong> {{ $artikel->kategori->nama_kategori ?? 'N/A' }}
+                <strong>Kategori:</strong> {{ $artikel->kategori->nama ?? 'N/A' }}
             </div>
             <div class="mb-3">
                 <strong>Status:</strong>
@@ -23,8 +23,8 @@
                 @endif
             </div>
             <div class="card-text border p-3 rounded bg-light">
-                {!! $artikel->isi !!}
-            </div>
+                {!! $artikel->deskripsi !!}
+        </div>
         </div>
     </div>
 

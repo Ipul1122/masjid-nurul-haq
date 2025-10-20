@@ -27,7 +27,7 @@
                             <th>No</th>
                             <th>Nama Kegiatan</th>
                             <th>Kategori</th>
-                            <th>Foto</th>
+                            <th>gambar</th>
                             <th>Status</th>
                             <th style="width: 150px;">Aksi</th>
                         </tr>
@@ -39,8 +39,8 @@
                                 <td>{{ $kegiatan->nama }}</td>
                                 <td>{{ $kegiatan->kategori->nama_kategori ?? 'N/A' }}</td>
                                 <td>
-                                    @if($kegiatan->foto)
-                                        <img src="{{ asset('storage/' . $kegiatan->foto) }}" alt="Foto" width="100" class="img-thumbnail">
+                                    @if($kegiatan->gambar)
+                                        <img src="{{ asset('storage/' . $kegiatan->gambar) }}" alt="gambar" width="100" class="img-thumbnail">
                                     @else
                                         -
                                     @endif
