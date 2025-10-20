@@ -9,34 +9,36 @@ use Illuminate\Http\Request;
 
 class RisnhaHomeController extends Controller
 {
+    // app/Http/Controllers/penggunaMasjid/RisnhaMasjidController/RisnhaHomeController.php
+
     public function index()
     {
-        // Ambil kegiatan, standarkan nama properti, dan tambahkan tipe
+        // Ambil kegiatan dan standarkan nama propertinya
         $kegiatan = KegiatanRisnha::where('status', 'published')
             ->latest()
             ->get()
             ->map(function($item) {
-                $item->judul = $item->nama; // Standarkan 'nama' menjadi 'judul'
-                $item->foto = $item->gambar; // Standarkan 'foto' menjadi 'gambar'
+                $item->judul = $item->nama; // Mengubah 'nama' menjadi 'judul'
+                $item->foto = $item->gambar; // Mengubah 'foto' menjadi 'gambar'
                 $item->type = 'kegiatan';
                 return $item;
             });
 
-        // Ambil artikel, standarkan nama properti, dan tambahkan tipe
+        // Ambil artikel dan standarkan nama propertinya
         $artikel = ArtikelRisnha::where('status', 'published')
             ->latest()
             ->get()
             ->map(function($item) {
-                $item->judul = $item->nama; // Standarkan 'nama' menjadi 'judul'
-                // 'gambar' sudah sesuai, tidak perlu diubah
+                $item->judul = $item->nama; // Mengubah 'nama' menjadi 'judul'
+                // Properti 'gambar' sudah ada, jadi tidak perlu diubah
                 $item->type = 'artikel';
                 return $item;
             });
 
-        // Gabungkan kedua koleksi, urutkan, dan batasi jumlahnya
+        // Gabungkan, urutkan, dan kirim ke view
         $kontenRisnha = $kegiatan->merge($artikel)
-                                 ->sortByDesc('created_at')
-                                 ->take(9); // Ambil 9 konten terbaru
+                                ->sortByDesc('created_at')
+                                ->take(6);
 
         return view('penggunaMasjid.risnhaMasjid.index', compact('kontenRisnha'));
     }

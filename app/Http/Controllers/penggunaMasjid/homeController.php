@@ -9,43 +9,44 @@ use App\Models\Kegiatan;
 use App\Models\JadwalImam; 
 use Illuminate\Http\Request;
 
-// app/Http/Controllers/penggunaMasjid/homeController.php
-
-// ... (namespace dan use statements sudah ada)
-
 class HomeController extends Controller
 {
+    /**
+     * Menampilkan halaman utama dengan konten terbaru dari artikel dan kegiatan.
+     */
     public function index()
     {
-        $homeSections = HomeSection::all();
+        // $homeSections = HomeSection::all();
 
-         // Mengambil 5 artikel terbaru yang sudah di-publish
-        $artikel = Artikel::where('status', 'published') 
+        // Mengambil 6 artikel terbaru yang sudah di-publish sebagai "kandidat"
+        $artikelMasjid = Artikel::where('status', 'published') 
             ->latest()
-            ->take(5)
             ->get()
             ->map(function($item) {
                 $item->type = 'artikel';
                 return $item;
             });
 
-        // Mengambil 5 kegiatan terbaru yang sudah di-publish
-        $kegiatan = Kegiatan::where('status', 'published')
+        // Mengambil 6 kegiatan terbaru yang sudah di-publish sebagai "kandidat"
+        $kegiatanMasjid = Kegiatan::where('status', 'published')
             ->latest()
-            ->take(5)
             ->get()
             ->map(function($item) {
                 $item->type = 'kegiatan';
                 return $item;
             });
 
-        // Menggabungkan dan mengurutkan berdasarkan tanggal terbaru
-         $kontenTerbaru = $artikel->merge($kegiatan)
-                                 ->sortByDesc('created_at')
-                                 ->take(6); 
+        // 1. Gabungkan DUA koleksi (total maks. 12 item).
+        // 2. Urutkan berdasarkan tanggal pembuatan secara menurun.
+        // 3. Ambil 6 item teratas dari hasil gabungan yang sudah terurut.
+        $kontenTerbaru = collect()
+            ->merge($artikelMasjid->take(3))
+            ->merge($kegiatanMasjid->take(3))
+            ->sortByDesc('created_at')
+            ->values();
 
         $jadwalImam = JadwalImam::latest()->get();
 
-        return view('index', compact('homeSections', 'kontenTerbaru', 'jadwalImam'));
+        return view('index', compact( 'kontenTerbaru', 'jadwalImam'));
     }
 }
