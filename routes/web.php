@@ -54,7 +54,7 @@ use App\Http\Controllers\PenggunaMasjid\KontakMasjidController;
 use App\Http\Controllers\PenggunaMasjid\VisiDanMisiController;
 use App\Http\Controllers\PenggunaMasjid\SejarahMasjidController;
 use App\Http\Controllers\PenggunaMasjid\DonasiMasjidController;
-use App\Http\Controllers\PenggunaMasjid\BuktiDonasiController;
+use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\RisnhaHomeController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -88,18 +88,16 @@ Route::name('penggunaMasjid.')->group(function () {
     });
 
     // == PENGGUNA MASJID ROUTES UNTUK DONASI ==
-Route::prefix('penggunaMasjid/donasi')->name('donasi.')->group(function () {
-    // Route untuk halaman utama donasi (GET /penggunaMasjid/donasi)
-    Route::get('/donasi-masjid', [DonasiMasjidController::class, 'index'])->name('index');
-    
-    // Route untuk menampilkan form kirim bukti (GET /penggunaMasjid/donasi/kirimBukti)
-    Route::get('/kirimBukti', [DonasiMasjidController::class, 'kirimBukti'])->name('kirimBukti');
-    
-    // Route untuk memproses form kirim bukti (POST /penggunaMasjid/donasi/kirimBukti)
-    Route::post('/kirimBukti', [DonasiMasjidController::class, 'storeBukti'])->name('kirimBukti.store');
+    Route::prefix('penggunaMasjid/donasi')->name('donasi.')->group(function () {
+        Route::get('/donasi-masjid', [DonasiMasjidController::class, 'index'])->name('index');
+        Route::get('/kirimBukti', [DonasiMasjidController::class, 'kirimBukti'])->name('kirimBukti');
+        Route::post('/kirimBukti', [DonasiMasjidController::class, 'storeBukti'])->name('kirimBukti.store');
+        Route::get('/hasil', [DonasiMasjidController::class, 'hasilDonasi'])->name('hasilDonasi');
+});
 
-    // Route untuk menampilkan hasil donasi yang terverifikasi (GET /penggunaMasjid/donasi/hasil)
-    Route::get('/hasil', [DonasiMasjidController::class, 'hasilDonasi'])->name('hasilDonasi');
+    // == PENGGUNA MASJID ROUTES UNTUK RISNHA ==
+    Route::prefix('penggunaMasjid/risnhaMasjid')->name('risnhaMasjid.')->group(function () {
+        Route::get('/risnha-masjid', [RisnhaHomeController::class, 'index'])->name('index');
 });
    
     

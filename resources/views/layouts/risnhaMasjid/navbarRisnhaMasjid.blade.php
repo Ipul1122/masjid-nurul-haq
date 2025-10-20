@@ -7,7 +7,7 @@
                     <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
                         <i class="fas fa-mosque text-white text-base"></i>
                     </div>
-                    <span class="font-semibold text-gray-900 text-base hidden sm:block">Masjid Nurul Haq</span>
+                    <span class="font-semibold text-gray-900 text-base hidden sm:block">Risnha </span>
                 </a>
 
                 <!-- Desktop Menu -->
@@ -31,14 +31,11 @@
                     <a href="{{ route('penggunaMasjid.lihatKonten.kontenMasjid') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Konten
                     </a>
-                    <a href="{{ route('penggunaMasjid.keuanganMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Keuangan
-                    </a>
                     <a href="{{ route('penggunaMasjid.galeriMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Galeri
                     </a>
-                    <a href="{{ route('penggunaMasjid.risnhaMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Risnha
+                    <a href="{{ route('index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Dkm
                     </a>
                     <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Kontak
@@ -50,22 +47,13 @@
                         Hasil Donasi
                     </a> --}}
 
-                    <div class="relative group">
-                        <button class="flex items-center space-x-1 text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                            <span>Donasi</span>
-                            <i class="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
-                        </button>
-                        <div class="absolute left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-1">
-                            <a href="{{ route('penggunaMasjid.donasi.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Donasi</a>
-                            <a href="{{ route('penggunaMasjid.donasi.hasilDonasi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors">Hasil Donasi</a>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Clock & Login -->
                 <div class="hidden lg:flex items-center space-x-4">
                     <div class="live-clock text-xs font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg"></div>
-                    <a href="{{ route('dkm.login') }}" class="bg-blue-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('risnha.login') }}" class="bg-blue-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
                         Login
                     </a>
                 </div>
@@ -102,14 +90,11 @@
                 <a href="{{route('penggunaMasjid.lihatKonten.kontenMasjid')}}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Konten
                 </a>
-                <a href="{{route('penggunaMasjid.keuanganMasjid.index')}}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-                    Keuangan
-                </a>
                 <a href="{{ route('penggunaMasjid.galeriMasjid.index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Galeri
                 </a>
-                <a href="{{ route('penggunaMasjid.risnhaMasjid.index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-                    Risnha
+                <a href="{{ route('index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Dkm
                 </a>
                 <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Kontak
@@ -119,7 +104,7 @@
                 </a>
                 
                 <div class="pt-3">
-                    <a href="{{ route('dkm.login') }}" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('risnha.login') }}" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
                         Login
                     </a>
                 </div>
