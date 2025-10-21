@@ -41,9 +41,10 @@ use App\Http\Controllers\Risnha\NotifikasiRisnhaController;
 use App\Http\Controllers\Risnha\KategoriKegiatanRisnhaController;
 use App\Http\Controllers\Risnha\KategoriArtikelRisnhaController;
 use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
+use App\Http\Controllers\Risnha\TampilanPenggunaMasjid\HomeSectionRisnhaController;
 
 // USER ROUTES
-use App\Http\Controllers\penggunaMasjid\homeController;
+use App\Http\Controllers\penggunaMasjid\HomeController;
 use App\Http\Controllers\penggunaMasjid\LihatKontenController;
 use App\Http\Controllers\PenggunaMasjid\KontenMasjidController;
 use App\Http\Controllers\PenggunaMasjid\KeuanganMasjidController;
@@ -61,7 +62,7 @@ use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\LihatKontenRisnha
 // 📌 GENERAL ROUTES
 // ===================
 // Route untuk konten masjid biasa
-Route::get('/', [homeController::class, 'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/konten/{type}/{id}', [LihatKontenController::class, 'show'])->name('konten.show');
 
 // ===============================================
@@ -150,6 +151,10 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
         // Tambahan untuk auto delete & count
         Route::get('/notifikasi/auto-delete-old', [NotifikasiRisnhaController::class, 'autoDeleteOld'])->name('notifikasiRisnha.autoDeleteOld');
         Route::get('/notifikasi/count', [NotifikasiRisnhaController::class, 'count'])->name('notifikasiRisnha.count');
+
+        Route::prefix('tampilanPenggunaMasjid')->name('tampilanPenggunaMasjid.')->group(function () {
+            Route::resource('homeSectionRisnha', HomeSectionRisnhaController::class);
+        });
     });
 });
 
