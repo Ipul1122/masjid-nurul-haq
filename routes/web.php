@@ -44,7 +44,7 @@ use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
 use App\Http\Controllers\Risnha\TampilanPenggunaMasjid\HomeSectionRisnhaController;
 
 // USER ROUTES
-use App\Http\Controllers\penggunaMasjid\HomeController;
+use App\Http\Controllers\PenggunaMasjid\HomeController;
 use App\Http\Controllers\penggunaMasjid\LihatKontenController;
 use App\Http\Controllers\PenggunaMasjid\KontenMasjidController;
 use App\Http\Controllers\PenggunaMasjid\KeuanganMasjidController;
