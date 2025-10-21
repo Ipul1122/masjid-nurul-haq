@@ -82,6 +82,14 @@
                 <i class="fas fa-user-cog"></i>
                 <span>Manajemen Pengguna</span>
             </a>
+        
+        </div>
+        <!-- Manajemen Pengguna -->
+        <div class="sidebar-menu-item">
+            <a href="{{ route('risnha.tampilanPenggunaMasjid.homeSectionRisnha.index') }}">
+                <i class="fas fa-user-cog"></i>
+                <span>Manajemen Pengguna</span>
+            </a>
         </div>
     </div>
 
