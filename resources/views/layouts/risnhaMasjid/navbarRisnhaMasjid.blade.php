@@ -29,7 +29,7 @@
                     </div>
 
                     <a href="{{ route('penggunaMasjid.risnhaMasjid.kontenRisnha') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Konten
+                        Kontenn
                     </a>
                     <a href="{{ route('penggunaMasjid.galeriMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Galeri
