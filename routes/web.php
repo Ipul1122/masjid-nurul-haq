@@ -45,7 +45,7 @@ use App\Http\Controllers\Risnha\TampilanPenggunaMasjid\HomeSectionRisnhaControll
 
 // USER ROUTES
 use App\Http\Controllers\PenggunaMasjid\HomeController;
-use App\Http\Controllers\penggunaMasjid\LihatKontenController;
+use App\Http\Controllers\PenggunaMasjid\LihatKontenController;
 use App\Http\Controllers\PenggunaMasjid\KontenMasjidController;
 use App\Http\Controllers\PenggunaMasjid\KeuanganMasjidController;
 use App\Http\Controllers\PenggunaMasjid\DetailPemasukkanMasjidController;
@@ -57,6 +57,7 @@ use App\Http\Controllers\PenggunaMasjid\SejarahMasjidController;
 use App\Http\Controllers\PenggunaMasjid\DonasiMasjidController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\RisnhaHomeController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\LihatKontenRisnhaController;
+use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\KontenRisnhaController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -102,6 +103,8 @@ Route::name('penggunaMasjid.')->group(function () {
     // == PENGGUNA MASJID ROUTES UNTUK RISNHA ==
     Route::prefix('penggunaMasjid/risnhaMasjid')->name('risnhaMasjid.')->group(function () {
         Route::get('/risnha-masjid', [RisnhaHomeController::class, 'index'])->name('index');
+        Route::get('/konten-risnha', [KontenRisnhaController::class, 'index'])->name('kontenRisnha');
+        Route::get('/konten-risnha/{type}/{id}', [KontenRisnhaController::class, 'show'])->name('lihatKontenRisnha');
         Route::get('/kegiatan/{kegiatan}/{slug?}', [RisnhaHomeController::class, 'show'])->name('show');
         Route::get('/artikel/{artikel}/{slug?}', [RisnhaHomeController::class, 'showArtikel'])->name('showArtikel');
     });

@@ -2,10 +2,10 @@
 
 @php
     // Variabel generik untuk menangani kedua tipe konten
-    $isKegiatan = $item instanceof \App\Models\KegiatanRisnha;
-    $nama = $item->nama;
-    $gambar = $isKegiatan ? $item->gambar : $item->gambar;
-    $deskripsi = $item->deskripsi;
+    $isKegiatan = $konten instanceof \App\Models\KegiatanRisnha;
+    $nama = $konten->nama;
+    $gambar = $isKegiatan ? $konten->gambar : $konten->gambar;
+    $deskripsi = $konten->deskripsi;
     // $kontenSebelumnya = $kontenSebelumnya ?? collect();
 @endphp
 
@@ -84,14 +84,14 @@
                             <div class="flex items-center text-sm text-gray-500 mt-3">
                                 <!-- Tanggal Terbit -->
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <span>Diterbitkan pada {{ $item->created_at->translatedFormat('l, d F Y') }}</span>
+                                <span>Diterbitkan pada {{ $konten->created_at->translatedFormat('l, d F Y') }}</span>
                                 
-                                @if(isset($item->views))
+                                @if(isset($konten->views))
                                 <span class="mx-2">•</span>
                                 
                                 <!-- Jumlah Dilihat -->
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                <span>Dilihat {{ $item->views }} kali</span>
+                                <span>Dilihat {{ $konten->views }} kali</span>
                                 @endif
                             </div>
                         </div>
@@ -106,45 +106,46 @@
             </div>
 
          <!-- RIGHT COLUMN: Konten Sebelumnya -->
-<div class="lg:col-span-3">
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-lg font-bold text-gray-800 mb-4">Konten Sebelumnya</h3>
+            <div class="lg:col-span-3">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Konten Sebelumnya</h3>
 
-        @if(isset($kontenSebelumnya) && $kontenSebelumnya->count())
-            <div class="space-y-4">
-                @foreach($kontenSebelumnya as $konten)
-                    @php
-                        $isArtikel = $konten instanceof \App\Models\ArtikelRisnha;
-                        $routeName = $isArtikel
-                            ? 'penggunaMasjid.risnhaMasjid.showArtikel'
-                            : 'penggunaMasjid.risnhaMasjid.show';
-                    @endphp
+                    @if(isset($kontenSebelumnya) && $kontenSebelumnya->count())
+                        <div class="space-y-4">
+                            @foreach($kontenSebelumnya as $konten)
+                                @php
+                                    $isArtikel = $konten instanceof \App\Models\ArtikelRisnha;
+                                    $routeName = $isArtikel
+                                        ? 'penggunaMasjid.risnhaMasjid.showArtikel'
+                                        : 'penggunaMasjid.risnhaMasjid.show';
+                                @endphp
 
-                    <a href="{{ route($routeName, [$konten->id, $konten->slug]) }}"
-                       class="block bg-gray-50 hover:bg-gray-100 p-3 rounded-lg transition">
-                        <div class="flex items-start space-x-3">
-                            @if($konten->gambar)
-                                <img src="{{ asset('storage/'.$konten->gambar) }}"
-                                     alt="{{ $konten->nama }}"
-                                     class="w-14 h-14 object-cover rounded-md flex-shrink-0">
-                            @endif
+                                <a href="{{ route($routeName, [$konten->id, $konten->slug]) }}"
+                                class="block bg-gray-50 hover:bg-gray-100 p-3 rounded-lg transition">
+                                    <div class="flex items-start space-x-3">
+                                        @if($konten->gambar)
+                                            <img src="{{ asset('storage/'.$konten->gambar) }}"
+                                                alt="{{ $konten->nama }}"
+                                                class="w-14 h-14 object-cover rounded-md flex-shrink-0">
+                                        @endif
 
-                            <!-- penting: min-w-0 supaya text wrap di flexbox -->
-                            <div class="min-w-0">
-                                <h4 class="font-semibold text-sm text-gray-800 leading-snug break-words overflow-wrap-break-word whitespace-normal">
-                                    {{ $konten->nama }}
-                                </h4>
-                                <p class="text-xs text-gray-500">{{ $konten->created_at->diffForHumans() }}</p>
-                            </div>
+                                        <!-- penting: min-w-0 supaya text wrap di flexbox -->
+                                        <div class="min-w-0">
+                                            <h4 class="font-semibold text-sm text-gray-800 leading-snug break-words overflow-wrap-break-word whitespace-normal">
+                                                {{ $konten->nama }}
+                                            </h4>
+                                            <p class="text-xs text-gray-500">{{ $konten->created_at->diffForHumans() }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
-                    </a>
-                @endforeach
+                    @else
+                        <p class="text-sm text-gray-500">Tidak ada konten sebelumnya.</p>
+                    @endif
+                </div>
             </div>
-        @else
-            <p class="text-sm text-gray-500">Tidak ada konten sebelumnya.</p>
-        @endif
-    </div>
-</div>
+
 
         </div>
     </div>
