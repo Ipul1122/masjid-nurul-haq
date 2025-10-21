@@ -42,6 +42,8 @@ use App\Http\Controllers\Risnha\KategoriKegiatanRisnhaController;
 use App\Http\Controllers\Risnha\KategoriArtikelRisnhaController;
 use App\Http\Controllers\Risnha\KategoriGaleriRisnhaController;
 use App\Http\Controllers\Risnha\TampilanPenggunaMasjid\HomeSectionRisnhaController;
+use App\Http\Controllers\Risnha\ProfileController;
+
 
 // USER ROUTES
 use App\Http\Controllers\PenggunaMasjid\HomeController;
@@ -59,6 +61,7 @@ use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\RisnhaHomeControl
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\LihatKontenRisnhaController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\KontenRisnhaController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\GaleriRisnhaMasjidController;
+use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\ProfileRisnhaController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -109,6 +112,7 @@ Route::name('penggunaMasjid.')->group(function () {
         Route::get('/kegiatan/{kegiatan}/{slug?}', [RisnhaHomeController::class, 'show'])->name('show');
         Route::get('/artikel/{artikel}/{slug?}', [RisnhaHomeController::class, 'showArtikel'])->name('showArtikel');
         Route::get('/risnha-galeri', [GaleriRisnhaMasjidController::class, 'index'])->name('galeriRisnhaMasjid');
+        Route::get('/risnha-profile', [ProfileRisnhaController::class, 'index'])->name('profileRisnha');
     });
 });
 // ===================
@@ -160,6 +164,9 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
         Route::prefix('tampilanPenggunaMasjid')->name('tampilanPenggunaMasjid.')->group(function () {
             Route::resource('homeSectionRisnha', HomeSectionRisnhaController::class);
         });
+
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
     });
 });
 
