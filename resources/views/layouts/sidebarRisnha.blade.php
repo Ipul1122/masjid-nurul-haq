@@ -88,7 +88,15 @@
         <div class="sidebar-menu-item">
             <a href="{{ route('risnha.tampilanPenggunaMasjid.homeSectionRisnha.index') }}">
                 <i class="fas fa-user-cog"></i>
-                <span>Manajemen Pengguna</span>
+                <span>Manajemen tampilan</span>
+            </a>
+        </div>
+
+        <!-- Manajemen profile -->
+        <div class="sidebar-menu-item">
+            <a href="{{ route('risnha.profile.index') }}">
+                <i class="fas fa-user-cog"></i>
+                <span>Manajemen profile</span>
             </a>
         </div>
     </div>

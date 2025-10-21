@@ -43,12 +43,6 @@
                     <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Kontak
                     </a>
-                    {{-- <a href="{{ route('penggunaMasjid.donasi.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Donasi
-                    </a>
-                    <a href="{{ route('penggunaMasjid.donasi.hasilDonasi') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Hasil Donasi
-                    </a> --}}
 
                     <div class="relative group">
                         <button class="flex items-center space-x-1 text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
