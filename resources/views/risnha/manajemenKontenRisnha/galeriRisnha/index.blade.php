@@ -6,7 +6,10 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4>Daftar Galeri Risnha</h4>
-        <a href="{{ route('risnha.manajemenKontenRisnha.galeriRisnha.create') }}" class="btn btn-primary">+ Tambah Galeri</a>
+        <a href="{{ route('risnha.manajemenKontenRisnha.galeriRisnha.create') }}" class="btn btn-primary"> + Tambah Galeri</a>
+        <a href="{{ route('penggunaMasjid.risnhaMasjid.galeriRisnhaMasjid') }}" target="_blank" class="bg-green-500 hover:bg-green-700 text-black font-bold py-2 px-4 rounded">
+        Lihat Halaman Publik
+    </a>
     </div>
 
     @if (session('success'))
