@@ -15,7 +15,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->date('tanggal_rilis')->default(now());
             $table->string('status')->default('draft');
-            $table->unsignedInteger('views')->default(0); // Tambahkan baris ini
+            $table->unsignedInteger('views')->default(0); 
             $table->timestamps();
         });
     }
