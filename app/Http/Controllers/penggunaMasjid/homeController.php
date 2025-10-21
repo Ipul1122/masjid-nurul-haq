@@ -47,6 +47,9 @@ class HomeController extends Controller
 
         $jadwalImam = JadwalImam::latest()->get();
 
-        return view('index', compact( 'kontenTerbaru', 'jadwalImam'));
+        $homeSections = HomeSection::all();
+
+
+        return view('index', compact( 'kontenTerbaru', 'jadwalImam', 'homeSections'));
     }
 }
