@@ -57,7 +57,16 @@ class RisnhaHomeController extends Controller
             ], 301);
         }
 
-        return view('penggunaMasjid.risnhaMasjid.lihatKontenRisnha', ['item' => $kegiatan]);
+         // Tambahkan setelah variabel $kegiatan atau $item sudah ada
+    $kontenSebelumnya = KegiatanRisnha::where('id', '>', $kegiatan->id)
+        ->orderBy('id', 'asc')
+        ->take(5)
+        ->get();
+
+        return view('penggunaMasjid.risnhaMasjid.lihatKontenRisnha', [
+            'item' => $kegiatan,
+            'kontenSebelumnya' => $kontenSebelumnya,
+        ]);
     }
 
     // Menampilkan detail artikel
@@ -74,6 +83,16 @@ class RisnhaHomeController extends Controller
             ], 301);
         }
 
-        return view('penggunaMasjid.risnhaMasjid.lihatKontenRisnha', ['item' => $artikel]);
+        
+    $kontenSebelumnya = ArtikelRisnha::where('id', '>', $artikel->id)
+        ->orderBy('id', 'asc')
+        ->take(5)
+        ->get();
+
+
+        return view('penggunaMasjid.risnhaMasjid.lihatKontenRisnha', [
+            'item' => $artikel,
+            'kontenSebelumnya' => $kontenSebelumnya,
+        ]);
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->dateTime('jadwal');
             $table->text('deskripsi')->nullable();
             $table->string('status')->default('draft');
-            $table->unsignedInteger('views')->default(0); // Tambahkan baris ini
+            $table->unsignedInteger('views')->default(0); 
             $table->timestamps();
         });
     }

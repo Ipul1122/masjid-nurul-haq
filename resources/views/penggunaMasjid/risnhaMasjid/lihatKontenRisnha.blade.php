@@ -6,6 +6,7 @@
     $nama = $item->nama;
     $gambar = $isKegiatan ? $item->gambar : $item->gambar;
     $deskripsi = $item->deskripsi;
+    // $kontenSebelumnya = $kontenSebelumnya ?? collect();
 @endphp
 
 @section('title', $nama)
@@ -77,10 +78,9 @@
                         @endif
 
                         <div class="mb-4">
-                            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
+                            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight break-words overflow-wrap-anywhere">
                                 {{ $nama }}
-                            </h1>
-                            
+                            </h1>                            
                             <div class="flex items-center text-sm text-gray-500 mt-3">
                                 <!-- Tanggal Terbit -->
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -105,46 +105,46 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: Latest Updates -->
-            <div class="lg:col-span-3">
-                <div class="bg-white rounded-lg shadow-md p-6 top-6 sticky" >
-                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center ">
-                        <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        Update Terbaru
-                    </h3>
-                    
-                    @if(isset($latestUpdates) && $latestUpdates->count() > 0)
-                        <div class="space-y-4">
-                            @foreach($latestUpdates as $update)
-                                <a href="{{ route('penggunaMasjid.risnhaMasjid.lihatKontenRisnha', ['type' => $type, 'id' => $update->id]) }}" 
-                                   class="block group hover:bg-gray-50 p-3 rounded-lg transition-colors duration-200">
-                                    
-                                    @if($update->gambar)
-                                        <img src="{{ asset('storage/' . $update->gambar) }}" 
-                                             alt="{{ $update->nama }}" 
-                                             class="w-full h-32 object-cover rounded-md mb-2">
-                                    @endif
-                                    
-                                    <h4 class="font-semibold text-sm text-gray-900 group-hover:text-green-600 line-clamp-2 mb-1">
-                                        {{ $update->nama }}
-                                    </h4>
-                                    
-                                    <div class="flex items-center text-xs text-gray-500">
-                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                        {{ $update->created_at->diffForHumans() }}
-                                    </div>
-                                </a>
-                                
-                                @if(!$loop->last)
-                                    <hr class="border-gray-200">
-                                @endif
-                            @endforeach
+         <!-- RIGHT COLUMN: Konten Sebelumnya -->
+<div class="lg:col-span-3">
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Konten Sebelumnya</h3>
+
+        @if(isset($kontenSebelumnya) && $kontenSebelumnya->count())
+            <div class="space-y-4">
+                @foreach($kontenSebelumnya as $konten)
+                    @php
+                        $isArtikel = $konten instanceof \App\Models\ArtikelRisnha;
+                        $routeName = $isArtikel
+                            ? 'penggunaMasjid.risnhaMasjid.showArtikel'
+                            : 'penggunaMasjid.risnhaMasjid.show';
+                    @endphp
+
+                    <a href="{{ route($routeName, [$konten->id, $konten->slug]) }}"
+                       class="block bg-gray-50 hover:bg-gray-100 p-3 rounded-lg transition">
+                        <div class="flex items-start space-x-3">
+                            @if($konten->gambar)
+                                <img src="{{ asset('storage/'.$konten->gambar) }}"
+                                     alt="{{ $konten->nama }}"
+                                     class="w-14 h-14 object-cover rounded-md flex-shrink-0">
+                            @endif
+
+                            <!-- penting: min-w-0 supaya text wrap di flexbox -->
+                            <div class="min-w-0">
+                                <h4 class="font-semibold text-sm text-gray-800 leading-snug break-words overflow-wrap-break-word whitespace-normal">
+                                    {{ $konten->nama }}
+                                </h4>
+                                <p class="text-xs text-gray-500">{{ $konten->created_at->diffForHumans() }}</p>
+                            </div>
                         </div>
-                    @else
-                        <p class="text-sm text-gray-500 italic">Belum ada update terbaru.</p>
-                    @endif
-                </div>
+                    </a>
+                @endforeach
             </div>
+        @else
+            <p class="text-sm text-gray-500">Tidak ada konten sebelumnya.</p>
+        @endif
+    </div>
+</div>
 
         </div>
     </div>
