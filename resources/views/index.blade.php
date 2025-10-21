@@ -3,25 +3,29 @@
 @section('title', 'Beranda')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50 mt-10">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50 ">
     
-    {{-- Hero Carousel --}}
-    @if(isset($homeSections) && $homeSections->isNotEmpty())
-    <div class="relative">
-        <div id="default-carousel" class="relative w-full" data-carousel="slide">
-            <div class="relative h-64 md:h-[32rem] overflow-hidden">
-                @foreach($homeSections as $item)
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
-                    <img src="{{ Storage::url($item->image_path) }}" class="absolute block w-full h-full object-cover" alt="Gambar Masjid Nurul Haq">
+ {{-- Hero Carousel --}}
+@if(isset($homeSections) && $homeSections->isNotEmpty())
+<div class="relative z-20">
+    <div id="default-carousel" class="relative w-full" @if($homeSections->count() > 1) data-carousel="slide" @endif>
+        {{-- Carousel Wrapper --}}
+        <div class="relative h-64 overflow-hidden md:h-[32rem]">
+            @foreach ($homeSections as $item)
+                {{-- Item --}}
+                <div class="{{ $loop->first ? '' : 'hidden' }} duration-700 ease-in-out" @if($homeSections->count() > 1) data-carousel-item @endif>
+                    <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    <img src="{{ Storage::url($item->image_path) }}" class="absolute block object-cover w-full h-full" alt="Gambar Masjid Nurul Haq">
                 </div>
-                @endforeach
-            </div>
-            
+            @endforeach
+        </div>
+
+        {{-- Tampilkan Indikator dan Tombol Navigasi HANYA JIKA gambar lebih dari 1 --}}
+        @if($homeSections->count() > 1)
             {{-- Carousel Indicators --}}
-            <div class="absolute z-20 flex -translate-x-1/2 bottom-6 left-1/2 space-x-2">
+            <div class="absolute z-20 flex space-x-2 -translate-x-1/2 bottom-6 left-1/2">
                 @foreach($homeSections as $key => $item)
-                <button type="button" class="w-2 h-2 rounded-full bg-white/60 hover:bg-white transition-all" aria-current="{{ $loop->first ? 'true' : 'false' }}" aria-label="Slide {{ $key + 1 }}" data-carousel-slide-to="{{ $key }}"></button>
+                <button type="button" class="w-2 h-2 transition-all rounded-full bg-white/60 hover:bg-white" aria-current="{{ $loop->first ? 'true' : 'false' }}" aria-label="Slide {{ $key + 1 }}" data-carousel-slide-to="{{ $key }}"></button>
                 @endforeach
             </div>
             
@@ -32,9 +36,10 @@
             <button type="button" class="absolute top-1/2 right-4 z-20 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full p-3 transition-all group" data-carousel-next>
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
-        </div>
+        @endif
     </div>
-    @endif
+</div>
+@endif
 
     {{-- Running Text --}}
     @if(isset($runningText) && $runningText->content)

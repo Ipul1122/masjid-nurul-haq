@@ -5,6 +5,7 @@ namespace App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController;
 use App\Http\Controllers\Controller;
 use App\Models\KegiatanRisnha;
 use App\Models\ArtikelRisnha;
+use App\Models\TampilanPenggunaMasjid\HomeSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -40,7 +41,9 @@ class RisnhaHomeController extends Controller
             ->values() // reset key
             ->take(6);
 
-        return view('penggunaMasjid.risnhaMasjid.index', compact('kontenRisnha'));
+        $homeSection = HomeSection::all();
+
+        return view('penggunaMasjid.risnhaMasjid.index', compact('kontenRisnha', 'homeSection'));
     }
 
     // Menampilkan detail kegiatan

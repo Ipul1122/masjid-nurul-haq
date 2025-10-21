@@ -100,8 +100,6 @@ Route::name('penggunaMasjid.')->group(function () {
 
     // == PENGGUNA MASJID ROUTES UNTUK RISNHA ==
     Route::prefix('penggunaMasjid/risnhaMasjid')->name('risnhaMasjid.')->group(function () {
-Route::get('/lihat-konten/{tipe}/{id}', [LihatKontenRisnhaController::class, 'show'])->name('lihatKonten');
-
         Route::get('/risnha-masjid', [RisnhaHomeController::class, 'index'])->name('index');
         Route::get('/kegiatan/{kegiatan}/{slug?}', [RisnhaHomeController::class, 'show'])->name('show');
         Route::get('/artikel/{artikel}/{slug?}', [RisnhaHomeController::class, 'showArtikel'])->name('showArtikel');
@@ -292,4 +290,4 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::resource('managePengguna', ManagePenggunaController::class);
         });
     });
-}); 
+});
