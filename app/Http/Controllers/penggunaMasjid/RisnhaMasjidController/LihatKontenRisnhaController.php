@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\penggunaMasjid\RisnhaMasjidController;
+namespace App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController;
 
 use App\Http\Controllers\Controller;
 use App\Models\ArtikelRisnha;
