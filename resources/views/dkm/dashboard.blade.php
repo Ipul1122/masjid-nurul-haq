@@ -6,7 +6,7 @@
 
 <div class="bg-gray-50 p-6">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">
+        <h1 class="text-3xl font-bold text-blue-800">
             Selamat datang, {{ session('dkm_username') }}
         </h1>
     </div>

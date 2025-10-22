@@ -75,7 +75,7 @@
     <div class="flex items-center gap-3 mb-8 md:mb-10">
         <div class="w-1.5 h-10 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-full animate-pulse"></div>
         <div>
-            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">Konten Terbaru</h2>
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-red-600">Konten Terbaru</h2>
             <p class="text-sm md:text-base text-gray-500 mt-1">Informasi dan kegiatan terkini RISNHA</p>
         </div>
     </div>
