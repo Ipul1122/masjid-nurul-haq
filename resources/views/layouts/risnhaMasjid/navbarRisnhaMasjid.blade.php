@@ -27,7 +27,7 @@
                     <a href="{{ route('index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Dkm
                     </a>
-                    <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                    <a href="{{ route('penggunaMasjid.risnhaMasjid.kontakRisnha') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                         Kontak
                     </a>
                     <a href="{{ route('penggunaMasjid.risnhaMasjid.profileRisnha') }}" class="text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
@@ -62,7 +62,6 @@
                     Beranda
                 </a>
                 
-              
 
                 <a href="{{route('penggunaMasjid.risnhaMasjid.kontenRisnha')}}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Konten
@@ -73,7 +72,7 @@
                 <a href="{{ route('index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Dkm
                 </a>
-                <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                <a href="{{ route('penggunaMasjid.risnhaMasjid.kontakRisnha') }}" class="block text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Kontak
                 
                 

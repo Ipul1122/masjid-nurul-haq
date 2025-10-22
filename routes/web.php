@@ -62,6 +62,7 @@ use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\LihatKontenRisnha
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\KontenRisnhaController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\GaleriRisnhaMasjidController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\ProfileRisnhaController;
+use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\KontakRisnhaController;
 
 // ===================
 // 📌 GENERAL ROUTES
@@ -113,7 +114,9 @@ Route::name('penggunaMasjid.')->group(function () {
         Route::get('/artikel/{artikel}/{slug?}', [RisnhaHomeController::class, 'showArtikel'])->name('showArtikel');
         Route::get('/risnha-galeri', [GaleriRisnhaMasjidController::class, 'index'])->name('galeriRisnhaMasjid');
         Route::get('/risnha-profile', [ProfileRisnhaController::class, 'index'])->name('profileRisnha');
+        Route::get('/kontak-risnha', [KontakRisnhaController::class, 'index'])->name('kontakRisnha');
     });
+
 });
 // ===================
 // 📌 RISNHA ROUTES
