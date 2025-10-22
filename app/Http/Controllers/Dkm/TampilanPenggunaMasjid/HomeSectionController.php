@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Dkm\TampilanPenggunaMasjid;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TampilanPenggunaMasjid\HomeSection;
-use App\Models\TampilanPenggunaMasjid\RunningText; // Tambahkan ini
+use App\Models\TampilanPenggunaMasjid\RunningText;
+use App\Models\Notifikasi; 
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class HomeSectionController extends Controller
 {
@@ -27,6 +29,14 @@ class HomeSectionController extends Controller
                 $path = $image->store('carousel', 'public');
                 HomeSection::create(['image_path' => $path]);
             }
+
+            // <-- TAMBAHKAN NOTIFIKASI DI SINI
+            Notifikasi::create([
+                'dkm_id' => session('dkm_id'),
+                'aksi' => 'create',
+                'tabel' => 'home_section', // Sesuaikan dengan tabel Anda
+                'keterangan' => 'Menambah gambar carousel baru',
+            ]);
         }
 
         return back()->with('success', 'Gambar berhasil diunggah.');
@@ -36,6 +46,15 @@ class HomeSectionController extends Controller
     {
         Storage::disk('public')->delete($homeSection->image_path);
         $homeSection->delete();
+
+        // <-- TAMBAHKAN NOTIFIKASI DI SINI
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'delete',
+            'tabel' => 'home_section', // Sesuaikan dengan tabel Anda
+            'keterangan' => 'Menghapus gambar carousel: ' . $homeSection->image_path,
+        ]);
+
         return back()->with('success', 'Gambar berhasil dihapus.');
     }
 
@@ -56,10 +75,18 @@ class HomeSectionController extends Controller
             'content' => 'required|string',
         ]);
 
-        RunningText::updateOrCreate(
+        $runningText = RunningText::updateOrCreate(
             ['id' => 1], // Asumsikan hanya ada satu entri untuk running text
             ['content' => $request->input('content')] // Gunakan metode input() untuk menghindari peringatan
         );
+
+        // <-- TAMBAHKAN NOTIFIKASI DI SINI
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'update',
+            'tabel' => 'running_text', // Sesuaikan dengan tabel Anda
+            'keterangan' => 'Memperbarui running text: ' . $request->input('content'),
+        ]);
 
         return redirect()->back()->with('success', 'Running text berhasil diperbarui.');
     }
@@ -84,6 +111,14 @@ class HomeSectionController extends Controller
                 'background_color' => $request->input('background_color'),
             ]
         );
+
+        // <-- TAMBAHKAN NOTIFIKASI DI SINI
+        Notifikasi::create([
+            'dkm_id' => session('dkm_id'),
+            'aksi' => 'update',
+            'tabel' => 'running_text', // Sesuaikan dengan tabel Anda
+            'keterangan' => 'Memperbarui running text (dengan warna): ' . $request->input('content'),
+        ]);
 
         return redirect()->back()->with('success', 'Running text berhasil diperbarui.');
     }

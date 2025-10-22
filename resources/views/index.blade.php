@@ -64,7 +64,7 @@
         <div class="mb-12">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-1 h-8 bg-gradient-to-b from-emerald-500 to-emerald-600 rounded-full ml-8"></div>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Konten Terbaru</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 ">Konten Terbaru</h2>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
