@@ -167,6 +167,10 @@ Route::prefix('risnha')->name('risnha.')->group(function () {
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+        Route::post('/profile/visi-misi', [ProfileController::class, 'storeVisiMisi'])->name('profile.storeVisiMisi');
+        Route::post('/profile/organisasi', [ProfileController::class, 'storeOrganisasi'])->name('profile.storeOrganisasi');
+        Route::patch('/profile/organisasi/update/{id}', [ProfileController::class, 'updateOrganisasi'])->name('profile.updateOrganisasi');
+        Route::delete('/profile/organisasi/delete/{id}', [ProfileController::class, 'destroyOrganisasi'])->name('profile.destroyOrganisasi');
     });
 });
 

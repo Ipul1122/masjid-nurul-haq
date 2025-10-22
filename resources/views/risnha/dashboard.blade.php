@@ -5,7 +5,7 @@
 @section('content')
 <div class="container ">
     <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-800">
+        <h1 class="text-3xl font-xl text-blue-800">
             Selamat datang, {{ session('risnha_username') }}
         </h1>
     </div>
