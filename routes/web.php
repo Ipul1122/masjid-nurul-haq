@@ -64,12 +64,16 @@ use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\GaleriRisnhaMasji
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\ProfileRisnhaController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\KontakRisnhaController;
 
+// API
+use App\Http\Controllers\Api\JadwalSholatController;
+
 // ===================
 // 📌 GENERAL ROUTES
 // ===================
 // Route untuk konten masjid biasa
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/konten/{type}/{id}', [LihatKontenController::class, 'show'])->name('konten.show');
+Route::get('/api/jadwal-sholat-hari-ini', [JadwalSholatController::class, 'getJadwalHariIni']);
 
 // ===============================================
 //  ROUTES GROUP UNTUK PENGGUNA MASJID
