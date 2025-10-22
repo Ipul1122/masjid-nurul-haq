@@ -28,7 +28,9 @@
         <div class="mb-4">
             <label for="content" class="block mb-2 text-sm font-medium text-gray-900">Isi Teks</label>
             {{-- Perbaikan: Gunakan optional chaining (?->) atau null coalescing operator (??) --}}
-            <textarea name="content" id="content" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Tulis pengumuman di sini...">{{ old('content', $runningText->content ?? '') }}</textarea>
+            <textarea name="content" id="content" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Tulis pengumuman di sini...">
+                {{ old('content', $runningText->content ?? '') }}
+            </textarea>
             <p class="mt-1 text-sm text-gray-500">Teks ini akan berjalan di bagian atas halaman utama website.</p>
         </div>
 
