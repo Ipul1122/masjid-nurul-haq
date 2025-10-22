@@ -1,5 +1,8 @@
 @extends('layouts.dkm')
 
+@section('title', 'Edit Sejarah Masjid')
+
+
 @section('content')
 <div class="container mx-auto p-4 sm:p-6 lg:p-8">
     <div class="max-w-4xl mx-auto">
