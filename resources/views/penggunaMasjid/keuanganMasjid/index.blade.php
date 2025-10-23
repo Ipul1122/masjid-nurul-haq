@@ -3,7 +3,7 @@
 @section('title', 'Keuangan Masjid - Masjid Nurul Haq')
 
 @section('content')
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         
         {{-- Header Section --}}
         <div class="mb-8 mt-16">
@@ -66,11 +66,11 @@
                 <p class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                     Rp {{ number_format($totalPemasukkan, 0, ',', '.') }}
                 </p>
-                <a href="{{ route('penggunaMasjid.keuanganMasjid.detailPemasukkanMasjid') }}" 
+                {{-- <a href="{{ route('penggunaMasjid.keuanganMasjid.detailPemasukkanMasjid') }}" 
                    class="text-sm text-green-600 hover:text-green-700 font-medium inline-flex items-center group">
                     Lihat detail
                     <i class="fas fa-arrow-right ml-1 text-xs group-hover:translate-x-1 transition-transform"></i>
-                </a>
+                </a> --}}
             </div>
 
             {{-- Pengeluaran Card --}}
@@ -85,11 +85,11 @@
                 <p class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                     Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}
                 </p>
-                <a href="{{ route('penggunaMasjid.keuanganMasjid.detailPengeluaranMasjid') }}" 
+                {{-- <a href="{{ route('penggunaMasjid.keuanganMasjid.detailPengeluaranMasjid') }}" 
                    class="text-sm text-red-600 hover:text-red-700 font-medium inline-flex items-center group">
                     Lihat detail
                     <i class="fas fa-arrow-right ml-1 text-xs group-hover:translate-x-1 transition-transform"></i>
-                </a>
+                </a> --}}
             </div>
 
             {{-- Saldo Card --}}
@@ -106,9 +106,9 @@
                 <p class="text-2xl md:text-3xl font-bold {{ $saldoAkhir >= 0 ? 'text-blue-600' : 'text-orange-600' }} mb-3">
                     Rp {{ number_format($saldoAkhir, 0, ',', '.') }}
                 </p>
-                <p class="text-sm text-gray-500">
+                {{-- <p class="text-sm text-gray-500">
                     <i class="fas fa-info-circle mr-1"></i>Total keuangan bulan ini
-                </p>
+                </p> --}}
             </div>
 
         </div>
