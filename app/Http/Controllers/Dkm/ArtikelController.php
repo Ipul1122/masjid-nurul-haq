@@ -95,12 +95,19 @@ class ArtikelController extends Controller
 
         $data = $request->all();
 
+        // ✅ PERUBAHAN DIMULAI DI SINI
         if ($request->hasFile('gambar')) {
+            // Jika ada gambar baru, hapus gambar lama (jika ada) dan simpan yang baru
             if ($artikel->gambar) {
                 Storage::disk('public')->delete($artikel->gambar);
             }
             $data['gambar'] = $request->file('gambar')->store('artikel', 'public');
+        } else {
+            // Jika tidak ada gambar baru, hapus 'gambar' dari array $data
+            // agar tidak menimpa path gambar yang ada di database dengan null
+            unset($data['gambar']);
         }
+        // ✅ PERUBAHAN SELESAI
 
         $artikel->update($data);
         

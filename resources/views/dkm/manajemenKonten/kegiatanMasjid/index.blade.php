@@ -66,19 +66,9 @@
                             <div class="flex items-center justify-center gap-4">
                                 <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.preview', $kM->id) }}" class="font-medium text-gray-600 hover:underline" target="_blank" title="Preview">Preview</a>
                                 <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.edit', ['kegiatanMasjid' => $kM->id, 'page' => request('page', 1)]) }}" class="font-medium text-blue-600 hover:underline" title="Edit">Edit</a>
-                                {{-- @if($kM->status == 'draft')
-                                    <form class="inline" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.publish', $kM->id) }}" method="POST" onsubmit="return confirm('Publikasikan kegiatan ini?')">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="font-medium text-green-600 hover:underline p-0 border-0 bg-transparent" title="Publish">Publish</button>
-                                    </form>
-                                @endif --}}
-
-                                {{-- ✅ TOMBOL HAPUS BARU: MENGGUNAKAN JAVASCRIPT UNTUK MEMBUKA MODAL --}}
                                 <button type="button" class="font-medium text-red-600 hover:underline p-0 border-0 bg-transparent delete-button" data-form-id="delete-form-{{ $kM->id }}" title="Hapus">
                                     Hapus
                                 </button>
-                                {{-- FORM HAPUS TERSEMBUNYI UNTUK SETIAP BARIS --}}
                                 <form id="delete-form-{{ $kM->id }}" class="hidden" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.destroy', $kM->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -100,10 +90,8 @@
 
 </div>
 
-{{-- ====================================================================== --}}
-{{-- ======================== MODAL KONFIRMASI HAPUS ====================== --}}
-{{-- ====================================================================== --}}
-<div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+{{-- ✅ PERUBAHAN HTML: Kelas 'flex' dihapus dari sini. --}}
+<div id="delete-modal" class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 hidden">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
         <div class="text-center">
             <h3 class="text-lg font-bold text-gray-900">Konfirmasi Penghapusan</h3>
@@ -120,9 +108,6 @@
     </div>
 </div>
 
-{{-- ====================================================================== --}}
-{{-- ======================== JAVASCRIPT UNTUK MODAL ====================== --}}
-{{-- ====================================================================== --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const deleteModal = document.getElementById('delete-modal');
@@ -136,13 +121,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const formId = this.getAttribute('data-form-id');
             formToSubmit = document.getElementById(formId);
             if (formToSubmit) {
+                // ✅ PERUBAHAN JS: Tambahkan 'flex' saat menampilkan
                 deleteModal.classList.remove('hidden');
+                deleteModal.classList.add('flex');
             }
         });
     });
 
     cancelDeleteButton.addEventListener('click', function () {
+        // ✅ PERUBAHAN JS: Hapus 'flex' saat menyembunyikan
         deleteModal.classList.add('hidden');
+        deleteModal.classList.remove('flex');
         formToSubmit = null;
     });
 
@@ -155,11 +144,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Klik di luar modal untuk menutup
     window.addEventListener('click', function (event) {
         if (event.target === deleteModal) {
+            // ✅ PERUBAHAN JS: Hapus 'flex' saat menyembunyikan
             deleteModal.classList.add('hidden');
+            deleteModal.classList.remove('flex');
             formToSubmit = null;
         }
     });
 });
 </script>
 @endsection
-

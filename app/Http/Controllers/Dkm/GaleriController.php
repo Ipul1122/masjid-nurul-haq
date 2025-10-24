@@ -32,9 +32,9 @@ class GaleriController extends Controller
 
         // Mengambil tahun unik dari data galeri yang ada
         $years = Galeri::selectRaw('YEAR(tanggal) as year')
-                        ->distinct()
-                        ->orderBy('year', 'desc')
-                        ->pluck('year');
+                       ->distinct()
+                       ->orderBy('year', 'desc')
+                       ->pluck('year');
 
         // Berdasarkan kategori
         $kategoris = KategoriGaleri::all();
@@ -42,7 +42,7 @@ class GaleriController extends Controller
         return view('dkm.manajemenFasilitas.galeri.index', compact(
             'galeris', 
             'years',
-                        'kategoris'));
+                           'kategoris'));
     }
 
     public function create()
@@ -57,7 +57,7 @@ class GaleriController extends Controller
             'kategori_id' => 'required|exists:kategori_galeris,id',
             'judul' => 'required|string|max:255',
             'tanggal' => 'required|date',
-            'gambar.*' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar.*' => 'required|image|mimes:jpg,jpeg,png|max:2048', // Validasi setiap file dalam array
             'deskripsi' => 'nullable|string',
         ]);
 
@@ -73,7 +73,7 @@ class GaleriController extends Controller
             'kategori_id' => $request->kategori_id,
             'judul' => $request->judul,
             'tanggal' => $request->tanggal,
-            'gambar' => $gambarPaths,
+            'gambar' => $gambarPaths, // Simpan array path
             'deskripsi' => $request->deskripsi,
         ]);
 
@@ -101,25 +101,29 @@ class GaleriController extends Controller
             'kategori_id' => 'required|exists:kategori_galeris,id',
             'judul' => 'required|string|max:255',
             'tanggal' => 'required|date',
-            'gambar.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Gambar tidak wajib saat update
             'deskripsi' => 'nullable|string',
         ]);
 
-        $gambarPaths = $galeri->gambar ?? [];
+        // Ambil data yang akan diupdate, kecuali gambar untuk sementara
+        $dataToUpdate = $request->except('gambar');
+
+        // ✅ PERUBAHAN: Logika update gambar
         if ($request->hasFile('gambar')) {
+            // Ambil array path gambar yang sudah ada
+            $existingPaths = $galeri->gambar ?? [];
+            $newPaths = [];
+
+            // Simpan gambar baru dan tambahkan path ke array baru
             foreach ($request->file('gambar') as $file) {
                 $path = $file->store('galeri', 'public');
-                $gambarPaths[] = $path;
+                $newPaths[] = $path;
             }
-        }
-
-        $galeri->update([
-            'kategori_id' => $request->kategori_id,
-            'judul' => $request->judul,
-            'tanggal' => $request->tanggal,
-            'gambar' => $gambarPaths,
-            'deskripsi' => $request->deskripsi,
-        ]);
+            
+            $dataToUpdate['gambar'] = array_merge($existingPaths, $newPaths);
+          
+        } 
+        $galeri->update($dataToUpdate);
 
         // Tambah Notifikasi
         Notifikasi::create([
@@ -135,21 +139,22 @@ class GaleriController extends Controller
 
     public function destroy(Galeri $galeri)
     {
+        // Hapus file gambar dari storage jika ada
         if ($galeri->gambar) {
             foreach ($galeri->gambar as $file) {
                 Storage::disk('public')->delete($file);
             }
         }
 
-        $judul = $galeri->judul;
-        $galeri->delete();
+        $judul = $galeri->judul; // Simpan judul sebelum dihapus
+        $galeri->delete(); // Hapus record dari database
 
         // Tambah Notifikasi
         Notifikasi::create([
             'dkm_id' => session('dkm_id'),
             'aksi' => 'delete',
             'tabel' => 'galeri',
-            'keterangan' => "Menghapus galeri: " . $judul,
+            'keterangan' => "Menghapus galeri: " . $judul, // Gunakan judul yang disimpan
         ]);
 
         return redirect()->route('dkm.manajemenFasilitas.galeri.index')

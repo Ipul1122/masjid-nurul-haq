@@ -36,12 +36,14 @@
             &larr; Kembali ke Daftar
         </a>
 
-        {{-- Form untuk Publikasi --}}
+        {{-- ✅ PERUBAHAN: Form untuk Publikasi (diberi ID, onsubmit dihapus) --}}
         @if($kegiatan->status == 'draft')
-            <form action="{{ route('dkm.manajemenKonten.kegiatanMasjid.publish', $kegiatan->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mempublikasikan kegiatan ini?')">
+            <form id="publish-form" action="{{ route('dkm.manajemenKonten.kegiatanMasjid.publish', $kegiatan->id) }}" method="POST">
                 @csrf
-                @method('PUT') {{-- ✅ INI PERBAIKANNYA --}}
-                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                @method('PUT') 
+                
+                {{-- ✅ PERUBAHAN: Tombol diubah jadi type="button" dan diberi ID --}}
+                <button type="button" id="publish-button" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                     Kirim ke Publik &rarr;
                 </button>
             </form>
@@ -49,6 +51,65 @@
             <span class="px-4 py-2 bg-green-200 text-green-800 rounded-lg font-semibold">Sudah Dipublikasikan</span>
         @endif
     </div>
-
 </div>
+
+{{-- ✅ PERUBAHAN: Menambahkan Modal Konfirmasi Publish --}}
+<div id="publish-modal" class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+        <div class="text-center">
+            <h3 class="text-lg font-bold text-gray-900">Konfirmasi Publikasi</h3>
+            <p class="mt-2 text-sm text-gray-600">Apakah Anda yakin ingin mempublikasikan kegiatan ini? Tindakan ini akan membuatnya terlihat oleh publik.</p>
+        </div>
+        <div class="mt-6 flex justify-center gap-4">
+            <button id="cancel-publish" type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
+                Batal
+            </button>
+            <button id="confirm-publish" type="button" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                Ya, Publikasikan
+            </button>
+        </div>
+    </div>
+</div>
+
+{{-- ✅ PERUBAHAN: Menambahkan Script untuk Modal Publish --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const publishModal = document.getElementById('publish-modal');
+    const publishButton = document.getElementById('publish-button');
+    const cancelPublishButton = document.getElementById('cancel-publish');
+    const confirmPublishButton = document.getElementById('confirm-publish');
+    const formToSubmit = document.getElementById('publish-form');
+
+    // Hanya tambahkan event listener jika tombol publish ada (status 'draft')
+    if (publishButton) {
+        publishButton.addEventListener('click', function () {
+            if (formToSubmit) {
+                publishModal.classList.remove('hidden');
+                publishModal.classList.add('flex'); // Gunakan flex untuk memposisikan
+            }
+        });
+    }
+
+    // Tombol Batal pada modal
+    cancelPublishButton.addEventListener('click', function () {
+        publishModal.classList.add('hidden');
+        publishModal.classList.remove('flex');
+    });
+
+    // Tombol Konfirmasi pada modal
+    confirmPublishButton.addEventListener('click', function () {
+        if (formToSubmit) {
+            formToSubmit.submit();
+        }
+    });
+
+    // Klik di luar modal untuk menutup
+    window.addEventListener('click', function (event) {
+        if (event.target === publishModal) {
+            publishModal.classList.add('hidden');
+            publishModal.classList.remove('flex');
+        }
+    });
+});
+</script>
 @endsection

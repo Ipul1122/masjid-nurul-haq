@@ -21,7 +21,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
         <div class="flex gap-2">
             <a href="{{ route('dkm.kategori.kegiatanMasjid.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-sm">+ Tambah Kategori</a>
-            <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg shadow-sm">Kembali ke Kegiatan</a>
+            <a href="{{ route('dkm.manajemenKonten.kegiatanMasjid.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-sm">Buat Kegiatan Masjid</a>
         </div>
     </div>
 

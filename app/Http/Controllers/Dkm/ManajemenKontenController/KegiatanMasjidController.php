@@ -46,6 +46,8 @@ class KegiatanMasjidController extends Controller
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('kegiatan', 'public');
         }
+
+        
         $data['status'] = 'draft';
         $kegiatan = Kegiatan::create($data);
 
@@ -79,12 +81,17 @@ class KegiatanMasjidController extends Controller
         ]);
 
         $data = $request->all();
+
+        // ✅ PERUBAHAN DIMULAI DI SINI
         if ($request->hasFile('gambar')) {
             if ($kegiatanMasjid->gambar) {
                 Storage::disk('public')->delete($kegiatanMasjid->gambar);
             }
             $data['gambar'] = $request->file('gambar')->store('kegiatan', 'public');
+        } else {
+            unset($data['gambar']);
         }
+        // ✅ PERUBAHAN SELESAI
 
         $kegiatanMasjid->update($data);
 
@@ -143,4 +150,3 @@ class KegiatanMasjidController extends Controller
         return view('dkm.manajemenKonten.kegiatanMasjid.preview', ['kegiatan' => $kegiatanMasjid]);
     }
 }
-

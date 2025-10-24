@@ -1,22 +1,13 @@
 @extends('layouts.dkm')
 
+@section('title', 'Edit Galeri')
+
 @section('content')
 <div class="bg-white p-6 rounded shadow">
     <h2 class="text-xl font-bold mb-4">Edit Galeri</h2>
 
     <form action="{{ route('dkm.manajemenFasilitas.galeri.update', $galeri->id) }}" method="POST" enctype="multipart/form-data">
         @csrf @method('PUT')
-
-        <div class="mb-3">
-            <label class="block mb-1">Kategori</label>
-            <select name="kategori_id" class="w-full border px-3 py-2 rounded" required>
-                @foreach($kategoris as $kategori)
-                    <option value="{{ $kategori->id }}" {{ $galeri->kategori_id == $kategori->id ? 'selected' : '' }}>
-                        {{ $kategori->nama }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
 
         <div class="mb-3">
             <label class="block mb-1">Judul</label>
@@ -41,6 +32,17 @@
         <div class="mb-3">
             <label class="block mb-1">Deskripsi</label>
             <textarea name="deskripsi" class="w-full border px-3 py-2 rounded">{{ $galeri->deskripsi }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="block mb-1">Kategori</label>
+            <select name="kategori_id" class="w-full border px-3 py-2 rounded" required>
+                @foreach($kategoris as $kategori)
+                    <option value="{{ $kategori->id }}" {{ $galeri->kategori_id == $kategori->id ? 'selected' : '' }}>
+                        {{ $kategori->nama }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
