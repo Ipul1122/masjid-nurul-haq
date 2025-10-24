@@ -4,7 +4,9 @@
 @endphp
 
 @if($runningText && !empty($runningText->content))
-<div class="shadow-lg sticky top-16  overflow-hidden z-20" style="background-color: {{ $runningText->background_color }}; color: {{ $runningText->text_color }};">
+<div class="shadow-lg sticky top-16 overflow-hidden z-20" 
+     style="background-color: {{ $runningText->background_color ?? '#FFFFFF' }}; color: {{ $runningText->text_color ?? '#000000' }};">
+    
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="py-3">
             <p class="whitespace-nowrap animate-marquee">
@@ -29,7 +31,6 @@
 .animate-marquee {
     display: inline-block;
     padding-left: 100%; 
-    /* Durasi animasi bisa disesuaikan jika teks menjadi terlalu panjang */
     animation: marquee 50s linear infinite; 
 }
 .animate-marquee span {
@@ -37,10 +38,6 @@
 }
 </style>
 
-{{-- 
-  Script untuk memanggil API Jadwal Sholat.
-  Script ini hanya akan dimuat jika running text aktif.
---}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Panggil API internal yang sudah kita buat

@@ -1,6 +1,7 @@
 @extends('layouts.penggunaMasjid')
 
 @section('title', 'Masjid Nurul Haq - Beranda')
+{{-- @section()<img src="{{ asset('images/logo-masjid-nur-haq.png') }}" alt="Logo Masjid Nurul Haq"> --}}
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50 ">

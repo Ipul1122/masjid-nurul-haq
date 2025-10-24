@@ -21,8 +21,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
         <div class="flex gap-2">
             <a href="{{ route('dkm.kategori.galeri.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-sm">+ Tambah Kategori</a>
-            {{-- Tambahkan link kembali ke galeri jika ada --}}
-            {{-- <a href="{{ route('dkm.manajemenKonten.galeri.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg shadow-sm">Kembali ke Galeri</a> --}}
+            <a href="{{ route('dkm.manajemenFasilitas.galeri.index') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-sm">Kembali ke Galeri</a>
         </div>
     </div>
 
