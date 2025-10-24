@@ -20,7 +20,8 @@
                 class="w-full border px-3 py-2 rounded"
                 required>
         </div>
-        <div class="mb-3">
+
+        {{-- <div class="mb-3">
             <label class="block mb-1">Kategori</label>
             <select name="kategori_id" class="w-full border px-3 py-2 rounded" required>
                 <option value="">-- Pilih Kategori --</option>
@@ -28,15 +29,38 @@
                     <option value="{{ $kat->id }}">{{ $kat->nama }}</option>
                 @endforeach
             </select>
+        </div> --}}
+
+        {{-- KATEGORI --}}
+          <div class="mb-3">
+            <label class="block mb-1" for="kategori_id">Kategori Pengeluaran</label>
+            {{-- ✅ PERUBAHAN: Menambahkan id --}}
+            <select name="kategori_id" id="kategori_id" class="w-full border px-3 py-2 rounded @if($kategori->isEmpty()) bg-gray-100 cursor-not-allowed @endif" 
+                    @if($kategori->isEmpty()) disabled @endif>
+                
+                <option value="">-- Pilih Kategori Pengeluaran --</option>
+                
+                @forelse($kategori as $kat)
+                    <option value="{{ $kat->id }}" {{ old('kategori_id') == $kat->id ? 'selected' : '' }}>
+                        {{ $kat->nama }}
+                    </option>
+                @empty
+                    <option value="" disabled>-- Kategori Kosong --</option>
+                @endforelse
+            </select>
+
+            @if($kategori->isEmpty())
+                <p class="text-red-500 text-sm mt-1">
+                    Kategori tidak tersedia, buat 
+                    <a href="{{ route('dkm.kategori.pengeluaran.create') }}" class="font-bold text-xl text-blue-600 hover:underline">
+                        kategori Pengeluaran
+                    </a> 
+                    segera
+                </p>
+            @endif
         </div>
 
-        <div class="flex gap-2">
-            <a href="{{ route('dkm.kategori.pengeluaran.index') }}"
-               class="bg-green-600 text-white px-4 py-2 rounded">Kategori Tidak Sesuai? Tambahkan</a>
-        </div>
-        <br>
-
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Simpan</button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
         <a href="{{ route('dkm.manajemenKeuangan.pengeluaran.index') }}" class="ml-2 text-gray-600">Batal</a>
     </form>
 </div>

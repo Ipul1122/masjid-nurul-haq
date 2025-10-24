@@ -1,12 +1,16 @@
 @extends('layouts.dkm')
-@section('title', 'pemasukkan')
+@section('title', 'Pemasukkan')
 @section('content')
 <div class="bg-white p-6 rounded shadow">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-bold">Daftar Pemasukkan</h2>
         <div class="flex gap-2">
             <a href="{{ route('dkm.manajemenKeuangan.pemasukkan.create') }}"
-               class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah</a>
+               class="bg-blue-600 text-white px-4 py-2 rounded"> Tambah Pemasukkan
+            </a>
+            <a href="{{ route('dkm.kategori.pemasukkan.create') }}"
+               class="bg-green-600 text-white px-4 py-2 rounded"> Tambah Kategori
+            </a>
         </div>
     </div>
 
