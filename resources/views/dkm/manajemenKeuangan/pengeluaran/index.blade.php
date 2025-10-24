@@ -7,11 +7,10 @@
         <h2 class="text-xl font-bold">Daftar pengeluaran</h2>
         <div class="flex gap-2">
             <a href="{{ route('dkm.manajemenKeuangan.pengeluaran.create') }}"
-               class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah</a>
+               class="bg-blue-600 text-white px-4 py-2 rounded">Tambah Pengeluaran</a>
+            <a href="{{ route('dkm.kategori.pengeluaran.create') }}"
+               class="bg-green-600 text-white px-4 py-2 rounded">Kategori Pengeluaran</a>
 
-            <!-- Tampilkan Semua (lewati filter default) -->
-            {{-- <a href="{{ route('dkm.manajemenKeuangan.pengeluaran.index', ['all' => 1]) }}"
-               class="bg-gray-500 text-white px-3 py-2 rounded">Tampilkan Semua</a> --}}
         </div>
     </div>
 
