@@ -76,15 +76,20 @@
             <div class="p-6 md:p-12">
                 <div id="organisasi-slider" class="relative max-w-5xl mx-auto">
                     {{-- Container untuk slides --}}
-                    <div class="relative overflow-hidden rounded-xl bg-gray-50" style="min-height: 400px;">
+                    <div class="relative overflow-hidden bg-center rounded-xl bg-gray-50" style="min-height: 400px;">
                         @foreach($organisasis as $index => $item)
                             {{-- Slide Item --}}
-                            <div class="slider-item absolute inset-0 transition-all duration-700 ease-in-out {{ $index == 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-95' }}" data-index="{{ $index }}">
+                            {{-- 
+                            TAMBAHKAN KELAS INI: 
+                            flex flex-col items-center justify-center p-4 
+                            --}}
+                            <div class="slider-item absolute inset-0 transition-all duration-700 ease-in-out {{ $index == 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-95' }} flex flex-col items-center justify-center p-4" data-index="{{ $index }}">
+                                
                                 <img src="{{ asset('images/organisasi_risnha/' . $item->gambar_organisasi) }}" 
-                                     alt="Struktur Organisasi {{ $index + 1 }}" 
-                                     class="w-full h-auto object-contain rounded-xl">
+                                    alt="Struktur Organisasi {{ $index + 1 }}" 
+                                    class="w-54 h-auto object-contain rounded-xl">
                                 @if($item->deskripsi)
-                                <p class="text-center text-gray-600 mt-6 text-base md:text-lg px-4">{{ $item->deskripsi }}</p>
+                                    <p class="text-center text-gray-600 mt-6 text-base md:text-lg px-4">{{ $item->deskripsi }}</p>
                                 @endif
                             </div>
                         @endforeach

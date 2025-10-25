@@ -12,6 +12,9 @@
                 <a href="{{ route('penggunaMasjid.risnhaMasjid.index') }}" class="text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                     Beranda
                 </a>
+                <a href="{{ route('penggunaMasjid.risnhaMasjid.profileRisnha') }}" class="text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                    Profile
+                </a>
                 <a href="{{ route('penggunaMasjid.risnhaMasjid.kontenRisnha') }}" class="text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                     Konten
                 </a>
@@ -23,9 +26,6 @@
                 </a>
                 <a href="{{ route('penggunaMasjid.risnhaMasjid.kontakRisnha') }}" class="text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                     Kontak
-                </a>
-                <a href="{{ route('penggunaMasjid.risnhaMasjid.profileRisnha') }}" class="text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
-                    Profile
                 </a>
             </div>
 
