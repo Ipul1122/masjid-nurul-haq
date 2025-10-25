@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Risnha;
 use App\Http\Controllers\Controller;
 use App\Models\StrukturOrganisasiRisnha;
 use App\Models\VisiMisiRisnha;
+use App\Models\NotifikasiRisnha; // <-- Menambahkan model NotifikasiRisnha
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -36,6 +37,14 @@ class ProfileController extends Controller
             ['visi' => $request->visi, 'misi' => $request->misi]
         );
 
+        // Membuat Notifikasi
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'), // Asumsi risnha_id ada di session
+            'aksi' => 'update',
+            'tabel' => 'visi_misi_risnhas',
+            'keterangan' => "Memperbarui Visi & Misi.",
+        ]);
+
         return back()->with('successVisiMisi', 'Visi & Misi berhasil diperbarui.');
     }
 
@@ -52,9 +61,17 @@ class ProfileController extends Controller
         $imageName = time() . '.' . $request->file('gambar_organisasi')->getClientOriginalExtension();
         $request->file('gambar_organisasi')->move(public_path('images/organisasi_risnha'), $imageName);
 
-        StrukturOrganisasiRisnha::create([
+        $organisasi = StrukturOrganisasiRisnha::create([ // <-- Simpan ke variabel
             'gambar_organisasi' => $imageName,
             'deskripsi' => $request->deskripsi,
+        ]);
+
+        // Membuat Notifikasi
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'), // Asumsi risnha_id ada di session
+            'aksi' => 'create',
+            'tabel' => 'struktur_organisasi_risnhas',
+            'keterangan' => "Menambahkan struktur organisasi baru (ID: {$organisasi->id}).",
         ]);
 
         return back()->with('successOrganisasi', 'Struktur Organisasi baru berhasil ditambahkan.');
@@ -89,6 +106,14 @@ class ProfileController extends Controller
 
         $organisasi->save();
 
+        // Membuat Notifikasi
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'), // Asumsi risnha_id ada di session
+            'aksi' => 'update',
+            'tabel' => 'struktur_organisasi_risnhas',
+            'keterangan' => "Memperbarui struktur organisasi (ID: {$organisasi->id}).",
+        ]);
+
         return back()->with('successOrganisasi', 'Struktur Organisasi berhasil diperbarui.');
     }
 
@@ -99,6 +124,9 @@ class ProfileController extends Controller
     {
         $organisasi = StrukturOrganisasiRisnha::findOrFail($id);
 
+        // Simpan data untuk notifikasi
+        $organisasiId = $organisasi->id;
+
         // Hapus gambar dari folder public
         $imagePath = public_path('images/organisasi_risnha/' . $organisasi->gambar_organisasi);
         if (File::exists($imagePath)) {
@@ -107,6 +135,14 @@ class ProfileController extends Controller
 
         // Hapus data dari database
         $organisasi->delete();
+
+        // Membuat Notifikasi
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'), // Asumsi risnha_id ada di session
+            'aksi' => 'delete',
+            'tabel' => 'struktur_organisasi_risnhas',
+            'keterangan' => "Menghapus struktur organisasi (ID: {$organisasiId}).",
+        ]);
 
         return back()->with('successOrganisasi', 'Struktur Organisasi berhasil dihapus.');
     }

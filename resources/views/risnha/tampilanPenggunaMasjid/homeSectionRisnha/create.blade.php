@@ -1,5 +1,7 @@
 @extends('layouts.risnha')
 
+@section('title', 'Tambah Hero Section')
+
 @section('content')
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -14,7 +16,7 @@
                     <label>Gambar</label>
                     <input type="file" name="gambar" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary mt-5">Simpan</button>
             </form>
         </div>
     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Risnha;
 use App\Http\Controllers\Controller;
 use App\Models\ArtikelRisnha;
 use App\Models\KategoriArtikelRisnha;
+use App\Models\NotifikasiRisnha; // <-- Menambahkan model NotifikasiRisnha
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,12 +25,11 @@ class ArtikelRisnhaController extends Controller
 
     public function store(Request $request)
     {
-
         // dd($request->all());
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
             'kategori_artikel_risnha_id' => 'required|exists:kategori_artikel_risnhas,id',
-            'deskripsi' => 'required|string', 
+            'deskripsi' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -39,7 +39,15 @@ class ArtikelRisnhaController extends Controller
         }
 
         $validatedData['status'] = 'draft';
-        ArtikelRisnha::create($validatedData);
+        $artikel = ArtikelRisnha::create($validatedData); // <-- Simpan artikel ke variabel
+
+        // Membuat Notifikasi
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'), // Asumsi risnha_id ada di session
+            'aksi' => 'create',
+            'tabel' => 'artikel_risnhas',
+            'keterangan' => "Membuat artikel baru (ID: {$artikel->id}): " . $artikel->nama,
+        ]);
 
         return redirect()->route('risnha.manajemenKontenRisnha.artikelRisnha.index')->with('success', 'Artikel berhasil disimpan sebagai draf.');
     }
@@ -52,13 +60,12 @@ class ArtikelRisnhaController extends Controller
 
     public function update(Request $request, ArtikelRisnha $artikelRisnha)
     {
-
         // dd($request->all());
 
         $validatedData = $request->validate([
-            'nama' => 'required|string|max:255', 
+            'nama' => 'required|string|max:255',
             'kategori_artikel_risnha_id' => 'required|exists:kategori_artikel_risnhas,id',
-            'deskripsi' => 'required|string', 
+            'deskripsi' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -72,15 +79,36 @@ class ArtikelRisnhaController extends Controller
 
         $artikelRisnha->update($validatedData);
 
+        // Membuat Notifikasi
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'), // Asumsi risnha_id ada di session
+            'aksi' => 'update',
+            'tabel' => 'artikel_risnhas',
+            'keterangan' => "Memperbarui artikel (ID: {$artikelRisnha->id}): " . $artikelRisnha->nama,
+        ]);
+
         return redirect()->route('risnha.manajemenKontenRisnha.artikelRisnha.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
     public function destroy(ArtikelRisnha $artikelRisnha)
     {
+        // Simpan data sebelum dihapus untuk notifikasi
+        $artikelId = $artikelRisnha->id;
+        $namaArtikel = $artikelRisnha->nama;
+
         if ($artikelRisnha->gambar) {
             Storage::disk('public')->delete($artikelRisnha->gambar);
         }
         $artikelRisnha->delete();
+
+        // Membuat Notifikasi
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'), // Asumsi risnha_id ada di session
+            'aksi' => 'delete',
+            'tabel' => 'artikel_risnhas',
+            'keterangan' => "Menghapus artikel (ID: {$artikelId}): " . $namaArtikel,
+        ]);
+
         return redirect()->route('risnha.manajemenKontenRisnha.artikelRisnha.index')->with('success', 'Artikel berhasil dihapus.');
     }
 
@@ -95,6 +123,15 @@ class ArtikelRisnhaController extends Controller
         $artikel = ArtikelRisnha::findOrFail($id);
         $artikel->status = 'published';
         $artikel->save();
+
+        // Membuat Notifikasi
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'), // Asumsi risnha_id ada di session
+            'aksi' => 'publish',
+            'tabel' => 'artikel_risnhas',
+            'keterangan' => "Mempublikasikan artikel (ID: {$artikel->id}): " . $artikel->nama,
+        ]);
+
         return redirect()->route('risnha.manajemenKontenRisnha.artikelRisnha.index')->with('success', 'Artikel berhasil dipublikasikan.');
     }
 }

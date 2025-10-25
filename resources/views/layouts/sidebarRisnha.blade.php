@@ -1,5 +1,4 @@
 <div class="sidebar">
-    <!-- Sidebar Header -->
     <div class="sidebar-header">
         <div class="logo-icon">
             <i class="fas fa-leaf"></i>
@@ -10,7 +9,6 @@
         </div>
     </div>
 
-    <!-- User Info -->
     <div class="sidebar-user">
         <div class="sidebar-user-avatar">
             {{ strtoupper(substr(\App\Models\Risnha::find(session('risnha_id'))->username ?? 'G', 0, 1)) }}
@@ -21,7 +19,6 @@
         </div>
     </div>
 
-    <!-- Menu -->
     <div class="sidebar-menu">
         <div class="sidebar-menu-item">
             <a href="{{ route('risnha.dashboard') }}">
@@ -30,7 +27,6 @@
             </a>
         </div>
 
-        <!-- Kelola Konten -->
         <div class="sidebar-menu-item has-submenu" onclick="toggleSubmenu(this)">
             <a href="javascript:void(0)">
                 <i class="fas fa-newspaper"></i>
@@ -49,7 +45,6 @@
             </div>
         </div>
 
-        <!-- Kelola Kategori -->
         <div class="sidebar-menu-item has-submenu" onclick="toggleSubmenu(this)">
             <a href="javascript:void(0)">
                 <i class="fas fa-tags"></i>
@@ -68,7 +63,6 @@
             </div>
         </div>
 
-        <!-- Notifikasi -->
         <div class="sidebar-menu-item">
             <a href="{{ route('risnha.notifikasiRisnha.index') }}">
                 <i class="fas fa-bell"></i>
@@ -76,7 +70,6 @@
             </a>
         </div>
 
-        <!-- Manajemen Pengguna -->
         <div class="sidebar-menu-item">
             <a href="{{ route('risnha.manajemenPenggunaRisnha.index') }}">
                 <i class="fas fa-user-cog"></i>
@@ -84,24 +77,24 @@
             </a>
         
         </div>
-        <!-- Manajemen Pengguna -->
-        <div class="sidebar-menu-item">
-            <a href="{{ route('risnha.tampilanPenggunaMasjid.homeSectionRisnha.index') }}">
-                <i class="fas fa-user-cog"></i>
-                <span>Manajemen tampilan</span>
+        
+        <div class="sidebar-menu-item has-submenu" onclick="toggleSubmenu(this)">
+            <a href="javascript:void(0)">
+                <i class="fas fa-desktop"></i>
+                <span>Kelola Tampilan</span>
             </a>
+            <div class="sidebar-submenu">
+                <a href="{{ route('risnha.tampilanPenggunaMasjid.homeSectionRisnha.index') }}">
+                    <i class="fas fa-paint-brush"></i> Manajemen Tampilan
+                </a>
+                <a href="{{ route('risnha.profile.index') }}">
+                    <i class="fas fa-id-card"></i> Manajemen Profile
+                </a>
+            </div>
         </div>
 
-        <!-- Manajemen profile -->
-        <div class="sidebar-menu-item">
-            <a href="{{ route('risnha.profile.index') }}">
-                <i class="fas fa-user-cog"></i>
-                <span>Manajemen profile</span>
-            </a>
-        </div>
     </div>
 
-    <!-- Logout -->
     <div class="sidebar-logout">
         <a href="{{ route('risnha.logout') }}">
             <i class="fas fa-sign-out-alt"></i>

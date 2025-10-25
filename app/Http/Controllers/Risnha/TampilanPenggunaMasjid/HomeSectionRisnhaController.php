@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Risnha\TampilanPenggunaMasjid;
 
 use App\Http\Controllers\Controller;
 use App\Models\TampilanPenggunaMasjid\HomeSectionRisnha;
+use App\Models\NotifikasiRisnha; // Import NotifikasiRisnha model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,10 +27,18 @@ class HomeSectionRisnhaController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $imageName = time().'.'.$request->gambar->extension();  
+        $imageName = time().'.'.$request->gambar->extension();
         $request->gambar->move(public_path('images/risnha_carousel'), $imageName);
 
-        HomeSectionRisnha::create(['gambar' => $imageName]);
+        $homeSection = HomeSectionRisnha::create(['gambar' => $imageName]);
+
+        // Create notification for adding data
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'),
+            'aksi' => 'create',
+            'tabel' => 'home_section_risnhas',
+            'keterangan' => "Menambahkan gambar baru ke carousel: " . $imageName,
+        ]);
 
         return redirect()->route('risnha.tampilanPenggunaMasjid.homeSectionRisnha.index')->with('success','Gambar berhasil ditambahkan.');
     }
@@ -45,26 +54,62 @@ class HomeSectionRisnhaController extends Controller
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        $oldImageName = $homeSectionRisnha->gambar; // Store old image name for notification
+        $newImageName = $oldImageName; // Initialize new image name
+
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama
-            if (file_exists(public_path('images/risnha_carousel/' . $homeSectionRisnha->gambar))) {
-                unlink(public_path('images/risnha_carousel/' . $homeSectionRisnha->gambar));
+            if ($oldImageName && file_exists(public_path('images/risnha_carousel/' . $oldImageName))) {
+                unlink(public_path('images/risnha_carousel/' . $oldImageName));
             }
 
-            $imageName = time().'.'.$request->gambar->extension();  
-            $request->gambar->move(public_path('images/risnha_carousel'), $imageName);
-            $homeSectionRisnha->update(['gambar' => $imageName]);
+            $newImageName = time().'.'.$request->gambar->extension();
+            $request->gambar->move(public_path('images/risnha_carousel'), $newImageName);
+            $homeSectionRisnha->update(['gambar' => $newImageName]);
         }
+
+        // Create notification for editing data only if image was changed
+        if ($oldImageName !== $newImageName) {
+            NotifikasiRisnha::create([
+                'risnha_id' => session('risnha_id'),
+                'aksi' => 'update',
+                'tabel' => 'home_section_risnhas',
+                'keterangan' => "Memperbarui gambar carousel (ID: {$homeSectionRisnha->id}) dari {$oldImageName} menjadi {$newImageName}",
+            ]);
+        } else {
+             // Optional: Create notification even if only other fields (if any) are updated
+             // NotifikasiRisnha::create([
+             //     'risnha_id' => session('risnha_id'),
+             //     'aksi' => 'update',
+             //     'tabel' => 'home_section_risnhas',
+             //     'keterangan' => "Memperbarui data gambar carousel (ID: {$homeSectionRisnha->id}) tanpa mengubah file gambar.",
+             // ]);
+        }
+
 
         return redirect()->route('risnha.tampilanPenggunaMasjid.homeSectionRisnha.index')->with('success','Gambar berhasil diperbarui.');
     }
 
     public function destroy(HomeSectionRisnha $homeSectionRisnha)
     {
-        if (file_exists(public_path('images/risnha_carousel/' . $homeSectionRisnha->gambar))) {
-            unlink(public_path('images/risnha_carousel/' . $homeSectionRisnha->gambar));
+        $imageNameToDelete = $homeSectionRisnha->gambar; // Store image name before deleting record
+        $homeSectionId = $homeSectionRisnha->id; // Store ID for notification
+
+        // Delete the image file if it exists
+        if ($imageNameToDelete && file_exists(public_path('images/risnha_carousel/' . $imageNameToDelete))) {
+            unlink(public_path('images/risnha_carousel/' . $imageNameToDelete));
         }
+
+        // Delete the record from database
         $homeSectionRisnha->delete();
+
+        // Create notification for deleting data
+        NotifikasiRisnha::create([
+            'risnha_id' => session('risnha_id'),
+            'aksi' => 'delete',
+            'tabel' => 'home_section_risnhas',
+            'keterangan' => "Menghapus gambar carousel (ID: {$homeSectionId}): " . $imageNameToDelete,
+        ]);
 
         return redirect()->route('risnha.tampilanPenggunaMasjid.homeSectionRisnha.index')->with('success','Gambar berhasil dihapus.');
     }
