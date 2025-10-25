@@ -1,5 +1,7 @@
 @extends('layouts.risnha')
 
+@section('title', 'Hero Section')
+
 @section('content')
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">

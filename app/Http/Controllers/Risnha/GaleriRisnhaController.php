@@ -115,7 +115,6 @@ class GaleriRisnhaController extends Controller
             Storage::disk('public')->delete($galeri->foto);
         }
 
-        // 🔔 Notifikasi untuk delete
         NotifikasiRisnha::create([
             'risnha_id' => session('risnha_id'),
             'aksi' => 'delete',

@@ -3,154 +3,169 @@
 @section('title', 'Dashboard Risnha')
 
 @section('content')
-<div class="container ">
-    <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-xl text-blue-800">
+<div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Selamat Datang -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">
             Selamat datang, {{ session('risnha_username') }}
         </h1>
+        <p class="mt-1 text-lg text-gray-600">Berikut adalah ringkasan data dari sistem Anda.</p>
     </div>
 
-    {{-- Baris untuk Konten Utama --}}
-    <div class="row">
-        {{-- Card untuk Artikel --}}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa fa-newspaper fa-3x text-primary"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="card-title mb-1">Artikel</h5>
-                            <p class="card-text fs-4 fw-bold">{{ $jumlahArtikel }}</p>
-                        </div>
+    <!-- Grid untuk Stat Card -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Card Artikel -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full">
+            <!-- Konten Utama Card -->
+            <div class="p-6 flex-grow">
+                <div class="flex items-center">
+                    <!-- Icon -->
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-blue-100 text-blue-600">
+                        <i class="fa fa-newspaper fa-lg"></i>
                     </div>
-                    <div class="mt-auto pt-3">
-                        <a href="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.index') }}" class="btn btn-outline-primary w-100">
-                            Kelola Artikel <i class="fa fa-arrow-right ms-1"></i>
-                        </a>
+                    <!-- Teks Statistik -->
+                    <div class="ml-4 flex-grow">
+                        <p class="text-base font-medium text-gray-500">Artikel</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $jumlahArtikel }}</p>
                     </div>
                 </div>
             </div>
-        </div>
-
-        {{-- Card untuk Galeri --}}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa fa-images fa-3x text-success"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="card-title mb-1">Galeri</h5>
-                            <p class="card-text fs-4 fw-bold">{{ $jumlahGaleri }}</p>
-                        </div>
-                    </div>
-                    <div class="mt-auto pt-3">
-                         <a href="{{ route('risnha.manajemenKontenRisnha.galeriRisnha.index') }}" class="btn btn-outline-success w-100">
-                            Kelola Galeri <i class="fa fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
+            <!-- Footer Link -->
+            <div class="bg-gray-50 p-4">
+                <a href="{{ route('risnha.manajemenKontenRisnha.artikelRisnha.index') }}" class="inline-flex items-center justify-between w-full text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">
+                    <span>Kelola Artikel</span>
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
             </div>
         </div>
 
-        {{-- Card untuk Kegiatan --}}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa fa-calendar-alt fa-3x text-warning"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="card-title mb-1">Kegiatan</h5>
-                            <p class="card-text fs-4 fw-bold">{{ $jumlahKegiatan }}</p>
-                        </div>
+        <!-- Card Galeri -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full">
+            <!-- Konten Utama Card -->
+            <div class="p-6 flex-grow">
+                <div class="flex items-center">
+                    <!-- Icon -->
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-green-100 text-green-600">
+                        <i class="fa fa-images fa-lg"></i>
                     </div>
-                    <div class="mt-auto pt-3">
-                         <a href="{{ route('risnha.manajemenKontenRisnha.kegiatanRisnha.index') }}" class="btn btn-outline-warning w-100">
-                            Kelola Kegiatan <i class="fa fa-arrow-right ms-1"></i>
-                        </a>
+                    <!-- Teks Statistik -->
+                    <div class="ml-4 flex-grow">
+                        <p class="text-base font-medium text-gray-500">Galeri</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $jumlahGaleri }}</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    {{-- Baris untuk Kategori --}}
-    <div class="row">
-        {{-- Card untuk Kategori Artikel --}}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa fa-tag fa-3x text-info"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="card-title mb-1">Kategori Artikel</h5>
-                            <p class="card-text fs-4 fw-bold">{{ $jumlahKategoriArtikel }}</p>
-                        </div>
-                    </div>
-                    <div class="mt-auto pt-3">
-                        <a href="{{ route('risnha.kategori.artikelRisnha.index') }}" class="btn btn-outline-info w-100">
-                            Kelola Kategori <i class="fa fa-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
+            <!-- Footer Link -->
+            <div class="bg-gray-50 p-4">
+                <a href="{{ route('risnha.manajemenKontenRisnha.galeriRisnha.index') }}" class="inline-flex items-center justify-between w-full text-sm font-medium text-green-600 hover:text-green-800 transition-colors">
+                    <span>Kelola Galeri</span>
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
             </div>
         </div>
 
-        {{-- Card untuk Kategori Galeri --}}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa fa-tags fa-3x text-secondary"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="card-title mb-1">Kategori Galeri</h5>
-                            <p class="card-text fs-4 fw-bold">{{ $jumlahKategoriGaleri }}</p>
-                        </div>
+        <!-- Card Kegiatan -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full">
+            <!-- Konten Utama Card -->
+            <div class="p-6 flex-grow">
+                <div class="flex items-center">
+                    <!-- Icon -->
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-amber-100 text-amber-600">
+                        <i class="fa fa-calendar-alt fa-lg"></i>
                     </div>
-                    <div class="mt-auto pt-3">
-                        <a href="{{ route('risnha.kategori.galeriRisnha.index') }}" class="btn btn-outline-secondary w-100">
-                            Kelola Kategori <i class="fa fa-arrow-right ms-1"></i>
-                        </a>
+                    <!-- Teks Statistik -->
+                    <div class="ml-4 flex-grow">
+                        <p class="text-base font-medium text-gray-500">Kegiatan</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $jumlahKegiatan }}</p>
                     </div>
                 </div>
             </div>
+            <!-- Footer Link -->
+            <div class="bg-gray-50 p-4">
+                <a href="{{ route('risnha.manajemenKontenRisnha.kegiatanRisnha.index') }}" class="inline-flex items-center justify-between w-full text-sm font-medium text-amber-600 hover:text-amber-800 transition-colors">
+                    <span>Kelola Kegiatan</span>
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
         </div>
 
-        {{-- Card untuk Kategori Kegiatan --}}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex flex-column">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fa fa-bookmark fa-3x text-danger"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h5 class="card-title mb-1">Kategori Kegiatan</h5>
-                            <p class="card-text fs-4 fw-bold">{{ $jumlahKategoriKegiatan }}</p>
-                        </div>
+        <!-- Card Kategori Artikel -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full">
+            <!-- Konten Utama Card -->
+            <div class="p-6 flex-grow">
+                <div class="flex items-center">
+                    <!-- Icon -->
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600">
+                        <i class="fa fa-tag fa-lg"></i>
                     </div>
-                    <div class="mt-auto pt-3">
-                        <a href="{{ route('risnha.kategori.kegiatanRisnha.index') }}" class="btn btn-outline-danger w-100">
-                            Kelola Kategori <i class="fa fa-arrow-right ms-1"></i>
-                        </a>
+                    <!-- Teks Statistik -->
+                    <div class="ml-4 flex-grow">
+                        <p class="text-base font-medium text-gray-500">Kategori Artikel</g>
+                        <p class="text-3xl font-bold text-gray-900">{{ $jumlahKategoriArtikel }}</p>
                     </div>
                 </div>
             </div>
+            <!-- Footer Link -->
+            <div class="bg-gray-50 p-4">
+                <a href="{{ route('risnha.kategori.artikelRisnha.index') }}" class="inline-flex items-center justify-between w-full text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+                    <span>Kelola Kategori</span>
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
         </div>
-    </div>
 
-    {{-- <div class="mt-4">
-        <h4>Selamat Datang di Halaman Administrator!</h4>
-        <p>Gunakan menu navigasi untuk mengelola konten website Anda.</p>
-    </div> --}}
+        <!-- Card Kategori Galeri -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full">
+            <!-- Konten Utama Card -->
+            <div class="p-6 flex-grow">
+                <div class="flex items-center">
+                    <!-- Icon -->
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-purple-100 text-purple-600">
+                        <i class="fa fa-tags fa-lg"></i>
+                    </div>
+                    <!-- Teks Statistik -->
+                    <div class="ml-4 flex-grow">
+                        <p class="text-base font-medium text-gray-500">Kategori Galeri</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $jumlahKategoriGaleri }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Link -->
+            <div class="bg-gray-50 p-4">
+                <a href="{{ route('risnha.kategori.galeriRisnha.index') }}" class="inline-flex items-center justify-between w-full text-sm font-medium text-purple-600 hover:text-purple-800 transition-colors">
+                    <span>Kelola Kategori</span>
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Card Kategori Kegiatan -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full">
+            <!-- Konten Utama Card -->
+            <div class="p-6 flex-grow">
+                <div class="flex items-center">
+                    <!-- Icon -->
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center bg-red-100 text-red-600">
+                        <i class="fa fa-bookmark fa-lg"></i>
+                    </div>
+                    <!-- Teks Statistik -->
+                    <div class="ml-4 flex-grow">
+                        <p class="text-base font-medium text-gray-500">Kategori Kegiatan</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $jumlahKategoriKegiatan }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Link -->
+            <div class="bg-gray-50 p-4">
+                <a href="{{ route('risnha.kategori.kegiatanRisnha.index') }}" class="inline-flex items-center justify-between w-full text-sm font-medium text-red-600 hover:text-red-800 transition-colors">
+                    <span>Kelola Kategori</span>
+                    <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+    </div> <!-- End Grid -->
 </div>
 @endsection

@@ -1,12 +1,10 @@
 @extends('layouts.risnhaMasjid.risnhaMasjid')
 
 @php
-    // Variabel generik untuk menangani kedua tipe konten
-    $isKegiatan = $konten instanceof \App\Models\KegiatanRisnha;
-    $nama = $konten->nama;
-    $gambar = $isKegiatan ? $konten->gambar : $konten->gambar;
-    $deskripsi = $konten->deskripsi;
-    // $kontenSebelumnya = $kontenSebelumnya ?? collect();
+$isKegiatan = $item instanceof \App\Models\KegiatanRisnha;
+$nama = $item->nama;
+$gambar = $isKegiatan ? $item->gambar : $item->gambar; // Bisa juga disederhanakan menjadi $gambar = $item->gambar;
+$deskripsi = $item->deskripsi;
 @endphp
 
 @section('title', $nama)
@@ -84,14 +82,14 @@
                             <div class="flex items-center text-sm text-gray-500 mt-3">
                                 <!-- Tanggal Terbit -->
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <span>Diterbitkan pada {{ $konten->created_at->translatedFormat('l, d F Y') }}</span>
+                                <span>Diterbitkan pada {{ $item->created_at->translatedFormat('l, d F Y') }}</span>
                                 
-                                @if(isset($konten->views))
+                                @if(isset($item->views))
                                 <span class="mx-2">•</span>
                                 
                                 <!-- Jumlah Dilihat -->
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                <span>Dilihat {{ $konten->views }} kali</span>
+                                <span>Dilihat {{ $item->views }} kali</span>
                                 @endif
                             </div>
                         </div>
@@ -105,7 +103,7 @@
                 </div>
             </div>
 
-         <!-- RIGHT COLUMN: Konten Sebelumnya -->
+         <!-- RIGHT COLUMN: item Sebelumnya -->
             <div class="lg:col-span-3">
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <h3 class="text-lg font-bold text-gray-800 mb-4">Konten Sebelumnya</h3>
