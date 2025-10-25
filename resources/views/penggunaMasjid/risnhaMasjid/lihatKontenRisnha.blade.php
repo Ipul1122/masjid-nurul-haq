@@ -1,13 +1,6 @@
 @extends('layouts.risnhaMasjid.risnhaMasjid')
 
-@php
-$isKegiatan = $item instanceof \App\Models\KegiatanRisnha;
-$nama = $item->nama;
-$gambar = $isKegiatan ? $item->gambar : $item->gambar; // Bisa juga disederhanakan menjadi $gambar = $item->gambar;
-$deskripsi = $item->deskripsi;
-@endphp
-
-@section('title', $nama)
+@section('title', 'lihat Konten Risnha')
 
 @section('content')
 <div class="py-12 bg-gray-50">
@@ -71,13 +64,13 @@ $deskripsi = $item->deskripsi;
                 <div class="bg-white overflow-hidden shadow-xl rounded-lg">
                     <div class="p-6 sm:p-8">
                         
-                        @if($gambar)
-                            <img class="h-80 w-full object-cover rounded-lg shadow-md mb-6" src="{{ asset('storage/' . $gambar) }}" alt="{{ $nama }}">
+                        @if($item->gambar)
+                            <img class="h-80 w-full object-cover rounded-lg shadow-md mb-6" src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama}}">
                         @endif
 
                         <div class="mb-4">
                             <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight break-words overflow-wrap-anywhere">
-                                {{ $nama }}
+                                {{ $item->nama }}
                             </h1>                            
                             <div class="flex items-center text-sm text-gray-500 mt-3">
                                 <!-- Tanggal Terbit -->
@@ -97,42 +90,43 @@ $deskripsi = $item->deskripsi;
                         <hr class="my-6">
 
                         <div class="prose max-w-none text-gray-800">
-                            {!! $deskripsi !!}
+                            {!! $item->deskripsi !!}
                         </div>
                     </div>
                 </div>
             </div>
 
          <!-- RIGHT COLUMN: item Sebelumnya -->
+               <!-- RIGHT COLUMN: item Sebelumnya -->
             <div class="lg:col-span-3">
                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Konten Sebelumnya</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">item Sebelumnya</h3>
 
                     @if(isset($kontenSebelumnya) && $kontenSebelumnya->count())
                         <div class="space-y-4">
-                            @foreach($kontenSebelumnya as $konten)
+                            @foreach($kontenSebelumnya as $item)
                                 @php
-                                    $isArtikel = $konten instanceof \App\Models\ArtikelRisnha;
+                                    $isArtikel = $item instanceof \App\Models\ArtikelRisnha;
                                     $routeName = $isArtikel
                                         ? 'penggunaMasjid.risnhaMasjid.showArtikel'
                                         : 'penggunaMasjid.risnhaMasjid.show';
                                 @endphp
 
-                                <a href="{{ route($routeName, [$konten->id, $konten->slug]) }}"
+                                <a href="{{ route($routeName, [$item->id, $item->slug]) }}"
                                 class="block bg-gray-50 hover:bg-gray-100 p-3 rounded-lg transition">
                                     <div class="flex items-start space-x-3">
-                                        @if($konten->gambar)
-                                            <img src="{{ asset('storage/'.$konten->gambar) }}"
-                                                alt="{{ $konten->nama }}"
+                                        @if($item->gambar)
+                                            <img src="{{ asset('storage/'.$item->gambar) }}"
+                                                alt="{{ $item->nama ?? $item->judul }}"
                                                 class="w-14 h-14 object-cover rounded-md flex-shrink-0">
                                         @endif
 
                                         <!-- penting: min-w-0 supaya text wrap di flexbox -->
                                         <div class="min-w-0">
                                             <h4 class="font-semibold text-sm text-gray-800 leading-snug break-words overflow-wrap-break-word whitespace-normal">
-                                                {{ $konten->nama }}
+                                                {{ $item->nama ?? $item->judul }}
                                             </h4>
-                                            <p class="text-xs text-gray-500">{{ $konten->created_at->diffForHumans() }}</p>
+                                            <p class="text-xs text-gray-500">{{ $item->created_at->diffForHumans() }}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -144,8 +138,7 @@ $deskripsi = $item->deskripsi;
                 </div>
             </div>
 
-
-        </div>
+        <!-- ...existing code... -->
     </div>
 </div>
 @endsection

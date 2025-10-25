@@ -14,15 +14,15 @@ class KontenRisnhaController extends Controller
     {
         $filter = $request->query('filter', 'semua');
 
-        // Ambil semua artikel dan tambahkan properti 'tipe'
+        // Ambil semua artikel dan tambahkan properti 'type'
         $artikel = ArtikelRisnha::latest()->get()->map(function ($item) {
-            $item->tipe = 'artikel';
+            $item->type = 'artikel'; // <-- DIUBAH
             return $item;
         });
 
-        // Ambil semua kegiatan dan tambahkan properti 'tipe'
+        // Ambil semua kegiatan dan tambahkan properti 'type'
         $kegiatan = KegiatanRisnha::latest()->get()->map(function ($item) {
-            $item->tipe = 'kegiatan';
+            $item->type = 'kegiatan'; // <-- DIUBAH
             return $item;
         });
 
@@ -32,9 +32,9 @@ class KontenRisnhaController extends Controller
         // Terapkan filter
         $kontenDaring = collect();
         if ($filter === 'artikel') {
-            $kontenDaring = $semuaKonten->where('tipe', 'artikel');
+            $kontenDaring = $semuaKonten->where('type', 'artikel'); // <-- DIUBAH
         } elseif ($filter === 'kegiatan') {
-            $kontenDaring = $semuaKonten->where('tipe', 'kegiatan');
+            $kontenDaring = $semuaKonten->where('type', 'kegiatan'); // <-- DIUBAH
         } else {
             $kontenDaring = $semuaKonten;
         }
@@ -56,6 +56,7 @@ class KontenRisnhaController extends Controller
         return view('penggunaMasjid.risnhaMasjid.kontenRisnha', compact('konten', 'filter'));
     }
 
+    // Metode 'show' Anda sudah benar menggunakan $type, jadi tidak perlu diubah.
     public function show($type, $id)
     {
         $konten = null;

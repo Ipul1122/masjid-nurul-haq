@@ -12,16 +12,22 @@ class LihatKontenRisnhaController extends Controller
     /**
      * Menampilkan konten utama dan konten sebelumnya berdasarkan ID.
      */
-    public function show($tipe, $id)
+
+    
+
+    public function show($type, $id)
     {
-        // Tentukan model berdasarkan tipe konten
-        if ($tipe === 'artikel') {
+        // Tentukan model berdasarkan tipe konten (mengikuti parameter 'type' yang dikirim dari view)
+        if ($type === 'artikel') {
             $model = ArtikelRisnha::class;
-        } elseif ($tipe === 'kegiatan') {
+        } elseif ($type === 'kegiatan') {
             $model = KegiatanRisnha::class;
         } else {
             abort(404, 'Tipe konten tidak dikenal.');
         }
+
+
+        
 
         // Ambil konten utama
         $kontenUtama = $model::findOrFail($id);
