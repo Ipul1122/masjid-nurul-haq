@@ -1,7 +1,8 @@
 @extends('layouts.penggunaMasjid')
 
 @section('title', $konten->judul)
-
+@section('description', Str::limit(strip_tags($konten->isi), 155)) {{-- Ambil 155 karakter pertama dari isi sebagai deskripsi --}}
+@section('og_image', asset('storage/' . $konten->gambar)) {{-- Gambar thumbnail artikel --}}
 @section('content')
 <div class="py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

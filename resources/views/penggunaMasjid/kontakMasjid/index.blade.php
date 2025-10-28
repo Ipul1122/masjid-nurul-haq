@@ -1,5 +1,6 @@
 @extends('layouts.PenggunaMasjid')
 @section('title', 'Kontak Kami - Masjid Nurul Haq')
+@section('description', 'Hubungi DKM Masjid Nurul Haq. Dapatkan informasi kontak, alamat, dan kirimkan pesan Anda melalui formulir yang tersedia.')
 @section('content')
 
 <div class="bg-gray-50 py-12 mt-16">
