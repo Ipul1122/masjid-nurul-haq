@@ -67,6 +67,9 @@ use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\KontakRisnhaContr
 // API
 use App\Http\Controllers\Api\JadwalSholatController;
 
+// SITEMAP 
+use App\Http\Controllers\SitemapController;
+
 // ===================
 // 📌 GENERAL ROUTES
 // ===================

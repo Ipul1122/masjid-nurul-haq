@@ -1,7 +1,7 @@
 @extends('layouts.penggunaMasjid')
 
 @section('title', 'Masjid Nurul Haq - Beranda')
-
+@section('description', 'Selamat Datang di Website Resmi Masjid Nurul Haq. Temukan informasi terbaru tentang kegiatan, artikel islami, laporan keuangan, dan aktivitas remaja masjid (RISNHA) di sini.')
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50">
     
@@ -99,7 +99,7 @@
     @endif
 
     {{-- Welcome Section --}}
-    <div class="relative w-full z-10 bg-cover bg-center py-8 sm:py-12 md:py-16 -mt-14 sm:-mt-20 md:-mt-24 lg:-mt-28" style="background-image: url('{{ asset('images/masjid-istiqlal.png') }}');">
+    <div class="relative w-full z-10 bg-cover bg-center py-8 sm:py-12 md:py-16 -mt-14 sm:-mt-20 md:-mt-24 lg:-mt-28" style="background-image: url('{{ asset('images/masjid_nurul_haq.jpeg') }}');">
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/40"></div>
         <div class="relative container mx-auto px-4 max-w-7xl">
             
