@@ -2,10 +2,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <a href="{{ route('penggunaMasjid.risnhaMasjid.index') }}" class="flex items-center space-x-2.5 flex-shrink-0">
-                    <div class="w-16 h-16 flex items-center justify-center shadow-sm">
-                        <img src="{{ asset('images/logo-masjid-nur-haq.png') }}" alt="Logo Masjid Nurul Haq" >
+                    <div class="w-10 h-10 flex items-center justify-center shadow-sm">
+                        <img src="{{ asset('images/logo_risnha.png') }}" alt="Logo Masjid Nurul Haq" >
                     </div>
-                    <span class="font-semibold text-gray-900 text-base hidden sm:block">Masjid Nurul Haq</span>
+                    <span class="font-semibold text-gray-900 text-base hidden sm:block">RISNHA</span>
                 </a>
 
             <div class="hidden lg:flex items-center space-x-1">
