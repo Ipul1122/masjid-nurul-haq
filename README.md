@@ -69,16 +69,19 @@ Admin RISNHA (Remaja Islam Masjid Nurul Haq): Pengelola untuk bagian organisasi 
 - Bundler: Vite
 - Lainnya: Composer, NPM
 
-## Prasyarat (Prerequisites)
-Sebelum memulai, pastikan Anda telah menginstal perangkat lunak berikut:
-PHP (disarankan versi 8.1 atau lebih baru)
-Composer
-Node.js & NPM
-Database (misal: MySQL, MariaDB)
-Git
+> [!NOTE]
+> Sebelum memulai, pastikan Anda telah menginstal perangkat lunak berikut:
+> PHP (disarankan versi 8.1 atau lebih baru)
+> Composer
+> Node.js & NPM
+> Database (misal: MySQL, MariaDB)
+> Git
 
 ## Tampilan Layar
 > Berikut ini beberapa tampilan yang sudah dibuat.
 ### Screenshot
-![Tampilan Layar Utama Publik](public/images/layar_utama.png)
+![Tampilan Layar Utama Publik Mobile](public/images/layar_utama.png)
+![Tampilan Layar Utama Publik Desktop](public/images/layar_utama_desktop.png)
+![Tampilan Layar Utama DKM Mobile](public/images/layar_dkm_mobile.png)
+![Tampilan Layar Utama DKM Desktol](public/images/layar_dkm_desktop.png)
 
