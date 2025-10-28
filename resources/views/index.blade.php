@@ -7,7 +7,7 @@
     
     {{-- Hero Carousel --}}
     @if(isset($homeSections) && $homeSections->isNotEmpty())
-    <div class="relative z-20">
+    <div class="relative z-20 ">
         <div id="default-carousel" class="relative w-full" @if($homeSections->count() > 1) data-carousel="slide" @endif>
             {{-- Carousel Wrapper --}}
             <div class="relative h-56 sm:h-64 md:h-80 lg:h-96 overflow-hidden">
@@ -39,7 +39,7 @@
     @endif
 
     {{-- Info Card --}}
-    <div class="relative z-30 container mx-auto px-4 max-w-7xl -mt-10">
+    <div class="relative z-30 container mx-auto px-4 max-w-7xl -mt-10 ">
         <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
                 
