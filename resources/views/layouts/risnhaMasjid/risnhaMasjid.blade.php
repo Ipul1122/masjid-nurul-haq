@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> @yield('title')</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
+    <link rel="icon" href="{{ asset('images/logo_risnha.png') }} "type="image/png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     

@@ -81,7 +81,9 @@ Admin RISNHA (Remaja Islam Masjid Nurul Haq): Pengelola untuk bagian organisasi 
 > Berikut ini beberapa tampilan yang sudah dibuat.
 ### Screenshot
 ![Tampilan Layar Utama Publik Mobile](public/images/layar_utama.png)
-![Tampilan Layar Utama Publik Desktop](public/images/layar_utama_desktop.png)
 ![Tampilan Layar Utama DKM Mobile](public/images/layar_dkm_mobile.png)
-![Tampilan Layar Utama DKM Desktol](public/images/layar_dkm_desktop.png)
+![Tampilan Layar Utama RISNHA Mobile](public/images/layar_risnha_mobile.png)
+![Tampilan Layar Utama Publik Desktop](public/images/layar_utama_desktop.png)
+![Tampilan Layar Utama DKM Desktop](public/images/layar_dkm_desktop.png)
+![Tampilan Layar Utama RISNHA Desktop](public/images/layar_risnha_desktop.png)
 
