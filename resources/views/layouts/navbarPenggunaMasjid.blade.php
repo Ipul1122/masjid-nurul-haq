@@ -25,6 +25,7 @@
                         <div class="absolute left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-1">
                             <a href="{{ route('penggunaMasjid.profile.visiMisiMasjid') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Visi Misi</a>
                             <a href="{{ route('penggunaMasjid.profile.sejarahMasjid') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Sejarah Masjid</a>
+                            <a href="{{ route('penggunaMasjid.profile.strukturDkm') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Struktur Dkm</a>
                         </div>
                     </div>
 
@@ -92,6 +93,7 @@
                     <div class="mobile-dropdown-content hidden mt-1 ml-4 space-y-1">
                         <a href="{{ route('penggunaMasjid.profile.visiMisiMasjid') }}" class="block text-gray-600 hover:bg-blue-50 hover:text-blue-600 px-3 py-2 rounded-lg text-sm transition-colors">Visi Misi</a>
                         <a href="{{route('penggunaMasjid.profile.sejarahMasjid')}}" class="block text-gray-600 hover:bg-blue-50 hover:text-blue-600 px-3 py-2 rounded-lg text-sm transition-colors">Sejarah Masjid</a>
+                        <a href="{{ route('penggunaMasjid.profile.strukturDkm') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Struktur Dkm</a>
                     </div>
                 </div>
 

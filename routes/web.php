@@ -59,6 +59,7 @@ use App\Http\Controllers\PenggunaMasjid\KontakMasjidController;
 use App\Http\Controllers\PenggunaMasjid\VisiDanMisiController;
 use App\Http\Controllers\PenggunaMasjid\SejarahMasjidController;
 use App\Http\Controllers\PenggunaMasjid\DonasiMasjidController;
+use App\Http\Controllers\PenggunaMasjid\StrukturDkmController as PenggunaStrukturDkmController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\RisnhaHomeController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\LihatKontenRisnhaController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\KontenRisnhaController;
@@ -104,6 +105,8 @@ Route::name('penggunaMasjid.')->group(function () {
     Route::name('profile.')->group(function () {
         Route::get('/visi-dan-misi-masjid', [VisiDanMisiController::class, 'index'])->name('visiMisiMasjid');
         Route::get('/sejarah-masjid', [SejarahMasjidController::class, 'index'])->name('sejarahMasjid');
+        Route::get('/struktur-dkm', [PenggunaStrukturDkmController::class, 'index'])->name('strukturDkm');
+
     });
 
     // == PENGGUNA MASJID ROUTES UNTUK DONASI ==
