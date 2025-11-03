@@ -1,72 +1,152 @@
 @extends('layouts.dkm')
 
 @section('content')
-<div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Manajemen Struktur DKM</h1>
-        <a href="{{ route('dkm.tampilanPenggunaMasjid.strukturDkm.create') }}" class="btn btn-primary btn-sm shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Tambah Anggota
+<div class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+
+    {{-- Header dan Tombol Tambah Atas --}}
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-3 sm:mb-0">Manajemen Struktur DKM</h2>
+        <a href="{{ route('dkm.tampilanPenggunaMasjid.strukturDkm.create') }}" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition duration-300 text-center">
+            <i class="fas fa-plus mr-2"></i>Tambah Anggota
         </a>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    {{-- Notifikasi Sukses --}}
+    @if(session('success'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md mb-6" role="alert">
+            <p>{{ session('success') }}</p>
         </div>
     @endif
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Struktur DKM</h6>
+    {{-- Kontainer List Anggota --}}
+    <div class="space-y-4">
+
+        {{-- Header untuk Tampilan Desktop (LG) --}}
+        <div class="hidden lg:grid lg:grid-cols-4 gap-4 bg-gray-100 p-4 rounded-t-lg font-bold text-gray-600 items-center">
+            <div>Gambar</div>
+            <div>Nama</div>
+            <div>Divisi</div>
+            <div class="text-center">Aksi</div>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Gambar</th>
-                            <th>Nama</th>
-                            <th>Divisi</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($strukturDkms as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    <img src="{{ asset('images/struktur_dkm/' . $item->gambar) }}" 
-                                         alt="{{ $item->nama }}" 
-                                         style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
-                                </td>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->divisi }}</td>
-                                <td>
-                                    <a href="{{ route('dkm.tampilanPenggunaMasjid.strukturDkm.edit', $item->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </a>
-                                    <form action="{{ route('dkm.tampilanPenggunaMasjid.strukturDkm.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center">Data masih kosong.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+
+        {{-- Loop Data Struktur DKM --}}
+        @forelse($strukturDkms as $item)
+            <div class="bg-gray-50 border rounded-lg p-4 grid grid-cols-1 lg:grid-cols-4 gap-4 items-center hover:bg-gray-100 transition duration-300">
+
+                {{-- Kolom Gambar --}}
+                <div class="flex justify-center lg:justify-start">
+                    <img src="{{ asset('images/struktur_dkm/' . $item->gambar) }}" 
+                         class="w-20 h-20 object-cover rounded-full shadow-sm"
+                         alt="{{ $item->nama }}">
+                </div>
+
+                {{-- Kolom Nama --}}
+                <div class="text-center lg:text-left">
+                    <div class="font-bold text-gray-600 lg:hidden mb-1">Nama</div>
+                    <div class="text-gray-800 text-lg">{{ $item->nama }}</div>
+                </div>
+
+                {{-- Kolom Divisi --}}
+                <div class="text-center lg:text-left">
+                    <div class="font-bold text-gray-600 lg:hidden mb-1">Divisi</div>
+                    <div class="text-gray-800">{{ $item->divisi }}</div>
+                </div>
+
+                {{-- Kolom Aksi --}}
+                <div class="flex gap-2 justify-center items-center mt-2 lg:mt-0">
+                    <a href="{{ route('dkm.tampilanPenggunaMasjid.strukturDkm.edit', $item->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg shadow hover:bg-yellow-600 transition duration-300 text-sm">
+                       <i class="fas fa-edit"></i> <span class="hidden sm:inline">Edit</span>
+                    </a>
+
+                    {{-- Tombol Hapus yang memicu modal --}}
+                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700 transition duration-300 text-sm delete-button" data-form-id="delete-form-{{ $item->id }}">
+                        <i class="fas fa-trash"></i> <span class="hidden sm:inline">Hapus</span>
+                    </button>
+
+                    {{-- Form Hapus yang tersembunyi --}}
+                    <form id="delete-form-{{ $item->id }}" class="hidden" action="{{ route('dkm.tampilanPenggunaMasjid.strukturDkm.destroy', $item->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                </div>
+
             </div>
+        @empty
+            <div class="text-center py-10 bg-gray-50 rounded-lg">
+                <i class="fas fa-users fa-3x text-gray-400 mb-3"></i>
+                <p class="text-gray-500">Belum ada anggota DKM yang ditambahkan.</p>
+            </div>
+        @endforelse
+    </div>
+
+</div>
+
+{{-- MODAL KONFIRMASI HAPUS --}}
+<div id="delete-modal" class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+        <div class="text-center">
+            <h3 class="text-lg font-bold text-gray-900">Konfirmasi Penghapusan</h3>
+            <p class="mt-2 text-sm text-gray-600">Apakah Anda yakin ingin menghapus data anggota ini? Tindakan ini tidak dapat dibatalkan.</p>
+        </div>
+        <div class="mt-6 flex justify-center gap-4">
+            <button id="cancel-delete" type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
+                Batal
+            </button>
+            <button id="confirm-delete" type="button" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                Ya, Hapus
+            </button>
         </div>
     </div>
 </div>
+
+{{-- JAVASCRIPT UNTUK MODAL --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteModal = document.getElementById('delete-modal');
+    const cancelDeleteButton = document.getElementById('cancel-delete');
+    const confirmDeleteButton = document.getElementById('confirm-delete');
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    let formToSubmit = null;
+
+    // Fungsi untuk menampilkan modal
+    function showModal() {
+        if (formToSubmit) {
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
+        }
+    }
+
+    // Fungsi untuk menyembunyikan modal
+    function hideModal() {
+        deleteModal.classList.add('hidden');
+        deleteModal.classList.remove('flex');
+        formToSubmit = null;
+    }
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const formId = this.getAttribute('data-form-id');
+            formToSubmit = document.getElementById(formId);
+            showModal();
+        });
+    });
+
+    cancelDeleteButton.addEventListener('click', function () {
+        hideModal();
+    });
+
+    confirmDeleteButton.addEventListener('click', function () {
+        if (formToSubmit) {
+            formToSubmit.submit();
+        }
+    });
+
+    // Sembunyikan modal jika klik di luar area modal
+    window.addEventListener('click', function (event) {
+        if (event.target === deleteModal) {
+            hideModal();
+        }
+    });
+});
+</script>
 @endsection
