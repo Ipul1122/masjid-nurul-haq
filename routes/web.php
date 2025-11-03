@@ -1,15 +1,12 @@
 <?php
 
-// DKM ROUTES
 use Illuminate\Support\Facades\Route;
+
+// DKM ROUTES
 use App\Http\Controllers\Dkm\DkmAuthController;
 use App\Http\Controllers\Dkm\DashboardController;
 use App\Http\Controllers\Dkm\ManagePenggunaController;
 use App\Http\Controllers\Dkm\VerifyPinController;
-use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\HomeSectionController;
-use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\VisiMisiController;
-use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\SejarahController;
-use App\Http\Controllers\Dkm\ManajemenKontenController\KegiatanMasjidController;
 use App\Http\Controllers\Dkm\ArtikelController;
 use App\Http\Controllers\Dkm\KategoriController;
 use App\Http\Controllers\Dkm\KategoriKegiatanMasjidController;
@@ -25,6 +22,11 @@ use App\Http\Controllers\Dkm\KategoriGaleriController;
 use App\Http\Controllers\Dkm\NotifikasiController;
 use App\Http\Controllers\Dkm\BackupDataController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\BuktiDonasiMasjidController;
+use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\StrukturDkmController;
+use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\HomeSectionController;
+use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\VisiMisiController;
+use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\SejarahController;
+use App\Http\Controllers\Dkm\ManajemenKontenController\KegiatanMasjidController;
 
 
 // Risnha Routes
@@ -311,6 +313,7 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::get('/bukti-donasi', [BuktiDonasiMasjidController::class, 'index'])->name('buktiDonasi.index');
             Route::patch('/bukti-donasi/{donasi}/verify', [BuktiDonasiMasjidController::class, 'verify'])->name('buktiDonasi.verify');
             Route::delete('/bukti-donasi/{donasi}/reject', [BuktiDonasiMasjidController::class, 'reject'])->name('buktiDonasi.reject');
+            Route::resource('strukturDkm', StrukturDkmController::class);
         });
 
         
