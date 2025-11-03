@@ -1,5 +1,7 @@
 @extends('layouts.dkm')
 
+@section('title', 'Struktur Dkm')
+
 @section('content')
 <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
 
