@@ -21,13 +21,13 @@ use App\Http\Controllers\Dkm\GaleriController;
 use App\Http\Controllers\Dkm\KategoriGaleriController;
 use App\Http\Controllers\Dkm\NotifikasiController;
 use App\Http\Controllers\Dkm\BackupDataController;
+use App\Http\Controllers\Dkm\MuhasabahGroupController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\BuktiDonasiMasjidController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\StrukturDkmController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\HomeSectionController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\VisiMisiController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\SejarahController;
 use App\Http\Controllers\Dkm\ManajemenKontenController\KegiatanMasjidController;
-
 
 // Risnha Routes
 use App\Http\Controllers\Risnha\AuthController;
@@ -302,6 +302,14 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::get('backupData', [BackupDataController::class, 'index'])->name('backupData.index');
             Route::post('backupData/backup', [BackupDataController::class, 'backup'])->name('backupData.run');
         });
+
+        // ====================
+        // 👥 Manajemen Muhasabah Group
+        // ====================
+        Route::prefix('muhasabah')->name('muhasabah.')->group(function () {
+            Route::resource('group', MuhasabahGroupController::class);
+        });
+
 
         // 🧑 Manajemen Tampilan Pengguna Masjid
         Route::prefix('tampilanPenggunaMasjid')->name('tampilanPenggunaMasjid.')->group(function () {
