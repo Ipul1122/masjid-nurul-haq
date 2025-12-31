@@ -22,4 +22,9 @@ class MuhasabahGroup extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function anggotas()
+    {
+        return $this->hasMany(MuhasabahAnggota::class, 'group_id');
+    }
 }
