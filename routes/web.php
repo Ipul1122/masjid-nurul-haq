@@ -22,6 +22,7 @@ use App\Http\Controllers\Dkm\KategoriGaleriController;
 use App\Http\Controllers\Dkm\NotifikasiController;
 use App\Http\Controllers\Dkm\BackupDataController;
 use App\Http\Controllers\Dkm\MuhasabahGroupController;
+use App\Http\Controllers\Dkm\MuhasabahAnggotaController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\BuktiDonasiMasjidController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\StrukturDkmController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\HomeSectionController;
@@ -308,6 +309,16 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         // ====================
         Route::prefix('muhasabah')->name('muhasabah.')->group(function () {
             Route::resource('group', MuhasabahGroupController::class);
+
+            // CRUD Anggota (Baru)
+            Route::get('group/{group_id}/anggota', [MuhasabahAnggotaController::class, 'index'])->name('anggota.index');
+            Route::get('group/{group_id}/anggota/create', [MuhasabahAnggotaController::class, 'create'])->name('anggota.create');
+            Route::post('group/{group_id}/anggota', [MuhasabahAnggotaController::class, 'store'])->name('anggota.store');
+
+            // Edit & Delete butuh ID Anggota saja
+            Route::get('anggota/{id}/edit', [MuhasabahAnggotaController::class, 'edit'])->name('anggota.edit');
+            Route::put('anggota/{id}', [MuhasabahAnggotaController::class, 'update'])->name('anggota.update');
+            Route::delete('anggota/{id}', [MuhasabahAnggotaController::class, 'destroy'])->name('anggota.destroy');
         });
 
 
