@@ -16,6 +16,7 @@ class MuhasabahSoal extends Model
         'deskripsi',
         'tipe_soal',
         'opsi_jawaban',
+        'is_required',
         'urutan',
         'is_active',
     ];
@@ -24,5 +25,6 @@ class MuhasabahSoal extends Model
     protected $casts = [
         'opsi_jawaban' => 'array',
         'is_active' => 'boolean',
+        'is_required' => 'boolean',
     ];
 }
