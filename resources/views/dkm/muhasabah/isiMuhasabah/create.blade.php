@@ -7,12 +7,20 @@
     <div class="bg-white p-6 rounded shadow-md max-w-2xl">
         <form action="{{ route('dkm.muhasabah.soal.store') }}" method="POST">
             @csrf
-            
+
+            {{-- Pertanyaan --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Pertanyaan</label>
                 <input type="text" name="pertanyaan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Contoh: Apakah Anda sholat Dhuha hari ini?" required>
             </div>
 
+            {{-- Deskripsi / Penjelasan (Opsional) --}}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Deskripsi / Penjelasan (Opsional)</label>
+                <textarea name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="2" placeholder="Contoh: Minimal 2 rakaat sebelum dzuhur."></textarea>
+            </div>
+
+            {{-- Tipe Jawaban --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Tipe Jawaban</label>
                 <select name="tipe_soal" id="tipe_soal" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onchange="toggleOpsi()">
@@ -23,6 +31,7 @@
                 </select>
             </div>
 
+            {{-- Opsi Jawaban --}}
             <div id="area_opsi" class="mb-4 hidden p-4 bg-gray-50 border rounded">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Opsi Jawaban</label>
                 <p class="text-xs text-gray-500 mb-2">Masukkan pilihan jawaban di bawah ini:</p>
@@ -40,10 +49,12 @@
             </div>
 
             <div class="flex gap-4 mb-4">
+                {{-- Urutan Tampil --}}
                 <div class="w-1/2">
                     <label class="block text-gray-700 text-sm font-bold mb-2">Urutan Tampil</label>
-                    <input type="number" name="urutan" value="1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    <input type="number" name="urutan" value="{{ old('urutan', $nextUrutan) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
                 </div>
+                {{-- Aktifkan Soal --}}
                 <div class="w-1/2 flex items-center mt-6">
                     <input type="checkbox" name="is_active" id="is_active" class="mr-2 leading-tight" checked>
                     <label class="text-sm text-gray-700 font-bold" for="is_active">Aktifkan Soal Ini?</label>

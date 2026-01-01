@@ -326,6 +326,10 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
         Route::prefix('muhasabah')->name('muhasabah.')->group(function () {
             Route::resource('group', MuhasabahGroupController::class);
 
+            // Route untuk Create Multiple (Simpan Banyak Sekaligus) - TAMBAHKAN INI SEBELUM resource/route create biasa
+            Route::get('group/{group_id}/anggota/create-multiple', [MuhasabahAnggotaController::class, 'createMultiple'])->name('anggota.createMultiple');
+            Route::post('group/{group_id}/anggota/store-multiple', [MuhasabahAnggotaController::class, 'storeMultiple'])->name('anggota.storeMultiple');
+
             // CRUD Anggota (Baru)
             Route::get('group/{group_id}/anggota', [MuhasabahAnggotaController::class, 'index'])->name('anggota.index');
             Route::get('group/{group_id}/anggota/create', [MuhasabahAnggotaController::class, 'create'])->name('anggota.create');

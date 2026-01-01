@@ -15,6 +15,11 @@
             </div>
 
             <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Deskripsi / Penjelasan (Opsional)</label>
+                <textarea name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="2">{{ $soal->deskripsi }}</textarea>
+            </div>
+
+            <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Tipe Jawaban</label>
                 <select name="tipe_soal" id="tipe_soal" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onchange="toggleOpsi()">
                     <option value="short_text" {{ $soal->tipe_soal == 'short_text' ? 'selected' : '' }}>Jawaban Singkat (Text)</option>

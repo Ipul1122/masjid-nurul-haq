@@ -17,19 +17,25 @@ class MuhasabahSoalController extends Controller
 
     public function create()
     {
-        return view('dkm.muhasabah.isiMuhasabah.create');
+
+        $maxUrutan = MuhasabahSoal::max('urutan');
+        $nextUrutan = $maxUrutan ? $maxUrutan + 1 : 1;
+
+        return view('dkm.muhasabah.isiMuhasabah.create', compact('nextUrutan'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'pertanyaan' => 'required|string',
+            'deskripsi' => 'nullable|string',
             'tipe_soal' => 'required|in:short_text,paragraph,radio,checkbox',
             'urutan' => 'required|integer',
         ]);
 
         $data = [
             'pertanyaan' => $request->pertanyaan,
+            'deskripsi' => $request->deskripsi,
             'tipe_soal' => $request->tipe_soal,
             'urutan' => $request->urutan,
             'is_active' => $request->has('is_active') ? true : false,
@@ -64,12 +70,14 @@ class MuhasabahSoalController extends Controller
 
         $request->validate([
             'pertanyaan' => 'required|string',
+            'deskripsi' => 'nullable|string',
             'tipe_soal' => 'required|in:short_text,paragraph,radio,checkbox',
             'urutan' => 'required|integer',
         ]);
 
         $data = [
             'pertanyaan' => $request->pertanyaan,
+            'deskripsi' => $request->deskripsi,
             'tipe_soal' => $request->tipe_soal,
             'urutan' => $request->urutan,
             'is_active' => $request->has('is_active') ? true : false,
@@ -93,6 +101,13 @@ class MuhasabahSoalController extends Controller
     {
         $soal = MuhasabahSoal::findOrFail($id);
         $soal->delete();
+
+        $semuaSoal = MuhasabahSoal::orderBy('urutan', 'asc')->get();
+
+        foreach ($semuaSoal as $index => $item) {
+            $item->update(['urutan' => $index + 1]);
+        }
+
         return redirect()->route('dkm.muhasabah.soal.index')->with('success', 'Pertanyaan dihapus');
     }
 }
