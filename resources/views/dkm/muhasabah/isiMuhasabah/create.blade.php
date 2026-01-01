@@ -54,6 +54,21 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2">Urutan Tampil</label>
                     <input type="number" name="urutan" value="{{ old('urutan', $nextUrutan) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
                 </div>
+
+                {{-- Required Soal --}}
+                <div class="w-1/2 flex flex-col justify-center mt-4 space-y-2">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="is_active" id="is_active" class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" checked>
+                        <label class="ml-2 text-sm font-bold text-gray-700" for="is_active">Tampilkan Soal Ini?</label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" name="is_required" id="is_required" class="w-4 h-4 text-red-600 rounded border-gray-300 focus:ring-red-500" checked>
+                        <label class="ml-2 text-sm font-bold text-gray-700" for="is_required">Wajib Diisi (Required)?</label>
+                        <span class="text-xs text-gray-500 ml-1">(Jika dicentang, user tidak bisa submit kosong)</span>
+                    </div>
+                </div>
+
                 {{-- Aktifkan Soal --}}
                 <div class="w-1/2 flex items-center mt-6">
                     <input type="checkbox" name="is_active" id="is_active" class="mr-2 leading-tight" checked>

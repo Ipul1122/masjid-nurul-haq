@@ -1,16 +1,32 @@
 @extends('layouts.penggunaMasjid')
 
+@section('title', 'Masjid Nurul Haq - Dashboard')
 @section('content')
 <div class="container mx-auto px-4 py-8">
     
     <div class="flex justify-between items-center bg-white p-6 rounded-lg shadow mb-6">
         <div>
-            <h1 class="text-2xl font-bold text-gray-800">Assalamu'alaikum, {{ $role == 'group' ? $user->nama_group : $user->nama_lengkap }}</h1>
-            <p class="text-gray-600">Anda login sebagai: <span class="font-semibold capitalize">{{ $role }}</span></p>
+            <h1 class="text-2xl font-bold text-gray-800">
+                Assalamu'alaikum, {{ $role == 'group' ? $user->nama_group : $user->nama_lengkap }}
+            </h1>
+            
+            <div class="mt-1">
+                <p class="text-gray-600 text-sm">
+                    Anda login sebagai: <span class="font-semibold capitalize text-green-600">{{ $role }}</span>
+                </p>
+
+                {{-- LOGIKA TAMBAHAN: Tampilkan Nama Group jika login sebagai Anggota --}}
+                @if($role == 'anggota' && $user->group)
+                    <p class="text-gray-600 text-sm">
+                        Anda berada di grup: <span class="font-bold text-blue-600">{{ $user->group->nama_group }}</span>
+                    </p>
+                @endif
+            </div>
         </div>
+
         <form action="{{ route('muhasabah.logout') }}" method="POST">
             @csrf
-            <button type="submit" class="text-red-500 hover:text-red-700 font-bold border border-red-500 px-4 py-2 rounded hover:bg-red-50">
+            <button type="submit" class="text-red-500 hover:text-red-700 font-bold border border-red-500 px-4 py-2 rounded hover:bg-red-50 transition duration-300">
                 Logout
             </button>
         </form>
@@ -57,8 +73,11 @@
             
             @foreach($soals as $soal)
             <div class="mb-6 border-b border-gray-100 pb-4 last:border-0">
-                <label class="block text-gray-800 font-semibold mb-2">
+                <label class="block text-gray-800 font-semibold mb-1">
                     {{ $loop->iteration }}. {{ $soal->pertanyaan }}
+                    @if($soal->is_required)
+                        <span class="text-red-500 text-sm" title="Wajib diisi">*</span>
+                    @endif
                 </label>
 
                 @if($soal->deskripsi)

@@ -39,6 +39,7 @@ class MuhasabahSoalController extends Controller
             'tipe_soal' => $request->tipe_soal,
             'urutan' => $request->urutan,
             'is_active' => $request->has('is_active') ? true : false,
+            'is_required' => $request->has('is_required') ? true : false,
         ];
 
         // Jika tipe soal pilihan ganda, ambil input opsinya
@@ -81,6 +82,7 @@ class MuhasabahSoalController extends Controller
             'tipe_soal' => $request->tipe_soal,
             'urutan' => $request->urutan,
             'is_active' => $request->has('is_active') ? true : false,
+            'is_required' => $request->has('is_required') ? true : false,
         ];
 
         if (in_array($request->tipe_soal, ['radio', 'checkbox'])) {

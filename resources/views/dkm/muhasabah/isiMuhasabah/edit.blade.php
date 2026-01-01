@@ -9,16 +9,25 @@
             @csrf
             @method('PUT')
             
+            {{-- Pertanyaan --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Pertanyaan</label>
                 <input type="text" name="pertanyaan" value="{{ $soal->pertanyaan }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
 
+            {{-- Deskripsi / Penjelasan (Opsional) --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Deskripsi / Penjelasan (Opsional)</label>
                 <textarea name="deskripsi" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="2">{{ $soal->deskripsi }}</textarea>
             </div>
 
+            {{-- Required Soal --}}
+            <div class="flex items-center">
+                <input type="checkbox" name="is_required" id="is_required" class="w-4 h-4 text-red-600 rounded border-gray-300 focus:ring-red-500" {{ $soal->is_required ? 'checked' : '' }}>
+                <label class="ml-2 text-sm font-bold text-gray-700" for="is_required">Wajib Diisi (Required)?</label>
+            </div>
+
+            {{-- Tipe Jawaban --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Tipe Jawaban</label>
                 <select name="tipe_soal" id="tipe_soal" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onchange="toggleOpsi()">
@@ -29,6 +38,7 @@
                 </select>
             </div>
 
+            {{-- Opsi Jawaban --}}
             <div id="area_opsi" class="mb-4 {{ in_array($soal->tipe_soal, ['radio', 'checkbox']) ? '' : 'hidden' }} p-4 bg-gray-50 border rounded">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Opsi Jawaban</label>
                 

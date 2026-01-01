@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('deskripsi')->nullable();
             $table->enum('tipe_soal', ['short_text', 'paragraph', 'radio', 'checkbox']); 
             $table->json('opsi_jawaban')->nullable(); 
+            $table->boolean('is_required')->default(true);
             $table->integer('urutan')->default(1);
             $table->boolean('is_active')->default(true); // Bisa disembunyikan tanpa dihapus
             $table->timestamps();
