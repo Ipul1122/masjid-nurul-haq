@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('muhasabah_soals', function (Blueprint $table) {
             $table->id();
-            $table->string('pertanyaan'); // Contoh: "Apakah sholat subuh berjamaah?"
+            $table->string('pertanyaan'); 
+            $table->string('deskripsi')->nullable();
             $table->enum('tipe_soal', ['short_text', 'paragraph', 'radio', 'checkbox']); 
             $table->json('opsi_jawaban')->nullable(); 
             $table->integer('urutan')->default(1);

@@ -13,6 +13,7 @@ class MuhasabahSoal extends Model
 
     protected $fillable = [
         'pertanyaan',
+        'deskripsi',
         'tipe_soal',
         'opsi_jawaban',
         'urutan',

@@ -61,6 +61,12 @@
                     {{ $loop->iteration }}. {{ $soal->pertanyaan }}
                 </label>
 
+                @if($soal->deskripsi)
+                    <p class="text-sm text-gray-500 mb-3 italic">
+                        {{ $soal->deskripsi }}
+                    </p>
+                @endif
+
                 @if($soal->tipe_soal == 'short_text')
                     <input type="text" name="jawaban[{{ $soal->id }}]" class="w-full border-gray-300 rounded shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="Jawaban singkat...">
                 
