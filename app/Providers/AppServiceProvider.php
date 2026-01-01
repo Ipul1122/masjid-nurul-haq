@@ -8,6 +8,7 @@ use App\Models\TampilanPenggunaMasjid\RunningText;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,5 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('notifCount', 0);
             }
         });
+
+        Paginator::useTailwind();
     }
 }
