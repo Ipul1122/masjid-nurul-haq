@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'muhasabah_group' => [
+            'driver' => 'session',
+            'provider' => 'muhasabah_groups',
+        ],
+        'muhasabah_anggota' => [
+            'driver' => 'session',
+            'provider' => 'muhasabah_anggotas',
+        ],
     ],
 
     /*
@@ -63,6 +71,14 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'muhasabah_groups' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\MuhasabahGroup::class,
+        ],
+        'muhasabah_anggotas' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\MuhasabahAnggota::class,
         ],
 
         // 'users' => [

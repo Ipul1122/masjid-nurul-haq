@@ -1,4 +1,4 @@
-  <!-- Navbar -->
+<!-- Navbar -->
     <nav class="bg-white shadow-sm fixed top-0 left-0 right-0 z-50 border-b border-gray-100 ">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 pt-2 pb-2">
@@ -62,7 +62,7 @@
                 <!-- Clock & Login -->
                 <div class="hidden lg:flex items-center space-x-4">
                     <div class="live-clock text-xs font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg"></div>
-                    <a href="{{ route('dkm.login') }}" class="bg-blue-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('muhasabah.login') }}" class="bg-blue-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
                         Login
                     </a>
                 </div>
@@ -117,7 +117,7 @@
                 </a>
                 
                 <div class="pt-3">
-                    <a href="{{ route('dkm.login') }}" class="block text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                    <a href="{{ route('muhasabah.login') }}" class="block text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
                         Login
                     </a>
                 </div>

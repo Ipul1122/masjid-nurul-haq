@@ -24,6 +24,7 @@ use App\Http\Controllers\Dkm\BackupDataController;
 use App\Http\Controllers\Dkm\MuhasabahGroupController;
 use App\Http\Controllers\Dkm\MuhasabahAnggotaController;
 use App\Http\Controllers\Dkm\MuhasabahSoalController;
+
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\BuktiDonasiMasjidController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\StrukturDkmController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\HomeSectionController;
@@ -61,6 +62,7 @@ use App\Http\Controllers\PenggunaMasjid\KontakMasjidController;
 use App\Http\Controllers\PenggunaMasjid\VisiDanMisiController;
 use App\Http\Controllers\PenggunaMasjid\SejarahMasjidController;
 use App\Http\Controllers\PenggunaMasjid\DonasiMasjidController;
+use App\Http\Controllers\PenggunaMasjid\MuhasabahMasjidController;
 use App\Http\Controllers\PenggunaMasjid\StrukturDkmController as PenggunaStrukturDkmController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\RisnhaHomeController;
 use App\Http\Controllers\PenggunaMasjid\RisnhaMasjidController\LihatKontenRisnhaController;
@@ -86,6 +88,19 @@ Route::get('/api/jadwal-sholat-hari-ini', [JadwalSholatController::class, 'getJa
 // ===============================================
 //  ROUTES GROUP UNTUK PENGGUNA MASJID
 // ===============================================
+
+// ... di luar group DKM, mungkin di bagian PenggunaMasjid ...
+
+Route::prefix('muhasabah')->name('muhasabah.')->group(function () {
+    // Auth Routes
+    Route::get('/login', [MuhasabahMasjidController::class, 'formLogin'])->name('login');
+    Route::post('/login', [MuhasabahMasjidController::class, 'processLogin'])->name('login.process');
+    Route::post('/logout', [MuhasabahMasjidController::class, 'logout'])->name('logout');
+
+    // Dashboard Route (Diproteksi middleware buatan sendiri atau cek manual di controller)
+    Route::get('/dashboard', [MuhasabahMasjidController::class, 'dashboard'])->name('dashboard');
+});
+
 Route::name('penggunaMasjid.')->group(function () {
     
     Route::get('/konten-masjid', [KontenMasjidController::class, 'index'])->name('lihatKonten.kontenMasjid');
