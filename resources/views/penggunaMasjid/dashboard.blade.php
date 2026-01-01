@@ -1,0 +1,103 @@
+@extends('layouts.penggunaMasjid')
+
+@section('content')
+<div class="container mx-auto px-4 py-8">
+    
+    <div class="flex justify-between items-center bg-white p-6 rounded-lg shadow mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">Assalamu'alaikum, {{ $role == 'group' ? $user->nama_group : $user->nama_lengkap }}</h1>
+            <p class="text-gray-600">Anda login sebagai: <span class="font-semibold capitalize">{{ $role }}</span></p>
+        </div>
+        <form action="{{ route('muhasabah.logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="text-red-500 hover:text-red-700 font-bold border border-red-500 px-4 py-2 rounded hover:bg-red-50">
+                Logout
+            </button>
+        </form>
+    </div>
+
+    @if($role == 'group')
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-blue-100 p-6 rounded-lg shadow">
+            <h3 class="text-lg font-bold text-blue-800">Total Anggota</h3>
+            <p class="text-4xl font-bold text-blue-600 mt-2">{{ count($data) }}</p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow md:col-span-2">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Daftar Anggota Group Anda</h3>
+            <table class="min-w-full text-sm">
+                <thead>
+                    <tr class="bg-gray-50 border-b">
+                        <th class="py-2 text-left">Nama</th>
+                        <th class="py-2 text-left">Username</th>
+                        <th class="py-2 text-center">Status Hari Ini</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $anggota)
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="py-3">{{ $anggota->nama_lengkap }}</td>
+                        <td class="py-3 text-gray-500">{{ $anggota->username }}</td>
+                        <td class="py-3 text-center">
+                            <span class="bg-gray-200 text-gray-600 px-2 py-1 rounded text-xs">Belum Mengisi</span>
+                            </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endif
+
+    @if($role == 'anggota')
+    <div class="bg-white p-6 rounded-lg shadow max-w-3xl mx-auto">
+        <h2 class="text-xl font-bold text-center mb-6 border-b pb-4">Form Muhasabah Harian</h2>
+        
+        <form action="#" method="POST"> @csrf
+            
+            @foreach($soals as $soal)
+            <div class="mb-6 border-b border-gray-100 pb-4 last:border-0">
+                <label class="block text-gray-800 font-semibold mb-2">
+                    {{ $loop->iteration }}. {{ $soal->pertanyaan }}
+                </label>
+
+                @if($soal->tipe_soal == 'short_text')
+                    <input type="text" name="jawaban[{{ $soal->id }}]" class="w-full border-gray-300 rounded shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="Jawaban singkat...">
+                
+                @elseif($soal->tipe_soal == 'paragraph')
+                    <textarea name="jawaban[{{ $soal->id }}]" rows="3" class="w-full border-gray-300 rounded shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="Ceritakan..."></textarea>
+                
+                @elseif($soal->tipe_soal == 'radio')
+                    <div class="flex flex-col gap-2">
+                        @foreach($soal->opsi_jawaban as $opsi)
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="jawaban[{{ $soal->id }}]" value="{{ $opsi }}" class="text-green-600 focus:ring-green-500">
+                            <span class="ml-2">{{ $opsi }}</span>
+                        </label>
+                        @endforeach
+                    </div>
+
+                @elseif($soal->tipe_soal == 'checkbox')
+                    <div class="flex flex-col gap-2">
+                        @foreach($soal->opsi_jawaban as $opsi)
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" name="jawaban[{{ $soal->id }}][]" value="{{ $opsi }}" class="text-green-600 focus:ring-green-500 rounded">
+                            <span class="ml-2">{{ $opsi }}</span>
+                        </label>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+            @endforeach
+
+            <div class="mt-8">
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded shadow-lg transform transition hover:scale-105">
+                    Kirim Laporan Muhasabah
+                </button>
+            </div>
+        </form>
+    </div>
+    @endif
+
+</div>
+@endsection
