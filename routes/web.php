@@ -24,6 +24,7 @@ use App\Http\Controllers\Dkm\BackupDataController;
 use App\Http\Controllers\Dkm\MuhasabahGroupController;
 use App\Http\Controllers\Dkm\MuhasabahAnggotaController;
 use App\Http\Controllers\Dkm\MuhasabahSoalController;
+use App\Http\Controllers\Dkm\LaporanMuhasabahController;
 
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\BuktiDonasiMasjidController;
 use App\Http\Controllers\Dkm\TampilanPenggunaMasjid\StrukturDkmController;
@@ -99,6 +100,8 @@ Route::prefix('muhasabah')->name('muhasabah.')->group(function () {
 
     // Dashboard Route (Diproteksi middleware buatan sendiri atau cek manual di controller)
     Route::get('/dashboard', [MuhasabahMasjidController::class, 'dashboard'])->name('dashboard');
+
+    Route::post('/store', [MuhasabahMasjidController::class, 'store'])->name('store');
 });
 
 Route::name('penggunaMasjid.')->group(function () {
@@ -340,8 +343,11 @@ Route::prefix('dkm')->name('dkm.')->group(function () {
             Route::put('anggota/{id}', [MuhasabahAnggotaController::class, 'update'])->name('anggota.update');
             Route::delete('anggota/{id}', [MuhasabahAnggotaController::class, 'destroy'])->name('anggota.destroy');
 
+            Route::get('laporanMuhasabah/index', [LaporanMuhasabahController::class, 'index'])->name('laporanMuhasabah.index');
+            
             // CRUD Soal Muhasabah
             Route::resource('soal', MuhasabahSoalController::class);            
+
         });
 
 

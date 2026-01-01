@@ -7,26 +7,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MuhasabahSoal;
 use App\Models\MuhasabahAnggota;
+use App\Models\LaporanMuhasabahAnggota; // Pastikan model ini ada
 
 class MuhasabahMasjidController extends Controller
 {
-    // 1. Halaman Login
+    // ... method formLogin, processLogin, logout, dashboard (seperti sebelumnya) ...
+
     public function formLogin()
     {
-        // Jika sudah login, langsung lempar ke dashboard
         if (Auth::guard('muhasabah_group')->check() || Auth::guard('muhasabah_anggota')->check()) {
             return redirect()->route('muhasabah.dashboard');
         }
-        return view('penggunaMasjid.login');
+        return view('penggunaMasjid.login'); // Ganti view jika perlu
+        // Atau: return view('risnha.login'); tergantung struktur Anda
     }
 
-    // 2. Proses Login
     public function processLogin(Request $request)
     {
         $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'role'     => 'required|in:group,anggota', // Pilihan login sebagai apa
+            'role'     => 'required|in:group,anggota',
         ]);
 
         $credentials = $request->only('username', 'password');
@@ -41,49 +42,58 @@ class MuhasabahMasjidController extends Controller
             }
         }
 
-        return back()->with('error', 'Username atau Password salah, atau Role tidak sesuai.');
+        return back()->with('error', 'Login Gagal. Cek username/password.');
     }
 
-    // 3. Logout
     public function logout()
     {
+        if (Auth::guard('muhasabah_group')->check()) Auth::guard('muhasabah_group')->logout();
+        if (Auth::guard('muhasabah_anggota')->check()) Auth::guard('muhasabah_anggota')->logout();
+        return redirect()->route('muhasabah.login');
+    }
+
+    public function dashboard()
+    {
         if (Auth::guard('muhasabah_group')->check()) {
-            Auth::guard('muhasabah_group')->logout();
+            $group = Auth::guard('muhasabah_group')->user();
+            $anggotas = MuhasabahAnggota::where('group_id', $group->id)->get();
+            return view('penggunaMasjid.dashboard', ['role' => 'group', 'user' => $group, 'data' => $anggotas]);
         } elseif (Auth::guard('muhasabah_anggota')->check()) {
-            Auth::guard('muhasabah_anggota')->logout();
+            $anggota = Auth::guard('muhasabah_anggota')->user();
+            $soals = MuhasabahSoal::where('is_active', true)->orderBy('urutan')->get();
+            return view('penggunaMasjid.dashboard', ['role' => 'anggota', 'user' => $anggota, 'soals' => $soals]);
         }
         return redirect()->route('muhasabah.login');
     }
 
-    // 4. Dashboard (Smart Logic)
-    public function dashboard()
+    // METHOD STORE (PENYIMPANAN)
+    public function store(Request $request)
     {
-        // Cek siapa yang login
-        if (Auth::guard('muhasabah_group')->check()) {
-            // A. LOGIC UNTUK GROUP (Ketua)
-            $group = Auth::guard('muhasabah_group')->user();
-            $anggotas = MuhasabahAnggota::where('group_id', $group->id)->get();
-            
-            return view('penggunaMasjid.dashboard', [
-                'role' => 'group',
-                'user' => $group,
-                'data' => $anggotas // Kirim data anggota ke view
-            ]);
-
-        } elseif (Auth::guard('muhasabah_anggota')->check()) {
-            // B. LOGIC UNTUK ANGGOTA (Jemaah)
-            $anggota = Auth::guard('muhasabah_anggota')->user();
-            // Ambil soal-soal aktif untuk ditampilkan di form
-            $soals = MuhasabahSoal::where('is_active', true)->orderBy('urutan')->get();
-
-            return view('penggunaMasjid.dashboard', [
-                'role' => 'anggota',
-                'user' => $anggota,
-                'soals' => $soals // Kirim soal ke view
-            ]);
-
-        } else {
-            return redirect()->route('muhasabah.login');
+        // 1. Validasi User
+        if (!Auth::guard('muhasabah_anggota')->check()) {
+            return redirect()->route('muhasabah.login')->with('error', 'Sesi habis.');
         }
+
+        $anggota = Auth::guard('muhasabah_anggota')->user();
+        $inputs = $request->input('jawaban'); // Array jawaban dari form
+
+        if ($inputs) {
+            foreach ($inputs as $soal_id => $jawaban) {
+                // Handle Checkbox (Array to String)
+                if (is_array($jawaban)) {
+                    $jawaban = implode(', ', $jawaban);
+                }
+
+                // Simpan ke Database
+                LaporanMuhasabahAnggota::create([
+                    'anggota_id' => $anggota->id,
+                    'muhasabah_soal_id' => $soal_id,
+                    'jawaban' => $jawaban,
+                    'tanggal' => now()->toDateString(),
+                ]);
+            }
+        }
+
+        return redirect()->route('muhasabah.dashboard')->with('success', 'Laporan Muhasabah Berhasil Dikirim!');
     }
 }
