@@ -34,11 +34,13 @@ class MuhasabahAnggotaController extends Controller
             'password' => 'required|string|min:4',
         ], [
             'username.unique' => 'Username anggota ini sudah dipakai.',
+            'no_wa.numeric' => 'Nomor Whatsapp harus berupa angka.',
         ]);
 
         MuhasabahAnggota::create([
-            'group_id' => $group_id, // Otomatis masuk ke group yang dipilih
+            'group_id' => $group_id, 
             'nama_lengkap' => $request->nama_lengkap,
+            'no_wa' => $request->no_wa,
             'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
@@ -59,12 +61,14 @@ class MuhasabahAnggotaController extends Controller
 
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
+            'no_wa' => 'nullable|numeric|digits_between:10,15',
             'username' => 'required|string|unique:muhasabah_anggotas,username,' . $id,
             'password' => 'nullable|string|min:4',
         ]);
 
         $data = [
             'nama_lengkap' => $request->nama_lengkap,
+            'no_wa' => $request->no_wa,
             'username' => $request->username,
         ];
 

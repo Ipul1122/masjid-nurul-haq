@@ -43,7 +43,7 @@ class LaporanMuhasabahController extends Controller
         // withQueryString() penting agar saat pindah halaman, filter tidak hilang
         $laporans = $query->orderBy('tanggal', 'desc')
                           ->orderBy('anggota_id', 'asc')
-                          ->paginate(2) 
+                          ->paginate(10) 
                           ->withQueryString();
 
         // 4. Ambil Detail Jawaban

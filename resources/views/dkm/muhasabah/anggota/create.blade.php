@@ -11,17 +11,26 @@
     <div class="bg-white p-6 rounded shadow-md max-w-lg">
         <form action="{{ route('dkm.muhasabah.anggota.store', $group->id) }}" method="POST">
             @csrf
-            
+
+            {{-- Nama Lengkap Anggota --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Nama Lengkap Anggota</label>
                 <input type="text" name="nama_lengkap" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Contoh: Heru Santoso" required>
             </div>
 
+            {{-- Nomor WhatsApp --}}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Nomor Whatsapp</label>
+                <input type="text" name="no_wa" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Contoh: 081234567890">
+            </div>
+
+            {{-- Username Login --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Username Login</label>
                 <input type="text" name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Contoh: heru" required>
             </div>
 
+            {{-- Password Login --}}
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
                 <input type="text" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Contoh: heru123" required>
