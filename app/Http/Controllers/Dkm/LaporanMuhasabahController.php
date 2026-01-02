@@ -12,14 +12,14 @@ class LaporanMuhasabahController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Ambil Data Filter
+        // 1. Data Filter
         $groups = MuhasabahGroup::all();
-        
         $anggotas = $request->group_id 
                     ? MuhasabahAnggota::where('group_id', $request->group_id)->get() 
                     : MuhasabahAnggota::all();
 
         // 2. Query Utama
+        // Menggunakan SELECT DISTINCT untuk mendapatkan kombinasi unik (Tanggal + Orang)
         $query = LaporanMuhasabahAnggota::select('tanggal', 'anggota_id')
                     ->distinct()
                     ->with(['anggota.group']);
@@ -39,14 +39,15 @@ class LaporanMuhasabahController extends Controller
             $query->whereBetween('tanggal', [$request->tanggal_mulai, $request->tanggal_akhir]);
         }
 
-        // 3. Eksekusi Pagination (SET KE 10)
-        // withQueryString() penting agar saat pindah halaman, filter tidak hilang
-        $laporans = $query->orderBy('tanggal', 'desc')
+        // 3. [PERBAIKAN DISINI] SORTING PRIORITAS TANGGAL
+        // Ini kuncinya: Urutkan dulu Tanggalnya (Terbaru ke Terlama), baru ID Anggotanya.
+        // Dengan begini, laporan Tini tgl 1 akan berkumpul dengan laporan tgl 1 lainnya.
+        $laporans = $query->orderBy('tanggal', 'desc') 
                           ->orderBy('anggota_id', 'asc')
-                          ->paginate(10) 
+                          ->paginate(10)
                           ->withQueryString();
 
-        // 4. Ambil Detail Jawaban
+        // 4. Ambil Detail Jawaban (Eager Loading manual untuk pagination)
         foreach ($laporans as $laporan) {
             $laporan->detail_jawaban = LaporanMuhasabahAnggota::with('soal')
                 ->where('tanggal', $laporan->tanggal)

@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MuhasabahSoal;
 use App\Models\MuhasabahAnggota;
-use App\Models\LaporanMuhasabahAnggota; // Pastikan model ini ada
+use App\Models\LaporanMuhasabahAnggota; 
+use Carbon\Carbon;
 
 class MuhasabahMasjidController extends Controller
 {
@@ -69,31 +70,57 @@ class MuhasabahMasjidController extends Controller
     // METHOD STORE (PENYIMPANAN)
     public function store(Request $request)
     {
-        // 1. Validasi User
+        // 1. Validasi: Tanggal harus diisi dan tidak boleh lebih dari hari ini (besok)
+        $request->validate([
+            'tanggal' => 'required|date|before_or_equal:today',
+            'jawaban' => 'required|array',
+        ], [
+            'tanggal.required' => 'Tanggal laporan wajib diisi.',
+            'tanggal.before_or_equal' => 'Anda tidak dapat mengisi laporan untuk hari esok.',
+        ]);
+
         if (!Auth::guard('muhasabah_anggota')->check()) {
-            return redirect()->route('muhasabah.login')->with('error', 'Sesi habis.');
+            return redirect()->route('muhasabah.login')->with('error', 'Sesi habis, silakan login kembali.');
         }
 
         $anggota = Auth::guard('muhasabah_anggota')->user();
-        $inputs = $request->input('jawaban'); // Array jawaban dari form
+        
+        // 2. [KUNCI PERBAIKAN] Ambil tanggal dari INPUT USER, bukan now()
+        $tanggalLaporan = $request->tanggal; 
+
+        // Cek apakah user sudah pernah mengisi di tanggal TERSEBUT?
+        // (Optional: Jika ingin mencegah duplikat di tanggal yg sama)
+        /*
+        $sudahIsi = LaporanMuhasabahAnggota::where('anggota_id', $anggota->id)
+                    ->where('tanggal', $tanggalLaporan)
+                    ->exists();
+        if ($sudahIsi) {
+            return back()->with('error', 'Anda sudah mengisi laporan untuk tanggal tersebut.');
+        }
+        */
+
+        $inputs = $request->input('jawaban');
 
         if ($inputs) {
             foreach ($inputs as $soal_id => $jawaban) {
-                // Handle Checkbox (Array to String)
+                // Handle checkbox (array to string)
                 if (is_array($jawaban)) {
                     $jawaban = implode(', ', $jawaban);
                 }
 
-                // Simpan ke Database
                 LaporanMuhasabahAnggota::create([
-                    'anggota_id' => $anggota->id,
+                    'anggota_id'       => $anggota->id,
                     'muhasabah_soal_id' => $soal_id,
-                    'jawaban' => $jawaban,
-                    'tanggal' => now()->toDateString(),
+                    'jawaban'          => $jawaban,
+                    'tanggal'          => $tanggalLaporan, // Gunakan variabel dari request user
                 ]);
             }
         }
 
-        return redirect()->route('muhasabah.dashboard')->with('success', 'Alhamdulillah, laporan muhasabah Anda berhasil dikirim.');
+        // Format tanggal untuk pesan notifikasi (Indonesia)
+        $tglIndo = Carbon::parse($tanggalLaporan)->locale('id')->translatedFormat('l, d F Y');
+
+        return redirect()->route('muhasabah.dashboard')
+            ->with('success', "Alhamdulillah, laporan muhasabah untuk tanggal $tglIndo berhasil dikirim.");
     }
 }
