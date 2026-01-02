@@ -53,18 +53,50 @@ class MuhasabahMasjidController extends Controller
         return redirect()->route('muhasabah.login');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        if (Auth::guard('muhasabah_group')->check()) {
-            $group = Auth::guard('muhasabah_group')->user();
-            $anggotas = MuhasabahAnggota::where('group_id', $group->id)->get();
-            return view('penggunaMasjid.dashboard', ['role' => 'group', 'user' => $group, 'data' => $anggotas]);
-        } elseif (Auth::guard('muhasabah_anggota')->check()) {
-            $anggota = Auth::guard('muhasabah_anggota')->user();
-            $soals = MuhasabahSoal::where('is_active', true)->orderBy('urutan')->get();
-            return view('penggunaMasjid.dashboard', ['role' => 'anggota', 'user' => $anggota, 'soals' => $soals]);
+        // 1. Cek Login
+        if (!Auth::guard('muhasabah_anggota')->check() && !Auth::guard('dkm')->check()) {
+            return redirect()->route('muhasabah.login');
         }
-        return redirect()->route('muhasabah.login');
+
+        $user = null;
+        $role = null;
+        $temanSeGroup = collect();
+        
+        // Default tanggal lihat adalah hari ini, atau diambil dari request user
+        $tanggalLihat = $request->input('tanggal_lihat', now()->format('Y-m-d'));
+
+        if (Auth::guard('muhasabah_anggota')->check()) {
+            $user = Auth::guard('muhasabah_anggota')->user();
+            $role = $user->role ?? 'anggota'; 
+
+            if ($user->group_id) {
+                // Ambil teman se-group
+                $temanSeGroup = MuhasabahAnggota::where('group_id', $user->group_id)
+                                ->orderBy('nama_lengkap', 'asc')
+                                ->get()
+                                ->map(function ($teman) use ($tanggalLihat) {
+                                    // LOGIKA BARU: Cek apakah teman ini sudah lapor di tanggal tersebut?
+                                    $cek = LaporanMuhasabahAnggota::where('anggota_id', $teman->id)
+                                            ->where('tanggal', $tanggalLihat)
+                                            ->exists();
+                                    
+                                    // Tambahkan properti baru ke object teman secara on-the-fly
+                                    $teman->sudah_lapor = $cek;
+                                    return $teman;
+                                });
+            }
+        } else {
+            $user = Auth::guard('dkm')->user();
+        }
+
+        $soals = MuhasabahSoal::where('is_active', 1)
+                    ->orderBy('urutan', 'asc')
+                    ->get();
+
+        // Kirim $tanggalLihat ke view
+        return view('penggunaMasjid.dashboard', compact('user', 'role', 'soals', 'temanSeGroup', 'tanggalLihat'));
     }
 
     // METHOD STORE (PENYIMPANAN)
@@ -85,19 +117,9 @@ class MuhasabahMasjidController extends Controller
 
         $anggota = Auth::guard('muhasabah_anggota')->user();
         
-        // 2. [KUNCI PERBAIKAN] Ambil tanggal dari INPUT USER, bukan now()
         $tanggalLaporan = $request->tanggal; 
 
-        // Cek apakah user sudah pernah mengisi di tanggal TERSEBUT?
-        // (Optional: Jika ingin mencegah duplikat di tanggal yg sama)
-        /*
-        $sudahIsi = LaporanMuhasabahAnggota::where('anggota_id', $anggota->id)
-                    ->where('tanggal', $tanggalLaporan)
-                    ->exists();
-        if ($sudahIsi) {
-            return back()->with('error', 'Anda sudah mengisi laporan untuk tanggal tersebut.');
-        }
-        */
+       
 
         $inputs = $request->input('jawaban');
 

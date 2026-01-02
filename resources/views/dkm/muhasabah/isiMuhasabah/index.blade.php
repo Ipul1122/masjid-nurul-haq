@@ -1,5 +1,7 @@
 @extends('layouts.dkm')
 
+@section('title', 'Setting Form Muhasabah')
+
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="flex justify-between items-center mb-6">
