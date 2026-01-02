@@ -94,6 +94,6 @@ class MuhasabahMasjidController extends Controller
             }
         }
 
-        return redirect()->route('muhasabah.dashboard')->with('success', 'Laporan Muhasabah Berhasil Dikirim!');
+        return redirect()->route('muhasabah.dashboard')->with('success', 'Alhamdulillah, laporan muhasabah Anda berhasil dikirim.');
     }
 }

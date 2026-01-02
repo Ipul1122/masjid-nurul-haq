@@ -27,6 +27,7 @@
                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                     <th class="py-3 px-6 text-left">No</th>
                     <th class="py-3 px-6 text-left">Nama Lengkap</th>
+                    <th class="py-3 px-6 text-left">Nomor WhatsApp</th>
                     <th class="py-3 px-6 text-left">Username</th>
                     <th class="py-3 px-6 text-center">Aksi</th>
                 </tr>
@@ -36,6 +37,15 @@
                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                     <td class="py-3 px-6 text-left whitespace-nowrap">{{ $index + 1 }}</td>
                     <td class="py-3 px-6 text-left font-medium">{{ $anggota->nama_lengkap }}</td>
+                    <td class="py-3 px-6 text-left">
+                        @if($anggota->no_wa)
+                            <a href="https://wa.me/{{ preg_replace('/^0/', '62', $anggota->no_wa) }}" target="_blank" class="text-green-600 hover:text-green-800 underline">
+                                {{ $anggota->no_wa }}
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
                     <td class="py-3 px-6 text-left">{{ $anggota->username }}</td>
                     <td class="py-3 px-6 text-center">
                         <div class="flex item-center justify-center">

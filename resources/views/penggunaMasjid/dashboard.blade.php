@@ -12,7 +12,7 @@
     </div>
     @endif
 
-    <div class="flex justify-between items-center bg-white p-6 rounded-lg shadow mb-6">
+    <div class="flex justify-between items-center bg-white p-6 rounded-lg shadow mb-6 mt-10">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">
                 Assalamu'alaikum, {{ $role == 'group' ? $user->nama_group : $user->nama_lengkap }}
@@ -129,4 +129,35 @@
     </div>
     @endif
 </div>
+
+{{-- Load SweetAlert2 CDN --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Cek apakah ada session 'success' dari Controller
+        @if(session('success'))
+            Swal.fire({
+                title: 'Jazakallah Khair!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'Tutup',
+                confirmButtonColor: '#16a34a', // Warna hijau (Tailwind green-600)
+                timer: 3000, // Otomatis tutup dalam 3 detik
+                timerProgressBar: true
+            });
+        @endif
+
+        // Cek apakah ada session 'error' (Opsional)
+        @if(session('error'))
+            Swal.fire({
+                title: 'Mohon Maaf',
+                text: "{{ session('error') }}",
+                icon: 'error',
+                confirmButtonText: 'Ok',
+                confirmButtonColor: '#dc2626' // Warna merah
+            });
+        @endif
+    });
+</script>
 @endsection

@@ -15,6 +15,7 @@ class MuhasabahAnggota extends Authenticatable
     protected $fillable = [
         'group_id',
         'nama_lengkap',
+        'no_wa',
         'username',
         'password',
     ];

@@ -12,17 +12,26 @@
         <form action="{{ route('dkm.muhasabah.anggota.update', $anggota->id) }}" method="POST">
             @csrf
             @method('PUT')
-            
+
+            {{-- Nama Lengkap Anggota --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Nama Lengkap Anggota</label>
                 <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $anggota->nama_lengkap) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
 
+            {{-- Nomor WhatsApp --}}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Nomor WhatsApp</label>
+                <input type="text" name="no_wa" value="{{ old('no_wa', $anggota->no_wa) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Contoh: 081234567890">
+            </div>
+
+            {{-- Username Login --}}
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Username Login</label>
                 <input type="text" name="username" value="{{ old('username', $anggota->username) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
 
+            {{-- Password Login --}}
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Password Baru (Opsional)</label>
                 <input type="text" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Isi jika ingin mengganti password">
