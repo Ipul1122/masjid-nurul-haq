@@ -25,7 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Carbon::setLocale('id');
+        // Set Carbon locale from app config and ensure PHP LC_TIME is set for date formatting
+        Carbon::setLocale(config('app.locale'));
+        // Try multiple locale variants for compatibility on different systems
+        setlocale(LC_TIME, 'id_ID.UTF-8', 'id_ID', 'id');
 
          View::composer('layouts.runningText', function ($view) {
             $view->with('runningText', RunningText::latest()->first());
@@ -40,5 +43,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Paginator::useTailwind();
+        
     }
 }
