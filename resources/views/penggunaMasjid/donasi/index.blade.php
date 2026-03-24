@@ -1,133 +1,114 @@
-@extends('layouts.penggunaMasjid')
-
-@section('title', 'Donasi Yuk')
+@extends('layouts.penggunaMasjid') {{-- Sesuaikan jika nama layout utama Anda berbeda --}}
 
 @section('content')
-
-{{-- 
-  CATATAN: 
-  Kode ini menggunakan kelas-kelas dari Tailwind CSS. 
-  Pastikan Tailwind CSS sudah terinstall dan terkonfigurasi dengan benar di proyek Laravel Anda.
---}}
-
-<div class="mt-16 bg-green-50 font-sans p-8 md:py-12">
-    <div class="container mx-auto max-w-6xl">
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-            <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col justify-center items-center h-full">
-                <h5 class="text-gray-500 text-sm font-medium uppercase tracking-wider mb-2">
-                    Rekening Donasi
-                </h5>
-                <h2 class="text-4xl font-bold text-emerald-600 mb-4" id="rekening-nomor">
-                    123 456 7890
-                </h2>
-                <p class="text-gray-600 mb-6">
-                    a.n. Yayasan Masjid Nurul Haq (BNI)
-                </p>
-                <button 
-                    id="copy-button"
-                    onclick="copyToClipboard()"
-                    class="w-full bg-emerald-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 flex items-center justify-center space-x-2">
-                    <svg id="copy-icon-default" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                    <svg id="copy-icon-success" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span id="copy-text">Salin Nomor Rekening</span>
-                </button>
+<div class="min-h-screen bg-slate-50 py-12">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+            
+            {{-- Bagian Header Form --}}
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-10 text-white text-center relative overflow-hidden">
+                {{-- Efek dekorasi background --}}
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+                
+                <h2 class="text-3xl font-extrabold mb-3 relative z-10">Salurkan Donasi Anda</h2>
+                <p class="text-blue-100 text-lg relative z-10 font-light">"Sedekah tidaklah mengurangi harta." (HR. Muslim)</p>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-lg p-8 h-full">
-                <h3 class="text-2xl font-bold text-emerald-800 mb-6">
-                    Cara Berdonasi
-                </h3>
-                
-                <div class="space-y-6">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 bg-emerald-500 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center mr-4">1</div>
-                        <div class="pt-1 text-gray-700">Salin nomor rekening tujuan di samping.</div>
-                    </div>
+            {{-- Form Donasi --}}
+            <div class="p-8 md:p-10">
+                {{-- Pastikan action mengarah ke route proses Midtrans yang kita buat sebelumnya --}}
+                <form action="{{ route('penggunaMasjid.donasi.proses') }}" method="POST" id="form-donasi">
+                    @csrf
                     
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 bg-emerald-500 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center mr-4">2</div>
-                        <div class="pt-1 text-gray-700">Lakukan transfer melalui m-Banking atau ATM.</div>
-                    </div>
-                    
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 bg-emerald-500 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center mr-4">3</div>
-                        <div class="pt-1 text-gray-700">Simpan bukti transfer Anda (screenshot/foto).</div>
-                    </div>
-
-                    <div class="flex items-start border-t border-gray-200 pt-6 mt-6">
-                        <div class="flex-shrink-0 bg-emerald-500 text-white font-bold w-9 h-9 rounded-full flex items-center justify-center mr-4">4</div>
-                        <div class="w-full">
-                            <strong class="text-gray-800">Konfirmasi Donasi Anda</strong><br>
-                            <small class="text-gray-500 block mb-3">Ini bersifat opsional, namun akan membantu kami dalam pencatatan.</small>
-                            <a href="{{ url('penggunaMasjid/donasi/kirimBukti') }}" class="mt-3 w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors duration-300 text-center block">
-                                Kirim Bukti Transfer
-                            </a>
+                    {{-- 1. Pilih Nominal --}}
+                    <div class="mb-8">
+                        <label class="block text-gray-800 font-bold mb-4 text-lg">Pilih Nominal Donasi</label>
+                        
+                        {{-- Tombol Preset Nominal --}}
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+                            <button type="button" class="btn-nominal border-2 border-blue-500 text-blue-600 hover:bg-blue-50 focus:ring-2 focus:ring-blue-300 rounded-xl py-3 font-semibold transition-all" data-val="10000">Rp 10.000</button>
+                            <button type="button" class="btn-nominal border-2 border-blue-500 text-blue-600 hover:bg-blue-50 focus:ring-2 focus:ring-blue-300 rounded-xl py-3 font-semibold transition-all" data-val="50000">Rp 50.000</button>
+                            <button type="button" class="btn-nominal border-2 border-blue-500 text-blue-600 hover:bg-blue-50 focus:ring-2 focus:ring-blue-300 rounded-xl py-3 font-semibold transition-all" data-val="100000">Rp 100.000</button>
+                            <button type="button" class="btn-nominal border-2 border-blue-500 text-blue-600 hover:bg-blue-50 focus:ring-2 focus:ring-blue-300 rounded-xl py-3 font-semibold transition-all" data-val="500000">Rp 500.000</button>
+                        </div>
+                        
+                        <label class="block text-gray-600 font-medium mb-2 text-sm">Atau masukkan nominal lainnya:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <span class="text-gray-500 font-bold text-lg">Rp</span>
+                            </div>
+                            <input type="number" name="nominal" id="nominal" min="10000" 
+                                   class="pl-12 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-0 transition-colors py-4 text-lg font-bold text-gray-800 placeholder-gray-300" 
+                                   placeholder="Minimal 10.000" required>
                         </div>
                     </div>
-                </div>
-            </div>
 
+                    {{-- 2. Data Diri --}}
+                    <div class="mb-6">
+                        <label for="nama" class="block text-gray-800 font-bold mb-2">Nama Lengkap (Opsional)</label>
+                        <input type="text" name="nama" id="nama" 
+                               class="w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-0 transition-colors py-3 px-4" 
+                               placeholder="Nama Anda (Bisa dikosongkan untuk Hamba Allah)">
+                        <p class="text-xs text-gray-500 mt-2"><i class="fas fa-info-circle"></i> Kosongkan jika Anda ingin berdonasi secara anonim.</p>
+                    </div>
+
+                    {{-- 3. Pesan/Doa --}}
+                    <div class="mb-10">
+                        <label for="pesan" class="block text-gray-800 font-bold mb-2">Pesan atau Doa (Opsional)</label>
+                        <textarea name="pesan" id="pesan" rows="3" 
+                                  class="w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-0 transition-colors py-3 px-4" 
+                                  placeholder="Tuliskan doa untuk Anda, keluarga, atau kerabat..."></textarea>
+                    </div>
+
+                    {{-- 4. Tombol Submit --}}
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold text-lg py-4 rounded-xl hover:bg-blue-700 active:bg-blue-800 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex justify-center items-center gap-2">
+                        <span>Lanjutkan ke Pembayaran</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    
+                    {{-- Trust Badge --}}
+                    <div class="text-center mt-6 text-sm text-gray-500 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        Pembayaran Aman & Terverifikasi oleh <span class="font-bold text-gray-700">Midtrans</span>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
+{{-- Script Tambahan untuk Efek Tombol Preset Nominal --}}
 <script>
-function setSuccessState() {
-    const copyButton = document.getElementById('copy-button');
-    const copyText = document.getElementById('copy-text');
-    const defaultIcon = document.getElementById('copy-icon-default');
-    const successIcon = document.getElementById('copy-icon-success');
-    const originalText = 'Salin Nomor Rekening';
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnNominals = document.querySelectorAll('.btn-nominal');
+        const inputNominal = document.getElementById('nominal');
 
-    copyText.innerText = 'Berhasil Disalin!';
-    defaultIcon.classList.add('hidden');
-    successIcon.classList.remove('hidden');
-    copyButton.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
-    copyButton.classList.add('bg-emerald-700');
-
-    setTimeout(() => {
-        copyText.innerText = originalText;
-        defaultIcon.classList.remove('hidden');
-        successIcon.classList.add('hidden');
-        copyButton.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
-        copyButton.classList.remove('bg-emerald-700');
-    }, 2500);
-}
-
-function copyToClipboard() {
-    const rekeningElement = document.getElementById('rekening-nomor');
-    const rekeningText = rekeningElement.innerText.replace(/\s/g, '');
-
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(rekeningText).then(() => {
-            setSuccessState();
-        }).catch(err => {
-            console.error('Gagal menyalin dengan navigator.clipboard: ', err);
+        // Event saat tombol nominal diklik
+        btnNominals.forEach(button => {
+            button.addEventListener('click', function() {
+                // Reset semua tombol ke style default
+                btnNominals.forEach(btn => {
+                    btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+                    btn.classList.add('text-blue-600', 'bg-white', 'border-blue-500');
+                });
+                
+                // Tambahkan style aktif ke tombol yang diklik
+                this.classList.remove('text-blue-600', 'bg-white', 'border-blue-500');
+                this.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+                
+                // Masukkan nilai ke input form
+                inputNominal.value = this.getAttribute('data-val');
+            });
         });
-    } else {
-        const textArea = document.createElement('textarea');
-        textArea.value = rekeningText;
-        
-        textArea.style.position = 'fixed';
-        textArea.style.top = '-9999px';
-        textArea.style.left = '-9999px';
 
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-
-        try {
-            document.execCommand('copy');
-            setSuccessState();
-        } catch (err) {
-            console.error('Gagal menyalin dengan metode fallback: ', err);
-            alert('Gagal menyalin. Mohon salin secara manual.');
-        }
-
-        document.body.removeChild(textArea);
-    }
-}
+        // Hapus status aktif pada tombol jika user mengetik nominal secara manual
+        inputNominal.addEventListener('input', function() {
+            btnNominals.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+                btn.classList.add('text-blue-600', 'bg-white', 'border-blue-500');
+            });
+        });
+    });
 </script>
 @endsection
