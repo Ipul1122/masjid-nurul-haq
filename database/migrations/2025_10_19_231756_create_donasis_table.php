@@ -6,26 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    // database/migrations/xxxx_xx_xx_xxxxxx_create_donasis_table.php
-
-    public function up(): void
+    public function up()
     {
         Schema::create('donasis', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_donatur');
-            $table->string('file_bukti'); // Untuk menyimpan nama file gambar
-            $table->enum('status', ['pending', 'verified', 'rejected'])->default('pending');
-            $table->timestamps();
+            // nominal tidak boleh null
+            $table->integer('nominal'); 
+            
+            // Atur nullable dan default value sesuai permintaan
+            $table->string('nama_donatur')->nullable()->default('Hamba Allah');
+            $table->text('pesan')->nullable()->default('Jazakumullah Khairan Katsiran');
+            
+            $table->timestamps(); // Ini otomatis membuat created_at dan updated_at
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('donasis');
     }
