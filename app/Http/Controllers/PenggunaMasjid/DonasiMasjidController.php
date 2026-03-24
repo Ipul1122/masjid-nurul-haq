@@ -5,6 +5,8 @@ namespace App\Http\Controllers\PenggunaMasjid; // Pastikan namespace-nya benar
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Donasi; 
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class DonasiMasjidController extends Controller // Nama kelas diubah menjadi DonasiController
 {
@@ -55,7 +57,45 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
      */
     public function hasilDonasi()
     {
-        $donasiTerverifikasi = Donasi::where('status', 'verified')->latest()->get();
-        return view('penggunaMasjid.donasi.hasilDonasi', compact('donasiTerverifikasi'));
+        $donasis = Donasi::latest()->get();
+        
+        return view('penggunaMasjid.donasi.hasilDonasi', compact('donasis'));
+    }
+
+    public function prosesDonasi(Request $request)
+    {
+        // 1. Validasi Input
+        $request->validate([
+            'nominal' => 'required|numeric|min:10000',
+            'nama' => 'nullable|string',
+        ]);
+
+        // 2. Simpan data donasi ke database dengan status 'pending' (Opsional tapi disarankan)
+        $orderId = 'DONASI-' . uniqid(); 
+        
+        // $donasi = Donasi::create([...]); // Silakan aktifkan jika tabel donasi sudah siap
+
+        // 3. Konfigurasi Midtrans
+        Config::$serverKey = config('services.midtrans.server_key');
+        Config::$isProduction = config('services.midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        // 4. Buat Parameter untuk dikirim ke Midtrans
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $orderId,
+                'gross_amount' => $request->nominal,
+            ),
+            'customer_details' => array(
+                'first_name' => $request->nama ?? 'Hamba Allah',
+            ),
+        );
+
+        // 5. Dapatkan Snap Token
+        $snapToken = Snap::getSnapToken($params);
+
+        // 6. Return ke view pembayaran dengan membawa $snapToken
+        return view('penggunaMasjid.donasi.bayar', compact('snapToken', 'request'));
     }
 }

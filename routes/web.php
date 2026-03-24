@@ -132,6 +132,7 @@ Route::name('penggunaMasjid.')->group(function () {
     // == PENGGUNA MASJID ROUTES UNTUK DONASI ==
     Route::prefix('penggunaMasjid/donasi')->name('donasi.')->group(function () {
         Route::get('/donasi-masjid', [DonasiMasjidController::class, 'index'])->name('index');
+        Route::post('/proses', [DonasiMasjidController::class, 'prosesDonasi'])->name('proses');
         Route::get('/kirimBukti', [DonasiMasjidController::class, 'kirimBukti'])->name('kirimBukti');
         Route::post('/kirimBukti', [DonasiMasjidController::class, 'storeBukti'])->name('kirimBukti.store');
         Route::get('/hasil', [DonasiMasjidController::class, 'hasilDonasi'])->name('hasilDonasi');

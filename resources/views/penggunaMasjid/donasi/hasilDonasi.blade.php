@@ -1,54 +1,69 @@
 @extends('layouts.penggunaMasjid')
 
-@section('title', 'Hasil Donasi')
-
 @section('content')
-<div class="mt-16 bg-green-50 font-sans p-8 md:py-12">
-    <div class="container mx-auto max-w-4xl">
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-            <h2 class="text-3xl font-bold text-emerald-800 mb-8 text-center">Donatur Masjid Nurul Haq</h2>
-            <p class="text-center text-gray-600 mb-10">
-                Kami mengucapkan terima kasih yang sebesar-besarnya kepada para donatur yang telah menyisihkan sebagian rezekinya. Semoga Allah SWT membalas kebaikan Anda dengan pahala yang berlipat ganda. Amin.
-            </p>
+<div class="min-h-screen bg-slate-50 py-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 p-8">
+            
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-500 mb-4">
+                    <i class="fas fa-check-circle text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800">Daftar Donatur Masjid</h2>
+                <p class="text-gray-500 mt-2">Terima kasih atas infaq dan sedekah yang telah diberikan. Semoga Allah membalas dengan pahala yang berlipat ganda.</p>
+            </div>
 
-            <div class="overflow-x-auto rounded-lg border border-gray-200">
-                <table class="min-w-full bg-white">
-                    <thead class="bg-emerald-600 text-white">
-                        <tr>
-                            <th class="w-1/12 py-3 px-4 uppercase font-semibold text-sm text-center">No</th>
-                            <th class="w-8/12 py-3 px-4 uppercase font-semibold text-sm text-left">Nama Donatur</th>
-                            <th class="w-3/12 py-3 px-4 uppercase font-semibold text-sm text-center">Tanggal Verifikasi</th>
+            <div class="overflow-x-auto rounded-xl border border-gray-200">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-blue-600 text-white text-sm uppercase tracking-wider">
+                            <th class="py-4 px-6 font-semibold w-16 text-center">No</th>
+                            <th class="py-4 px-6 font-semibold">Nama Donatur</th>
+                            <th class="py-4 px-6 font-semibold">Pesan / Doa</th>
+                            <th class="py-4 px-6 font-semibold whitespace-nowrap">Tanggal Donasi</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-700">
-                        @forelse ($donasiTerverifikasi as $index => $donasi)
-                            <tr class="{{ $loop->even ? 'bg-emerald-50' : 'bg-white' }} hover:bg-gray-100 transition-colors duration-200">
-                                <td class="py-3 px-4 text-center">{{ $index + 1 }}</td>
-                                <td class="py-3 px-4">
-                                    {{-- Untuk menjaga privasi, kita samarkan sebagian nama donatur --}}
-                                    {{ Str::mask($donasi->nama_donatur, '*', 3) }}
-                                </td>
-                                <td class="py-3 px-4 text-center text-sm text-gray-600">
-                                    {{-- 'updated_at' akan merefleksikan waktu verifikasi --}}
-                                    {{ $donasi->updated_at->format('d M Y') }}
-                                </td>
-                            </tr>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse($donasis as $index => $donasi)
+                        <tr class="hover:bg-blue-50 transition-colors">
+                            <td class="py-4 px-6 text-gray-700 text-center font-medium">{{ $index + 1 }}</td>
+                            
+                            {{-- Logika Nama: Jika kosong (null/string kosong), tampilkan Hamba Allah --}}
+                            <td class="py-4 px-6 font-bold text-gray-800">
+                                {{ !empty($donasi->nama) ? $donasi->nama : 'Hamba Allah' }}
+                            </td>
+                            
+                            {{-- Logika Pesan: Jika kosong, tampilkan Jazakumullah --}}
+                            <td class="py-4 px-6 text-gray-600 italic">
+                                "{{ !empty($donasi->pesan) ? $donasi->pesan : 'Jazakumullah Khairan Katsiran' }}"
+                            </td>
+                            
+                            <td class="py-4 px-6 text-gray-700 text-sm whitespace-nowrap">
+                                {{ \Carbon\Carbon::parse($donasi->created_at)->translatedFormat('d F Y, H:i') }} WIB
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <td colspan="3" class="text-center py-10 px-4 text-gray-500">
-                                    Belum ada data donasi terverifikasi untuk ditampilkan.
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colspan="4" class="py-12 text-center text-gray-500">
+                                <i class="fas fa-box-open text-4xl mb-3 text-gray-300 block"></i>
+                                Belum ada riwayat donasi yang tercatat.
+                            </td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <div class="text-center mt-10">
-                <a href="{{ route('penggunaMasjid.donasi.index') }}" class="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300">
-                    Kembali ke Halaman Donasi
+            {{-- Tombol Kembali --}}
+            <div class="mt-8 text-center flex justify-center gap-4">
+                <a href="{{ route('penggunaMasjid.donasi.index') }}" class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-200 transition">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Form
+                </a>
+                <a href="{{ route('penggunaMasjid.donasi.index') }}" class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition shadow-lg hover:shadow-xl">
+                    <i class="fas fa-home"></i> Halaman Utama
                 </a>
             </div>
+            
         </div>
     </div>
 </div>
