@@ -112,7 +112,7 @@
                 <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="block text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Kontak
                 </a>
-                <a href="{{ route('penggunaMasjid.kontakMasjid.index') }}" class="block text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                <a href="{{ route('penggunaMasjid.donasi.index') }}" class="block text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
                     Donasi
                 </a>
                 

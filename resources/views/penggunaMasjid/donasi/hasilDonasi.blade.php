@@ -1,7 +1,7 @@
 @extends('layouts.penggunaMasjid')
 
 @section('content')
-<div class="min-h-screen bg-slate-50 py-12">
+<div class="min-h-screen bg-slate-50 py-12 my-12">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 p-8">
             
@@ -30,7 +30,7 @@
                             
                             {{-- Logika Nama: Jika kosong (null/string kosong), tampilkan Hamba Allah --}}
                             <td class="py-4 px-6 font-bold text-gray-800">
-                                {{ !empty($donasi->nama) ? $donasi->nama : 'Hamba Allah' }}
+                                {{ !empty($donasi->nama_donatur) ? $donasi->nama_donatur : 'Hamba Allah' }}
                             </td>
                             
                             {{-- Logika Pesan: Jika kosong, tampilkan Jazakumullah --}}

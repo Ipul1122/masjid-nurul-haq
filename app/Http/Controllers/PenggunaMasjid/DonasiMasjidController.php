@@ -13,10 +13,19 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
     /**
      * Menampilkan halaman donasi utama.
      */
-    public function index()
+   public function index()
     {
-        // Langsung arahkan ke view yang benar
-        return view('penggunaMasjid.donasi.index'); 
+        $expiryTime = session('expiry_time');
+
+        // [PENGAMANAN BARU]: Jika waktu 20 menit sudah lewat, bersihkan antrean!
+        if ($expiryTime && (now()->timestamp * 1000) > $expiryTime) {
+            session()->forget(['pending_donasi_token', 'data_donasi_sementara', 'expiry_time']);
+        }
+
+        // Ambil token (akan bernilai null jika baru saja dihapus di atas)
+        $pendingToken = session('pending_donasi_token');
+        
+        return view('penggunaMasjid.donasi.index', compact('pendingToken'));
     }
 
     /**
@@ -57,31 +66,43 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
      */
     public function hasilDonasi()
     {
+        if (session()->has('data_donasi_sementara')) {
+            $dataDonasi = session('data_donasi_sementara');
+            
+            Donasi::create([
+                'nama_donatur' => !empty($dataDonasi['nama']) ? $dataDonasi['nama'] : 'Hamba Allah',
+                'nominal' => $dataDonasi['nominal'],
+                'pesan' => !empty($dataDonasi['pesan']) ? $dataDonasi['pesan'] : 'Jazakumullah Khairan Katsiran',
+            ]);
+            
+        }
+
+        // Hapus semua session terkait donasi saat sukses
+        session()->forget(['pending_donasi_token', 'data_donasi_sementara', 'expiry_time']);
+
         $donasis = Donasi::latest()->get();
-        
         return view('penggunaMasjid.donasi.hasilDonasi', compact('donasis'));
     }
 
-    public function prosesDonasi(Request $request)
+  public function prosesDonasi(Request $request)
     {
-        // 1. Validasi Input
+        if (session()->has('pending_donasi_token')) {
+            return redirect()->route('penggunaMasjid.donasi.index')->with('info', 'Harap selesaikan atau batalkan transaksi Anda sebelumnya terlebih dahulu.');
+        }
+
         $request->validate([
             'nominal' => 'required|numeric|min:10000',
             'nama' => 'nullable|string',
+            'pesan' => 'nullable|string',
         ]);
 
-        // 2. Simpan data donasi ke database dengan status 'pending' (Opsional tapi disarankan)
-        $orderId = 'DONASI-' . uniqid(); 
-        
-        // $donasi = Donasi::create([...]); // Silakan aktifkan jika tabel donasi sudah siap
+        $orderId = 'DONASI-' . uniqid();
 
-        // 3. Konfigurasi Midtrans
         Config::$serverKey = config('services.midtrans.server_key');
         Config::$isProduction = config('services.midtrans.is_production');
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        // 4. Buat Parameter untuk dikirim ke Midtrans
         $params = array(
             'transaction_details' => array(
                 'order_id' => $orderId,
@@ -90,12 +111,64 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
             'customer_details' => array(
                 'first_name' => $request->nama ?? 'Hamba Allah',
             ),
+            'custom_expiry' => array(
+                'start_time' => date("Y-m-d H:i:s O"),
+                'unit' => 'minute', 
+                'duration'  => 20 // UBAH KE 20 MENIT
+            )
         );
 
-        // 5. Dapatkan Snap Token
         $snapToken = Snap::getSnapToken($params);
 
-        // 6. Return ke view pembayaran dengan membawa $snapToken
-        return view('penggunaMasjid.donasi.bayar', compact('snapToken', 'request'));
+        // Buat waktu kedaluwarsa persis 20 menit dari sekarang (dalam format timestamp milidetik untuk JavaScript)
+        $expiryTime = now()->addMinutes(20)->timestamp * 1000;
+
+        session([
+            'pending_donasi_token' => $snapToken,
+            'expiry_time' => $expiryTime, 
+            'data_donasi_sementara' => [
+                'nama' => $request->nama,
+                'nominal' => $request->nominal,
+                'pesan' => $request->pesan,
+            ]
+        ]);
+
+        return view('penggunaMasjid.donasi.bayar', [
+            'snapToken' => $snapToken,
+            'nominal' => $request->nominal,
+            'nama' => $request->nama,
+            'expiryTime' => $expiryTime
+        ]);
+    }
+
+    public function resumeDonasi()
+    {
+        $snapToken = session('pending_donasi_token');
+        $dataDonasi = session('data_donasi_sementara');
+        $expiryTime = session('expiry_time');
+
+        // Jika waktu di server sudah melebihi expiry_time, otomatis batalkan
+        if ($expiryTime && (now()->timestamp * 1000) > $expiryTime) {
+            session()->forget(['pending_donasi_token', 'data_donasi_sementara', 'expiry_time']);
+            return redirect()->route('donasi.index')->with('info', 'Waktu pembayaran telah habis. Transaksi dibatalkan otomatis.');
+        }
+
+        if (!$snapToken || !$dataDonasi) {
+            return redirect()->route('penggunaMasjid.donasi.index');
+        }
+
+        return view('penggunaMasjid.donasi.bayar', [
+            'snapToken' => $snapToken,
+            'nominal' => $dataDonasi['nominal'],
+            'nama' => $dataDonasi['nama'],
+            'expiryTime' => $expiryTime
+        ]);
+    }
+
+        public function batalDonasi()
+    {
+        // Hapus semua session saat user klik batal atau waktu habis
+        session()->forget(['pending_donasi_token', 'data_donasi_sementara', 'expiry_time']);
+        return redirect()->route('penggunaMasjid.donasi.index')->with('info', 'Transaksi dibatalkan. Silakan buat donasi baru.');
     }
 }
