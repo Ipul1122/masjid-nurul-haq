@@ -1,7 +1,7 @@
 @extends('layouts.penggunaMasjid')
 
-@section('title', 'Masjid Nurul Haq - Beranda')
-@section('description', 'Selamat Datang di Website Resmi Masjid Nurul Haq. Temukan informasi terbaru tentang kegiatan, artikel islami, laporan keuangan, dan aktivitas remaja masjid (RISNHA) di sini.')
+@section('title', 'Masjid - Beranda')
+@section('description', 'Selamat Datang di Website Resmi Masjid. Temukan informasi terbaru tentang kegiatan, artikel islami, laporan keuangan, dan aktivitas remaja masjid (RISNHA) di sini.')
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50">
     
@@ -10,11 +10,14 @@
     <div class="relative z-20 ">
         <div id="default-carousel" class="relative w-full" @if($homeSections->count() > 1) data-carousel="slide" @endif>
             {{-- Carousel Wrapper --}}
-            <div class="relative h-56 sm:h-64 md:h-80 lg:h-96 overflow-hidden">
+            {{-- Wrapper 16:9 aspect ratio: padding-bottom 56.25% = 9/16 --}}
+            <div class="relative w-full overflow-hidden" style="padding-bottom: 56.25%;">
                 @foreach ($homeSections as $item)
-                    <div class="{{ $loop->first ? '' : 'hidden' }} duration-700 ease-in-out" @if($homeSections->count() > 1) data-carousel-item @endif>
+                    <div class="{{ $loop->first ? '' : 'hidden' }} absolute inset-0 duration-700 ease-in-out" @if($homeSections->count() > 1) data-carousel-item @endif>
                         <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                        <img src="{{ Storage::url($item->image_path) }}" class="absolute block object-cover w-full h-full" alt="Gambar Masjid Nurul Haq">
+                        <img src="{{ Storage::url($item->image_path) }}"
+                             class="absolute inset-0 block w-full h-full object-cover object-center"
+                             alt="Gambar Masjid">
                     </div>
                 @endforeach
             </div>
@@ -45,11 +48,11 @@
                 
                 {{-- Masjid Info --}}
                 <div class="p-4 sm:p-6 flex items-center gap-3 sm:gap-4">
-                    <img src="{{ asset('images/logo-masjid-nur-haq.png') }}" alt="Logo Masjid Nurul Haq" class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0">
+                    <img src="{{ asset('images/your-logo.png') }}" alt="Logo Masjid" class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0">
                     <div>
-                        <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-1">Masjid Nurul Haq</h3>
+                        <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-1">Masjid</h3>
                         <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                            Jl. Alamat Lengkap Masjid Nurul Haq, Kota, Provinsi
+                            Jl. Alamat Lengkap Masjid, Kota, Provinsi
                         </p>
                     </div>
                 </div>
@@ -63,7 +66,7 @@
                         <h3 class="font-bold text-gray-800 text-sm sm:text-base">Nama Ketua DKM</h3>
                         <p class="text-gray-600 text-xs sm:text-sm mb-2">Ketua DKM</p>
                         <a href="#" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-3 sm:px-5 py-1 sm:py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-colors">
-                            Sholeh Hidayat
+                            Bapak Ustadz .....
                         </a>
                     </div>
                 </div>
@@ -91,7 +94,7 @@
                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
                 </svg>
                 <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" class="font-medium text-sm sm:text-base">
-                    {{ $runningText->content }}
+                    {!! $runningText->content !!}
                 </marquee>
             </div>
         </div>
@@ -105,12 +108,12 @@
             
             <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 mt-16">
                 <div class="w-1 h-6 sm:h-8 bg-gradient-to-b from-emerald-400 to-emerald-500 rounded-full"></div>
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-white">Selamat Datang Di Website Masjid Nurul Haq</h2>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-white">Selamat Datang Di Website Masjid</h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
                 <div class="text-center order-2 md:order-1">
-                    <img src="{{ asset('images/logo-masjid-nur-haq.png') }}" alt="Logo Masjid Nurul Haq" class="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 object-contain mx-auto transition-transform duration-300 hover:scale-110 drop-shadow-2xl">
+                    <img src="{{ asset('images/your-logo.png') }}" alt="Logo Masjid" class="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 object-contain mx-auto transition-transform duration-300 hover:scale-110 drop-shadow-2xl">
                 </div>
                 
                 <div class="order-1 md:order-2">

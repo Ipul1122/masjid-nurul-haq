@@ -5,7 +5,7 @@
             <div>
                 <a href="{{ route('index') }}" class="flex items-center mb-4 hover:bg-blue-600">
                     
-                    <img src="{{ asset('images/logo-masjid-nur-haq.png') }}" alt="Logo Masjid Nurul Haq" class="h-16 w-16 mr-3">
+                    <img src="{{ asset('images/your-logo.png') }}" alt="Logo Masjid Nurul Haq" class="h-16 w-16 mr-3">
 
                     <h3 class="text-2xl font-bold uppercase tracking-wider">Masjid Nurul Haq</h3>
                 </a>
