@@ -1,14 +1,14 @@
-# Sistem Informasi Masjid Nurul Haq
+# Sistem Informasi Masjid dan Organisasi
 
 ## 📌 Pengenalan Aplikasi
 
-Selamat datang di repositori **Sistem Informasi Masjid Nurul Haq**! Ini adalah aplikasi web monolithic yang dibangun menggunakan **Laravel 12** untuk mengelola seluruh aspek informasi, kegiatan, keuangan, dan organisasi Masjid Nurul Haq.
+Selamat datang di repositori **Sistem Informasi Masjid dan Organisasi**! Ini adalah aplikasi web monolithic yang dibangun menggunakan **Laravel 12** untuk mengelola seluruh aspek informasi, kegiatan, keuangan, dan organisasi Masjid dan Organisasi.
 
 Aplikasi ini dirancang untuk memberikan **transparansi**, **kemudahan akses informasi**, dan **manajemen yang efisien** dengan tiga peran pengguna utama:
 
 - 👥 **Pengguna Umum (Jamaah)**: Dapat mengakses informasi publik tentang masjid, kegiatan, keuangan, dan melakukan donasi.
 - 🔐 **Admin DKM (Dewan Kemakmuran Masjid)**: Pengelola utama website dengan akses penuh ke manajemen konten, keuangan, dan user.
-- 🎓 **Admin RISNHA (Remaja Islam Masjid Nurul Haq)**: Pengelola khusus untuk organisasi remaja dengan konten dan dashboard tersendiri.
+- 🎓 **Admin RISNHA (Remaja Islam Masjid dan Organisasi)**: Pengelola khusus untuk organisasi remaja dengan konten dan dashboard tersendiri.
 
 ---
 
@@ -51,7 +51,7 @@ Aplikasi ini dirancang untuk memberikan **transparansi**, **kemudahan akses info
 - Interface responsif untuk desktop dan mobile
 
 #### 🕌 **Profil & Informasi Masjid**
-- **Sejarah**: Latar belakang dan sejarah pendirian Masjid Nurul Haq
+- **Sejarah**: Latar belakang dan sejarah pendirian Masjid dan Organisasi
 - **Visi & Misi**: Visi dan misi masjid dalam menjalankan fungsinya
 - **Struktur DKM**: Jajarah pembina dan struktur organisasi DKM dengan foto
 
@@ -655,13 +655,13 @@ Berikut tampilan aplikasi di berbagai device:
 Untuk pertanyaan atau issues teknis, silakan:
 - 📧 Email: support@masjidnurulhaq.id
 - 🌐 Website: www.masjidnurulhaq.id
-- 📱 Hubungi DKM Masjid Nurul Haq
+- 📱 Hubungi DKM Masjid dan Organisasi
 
 ---
 
 ## 📄 Lisensi
 
-Aplikasi ini dikembangkan untuk Masjid Nurul Haq. Semua hak cipta © 2024 Masjid Nurul Haq.
+Aplikasi ini dikembangkan untuk Masjid dan Organisasi. Semua hak cipta © 2024 Masjid dan Organisasi.
 
 ---
 
@@ -699,5 +699,5 @@ Terima kasih kepada:
 - **Spatie** untuk packages berkualitas
 - Tim pengembang dan semua kontributor
 
-Semoga aplikasi ini dapat membantu meningkatkan kualitas layanan Masjid Nurul Haq untuk jamaah. Aamiin.
+Semoga aplikasi ini dapat membantu meningkatkan kualitas layanan Masjid dan Organisasi untuk jamaah. Aamiin.
 

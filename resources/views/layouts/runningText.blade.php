@@ -11,7 +11,7 @@
         <div class="py-3">
             <p class="whitespace-nowrap animate-marquee">
                 
-                <span>{{ $runningText->content }}</span>
+                <span>{!! $runningText->content !!}</span>
 
                 <span class="mx-4"> --->> </span>
 

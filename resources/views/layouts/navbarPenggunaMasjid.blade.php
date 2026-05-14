@@ -5,9 +5,9 @@
                 <!-- Logo -->
                 <a href="{{ route('index') }}" class="flex items-center space-x-2.5 flex-shrink-0">
                     <div class="w-16 h-16 flex items-center justify-center shadow-sm">
-                        <img src="{{ asset('images/logo-masjid-nur-haq.png') }}" alt="Logo Masjid Nurul Haq" >
+                        <img src="{{ asset('images/your-logo.png') }}" alt="Logo Masjid" >
                     </div>
-                    <span class="font-semibold text-gray-900 text-base hidden sm:block">Masjid Nurul Haq</span>
+                    <span class="font-semibold text-gray-900 text-base hidden sm:block">Masjid</span>
                 </a>
 
                 <!-- Desktop Menu -->
