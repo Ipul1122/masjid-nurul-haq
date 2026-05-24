@@ -4,7 +4,7 @@
 @endphp
 
 @if($runningText && !empty($runningText->content))
-<div class="shadow-lg sticky top-16 overflow-hidden z-20" 
+<div class="shadow-lg sticky top-16 overflow-hidden z-40 font-quicksand" 
      style="background-color: {{ $runningText->background_color ?? '#FFFFFF' }}; color: {{ $runningText->text_color ?? '#000000' }};">
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
