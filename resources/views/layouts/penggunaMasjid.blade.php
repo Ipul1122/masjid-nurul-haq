@@ -16,6 +16,12 @@
     <meta name="twitter:description" content="@yield('description', 'Situs resmi Masjid Nurul Haq...')">
     <meta name="twitter:image" content="@yield('og_image', asset('images/logo-masjid-nur-haq.png'))">
     <link rel="icon" href="{{ asset('images/logo-masjid-nur-haq.png') }} " type="image/png">
+    
+    <!-- Google Fonts: Montserrat & Quicksand -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
