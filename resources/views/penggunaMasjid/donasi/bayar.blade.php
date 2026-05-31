@@ -3,42 +3,42 @@
 @section('title', 'Bayar Donasi')
 
 @section('content')
-<div class="min-h-screen bg-slate-50 py-12 flex items-center">
+<div class="min-h-screen bg-slate-50 py-12 flex items-center font-quicksand mt-12">
     <div class="max-w-lg mx-auto px-4 w-full">
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 relative">
             
             {{-- Hiasan Atas --}}
-            <div class="bg-blue-600 h-2 w-full"></div>
+            <div class="bg-emerald-600 h-2 w-full"></div>
 
             <div class="p-8 text-center">
-                <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
+                <div class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-600">
                     <i class="fas fa-wallet text-3xl"></i>
                 </div>
                 
-                <h2 class="text-2xl font-extrabold text-gray-800 mb-2">Selesaikan Donasi Anda</h2>
-                <p class="text-gray-500 mb-6">Jazakumullah khairan, <strong>{{ !empty($nama) ? $nama : 'Hamba Allah' }}</strong>.</p>
+                <h2 class="text-2xl font-extrabold text-gray-800 mb-2 font-montserrat tracking-tight">Selesaikan Donasi Anda</h2>
+                <p class="text-gray-500 mb-6">Jazakumullah khairan, <strong class="text-gray-700">{{ !empty($nama) ? $nama : 'Hamba Allah' }}</strong>.</p>
                 
-                <div class="bg-gray-50 rounded-2xl p-6 mb-6 border border-gray-100">
-                    <p class="text-sm text-gray-500 font-medium uppercase tracking-wider mb-1">Total Nominal</p>
-                    <p class="text-4xl font-black text-blue-600">Rp {{ number_format($nominal, 0, ',', '.') }}</p>
+                <div class="bg-emerald-50/30 rounded-2xl p-6 mb-6 border border-emerald-50/50">
+                    <p class="text-xs text-emerald-600 font-bold uppercase tracking-wider mb-1 font-montserrat">Total Nominal</p>
+                    <p class="text-4xl font-black text-emerald-600 font-montserrat">Rp {{ number_format($nominal, 0, ',', '.') }}</p>
                 </div>
 
                 {{-- Timer Mundur --}}
                 <div class="mb-8">
                     <p class="text-sm text-gray-500 mb-2">Selesaikan pembayaran dalam waktu:</p>
-                    <div class="flex justify-center items-center gap-2 text-red-500 font-bold bg-red-50 py-3 px-6 rounded-xl border border-red-100 inline-flex">
+                    <div class="flex justify-center items-center gap-2 text-red-500 font-bold bg-red-50 py-3 px-6 rounded-xl border border-red-100 inline-flex font-montserrat">
                         <i class="far fa-clock text-xl animate-pulse"></i>
-                        <span id="countdown-timer" class="text-2xl tracking-widest tabular-nums">--:--</span>
+                        <span id="countdown-timer" class="text-2xl tracking-widest tabular-nums font-extrabold">--:--</span>
                     </div>
-                    <p id="expired-text" class="text-sm text-red-600 font-bold mt-2 hidden">WAKTU HABIS!</p>
+                    <p id="expired-text" class="text-sm text-red-600 font-bold mt-2 hidden font-montserrat">WAKTU HABIS!</p>
                 </div>
 
                 <div class="flex flex-col gap-3">
-                    <button id="pay-button" class="w-full bg-blue-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-blue-700 active:bg-blue-800 transition shadow-lg hover:shadow-xl flex justify-center items-center gap-2 text-lg">
-                        Buka Menu Pembayaran <i class="fas fa-external-link-alt text-sm"></i>
+                    <button id="pay-button" class="w-full bg-emerald-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-emerald-700 active:bg-emerald-800 transition shadow-lg shadow-emerald-100 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 flex justify-center items-center gap-2 text-lg font-montserrat">
+                        Buka Menu Pembayaran <i class="fas fa-external-link-alt text-xs"></i>
                     </button>
                     
-                    <a href="{{ route('penggunaMasjid.donasi.batal') }}" class="w-full bg-white text-gray-500 border border-gray-200 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 transition text-sm">
+                    <a href="{{ route('penggunaMasjid.donasi.batal') }}" class="w-full bg-white text-gray-500 border border-gray-200 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 hover:text-gray-700 transition text-sm font-montserrat">
                         Batalkan Transaksi
                     </a>
                 </div>
@@ -53,7 +53,6 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         // === 1. LOGIKA COUNTDOWN TIMER ===
-        // Ambil expiry_time dari controller (dalam format Unix Timestamp)
         const expiryTime = {{ $expiryTime }};
         const timerElement = document.getElementById("countdown-timer");
         const expiredText = document.getElementById("expired-text");
@@ -68,7 +67,7 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Tambahkan angka 0 di depan jika kurang dari 10 (contoh: 09, 08)
+            // Tambahkan angka 0 di depan jika kurang dari 10
             const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
             const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
 
@@ -89,8 +88,8 @@
                 
                 // Matikan tombol bayar
                 payButton.disabled = true;
-                payButton.classList.replace("bg-blue-600", "bg-gray-400");
-                payButton.classList.remove("hover:bg-blue-700", "hover:shadow-xl");
+                payButton.classList.replace("bg-emerald-600", "bg-gray-400");
+                payButton.classList.remove("hover:bg-emerald-700", "hover:shadow-xl", "hover:-translate-y-0.5");
                 payButton.innerHTML = "Transaksi Kedaluwarsa";
                 
                 // Otomatis batalkan dan kembali ke form dalam 2 detik
@@ -104,11 +103,9 @@
         payButton.onclick = function () {
             snap.pay('{{ $snapToken }}', {
                 onSuccess: function(result){
-                    window.location.href = "{{ route('penggunaMasjid.donasi.hasilDonasi') }}";
+                    window.location.href = "{{ route('penggunaMasjid.donasi.paymentSuccess') }}";
                 },
                 onPending: function(result){
-                    // User menutup popup transfer bank tanpa langsung bayar
-                    // Biarkan saja, timer masih akan berjalan di latar belakang
                     console.log('Menunggu pembayaran', result);
                 },
                 onError: function(result){
@@ -116,14 +113,10 @@
                     console.log(result);
                 },
                 onClose: function(){
-                    // User menekan tombol silang di popup midtrans
                     console.log('Popup ditutup');
                 }
             });
         };
-        
-        // Opsional: Buka popup otomatis saat halaman pertama kali diload
-        // payButton.click(); 
     });
 </script>
 @endsection

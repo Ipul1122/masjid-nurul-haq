@@ -40,6 +40,12 @@
                         Nama Donatur
                     </th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Jumlah Donasi
+                    </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Deskripsi
+                    </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         Bukti Transfer
                     </th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -54,11 +60,17 @@
                 @forelse ($donasiPending as $donasi)
                     <tr>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p class="text-gray-900 whitespace-no-wrap">{{ $donasi->nama_donatur }}</p>
+                            <p class="text-gray-900 whitespace-no-wrap font-semibold">{{ $donasi->nama_donatur }}</p>
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <a href="{{ asset('bukti_donasi/' . $donasi->file_bukti) }}" target="_blank">
-                                <img src="{{ asset('bukti_donasi/' . $donasi->file_bukti) }}" alt="Bukti" class="w-24 h-auto rounded">
+                            <p class="text-emerald-600 font-extrabold whitespace-no-wrap">Rp {{ number_format($donasi->nominal, 0, ',', '.') }}</p>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-600 italic">{{ $donasi->pesan ?? 'Jazakumullah Khairan Katsiran' }}</p>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <a href="{{ asset('bukti_donasi/' . $donasi->file_bukti) }}" target="_blank" class="inline-block hover:scale-105 transition-transform duration-200">
+                                <img src="{{ asset('bukti_donasi/' . $donasi->file_bukti) }}" alt="Bukti" class="w-24 h-auto rounded shadow-sm border border-gray-200">
                             </a>
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -91,7 +103,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center py-10 px-5 border-b border-gray-200 bg-white text-sm">
+                        <td colspan="6" class="text-center py-10 px-5 border-b border-gray-200 bg-white text-sm">
                             <p class="text-gray-500">Tidak ada bukti donasi yang perlu diverifikasi saat ini.</p>
                         </td>
                     </tr>

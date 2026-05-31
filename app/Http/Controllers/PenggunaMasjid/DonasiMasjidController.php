@@ -33,7 +33,11 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
      */
     public function kirimBukti()
     {
-        return view('penggunaMasjid.donasi.kirimBukti');
+        $lastDonasi = null;
+        if (session()->has('last_donation_id')) {
+            $lastDonasi = Donasi::find(session('last_donation_id'));
+        }
+        return view('penggunaMasjid.donasi.kirimBukti', compact('lastDonasi'));
     }
 
     /**
@@ -41,8 +45,31 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
      */
     public function storeBukti(Request $request)
     {
+        if (session()->has('last_donation_id')) {
+            $request->validate([
+                'bukti_transfer' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+            ]);
+
+            $donasi = Donasi::findOrFail(session('last_donation_id'));
+            
+            $file = $request->file('bukti_transfer');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('bukti_donasi'), $fileName);
+
+            $donasi->update([
+                'file_bukti' => $fileName,
+                'status' => 'pending'
+            ]);
+
+            session()->forget('last_donation_id');
+
+            return redirect()->route('penggunaMasjid.donasi.index')->with('success', 'Terima kasih, bukti transfer Anda akan segera kami verifikasi.');
+        }
+
         $request->validate([
             'nama_donatur' => 'required|string|max:255',
+            'nominal' => 'required|numeric|min:1000',
+            'pesan' => 'nullable|string',
             'bukti_transfer' => 'required|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
@@ -53,6 +80,8 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
         // Simpan informasi ke database
         Donasi::create([
             'nama_donatur' => $request->nama_donatur,
+            'nominal' => $request->nominal,
+            'pesan' => $request->pesan,
             'file_bukti' => $fileName,
             'status' => 'pending', // Status awal adalah pending
         ]);
@@ -64,24 +93,77 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
     /**
      * Menampilkan donasi yang sudah terverifikasi.
      */
-    public function hasilDonasi()
+    public function hasilDonasi(Request $request)
+    {
+        $currentMonth = \Carbon\Carbon::now()->month;
+        $currentYear  = \Carbon\Carbon::now()->year;
+
+        // Ambil filter dari request
+        $month = $request->get('month', $currentMonth);
+        $year = $request->get('year', $currentYear);
+
+        $query = Donasi::where('status', 'verified')->latest();
+
+        if ($month && $month !== 'all') {
+            $query->whereMonth('created_at', $month);
+        }
+        if ($year && $year !== 'all') {
+            $query->whereYear('created_at', $year);
+        }
+
+        $donasis = $query->paginate(10)->withQueryString();
+
+        // Daftar tahun untuk filter
+        $availableYears = Donasi::selectRaw('YEAR(created_at) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        if (empty($availableYears)) {
+            $availableYears = [$currentYear];
+        }
+
+        $months = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember'
+        ];
+
+        return view('penggunaMasjid.donasi.hasilDonasi', compact('donasis', 'month', 'year', 'availableYears', 'months'));
+    }
+
+    /**
+     * Memproses penyelesaian transaksi sukses Midtrans.
+     */
+    public function paymentSuccess()
     {
         if (session()->has('data_donasi_sementara')) {
             $dataDonasi = session('data_donasi_sementara');
             
-            Donasi::create([
+            $donasi = Donasi::create([
                 'nama_donatur' => !empty($dataDonasi['nama']) ? $dataDonasi['nama'] : 'Hamba Allah',
                 'nominal' => $dataDonasi['nominal'],
                 'pesan' => !empty($dataDonasi['pesan']) ? $dataDonasi['pesan'] : 'Jazakumullah Khairan Katsiran',
+                'status' => 'pending',
             ]);
-            
+
+            session(['last_donation_id' => $donasi->id]);
         }
 
         // Hapus semua session terkait donasi saat sukses
         session()->forget(['pending_donasi_token', 'data_donasi_sementara', 'expiry_time']);
 
-        $donasis = Donasi::latest()->get();
-        return view('penggunaMasjid.donasi.hasilDonasi', compact('donasis'));
+        return redirect()->route('penggunaMasjid.donasi.kirimBukti')->with('success', 'Pembayaran berhasil dilakukan!');
     }
 
   public function prosesDonasi(Request $request)
@@ -150,7 +232,7 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
         // Jika waktu di server sudah melebihi expiry_time, otomatis batalkan
         if ($expiryTime && (now()->timestamp * 1000) > $expiryTime) {
             session()->forget(['pending_donasi_token', 'data_donasi_sementara', 'expiry_time']);
-            return redirect()->route('donasi.index')->with('info', 'Waktu pembayaran telah habis. Transaksi dibatalkan otomatis.');
+            return redirect()->route('penggunaMasjid.donasi.index')->with('info', 'Waktu pembayaran telah habis. Transaksi dibatalkan otomatis.');
         }
 
         if (!$snapToken || !$dataDonasi) {
@@ -170,5 +252,16 @@ class DonasiMasjidController extends Controller // Nama kelas diubah menjadi Don
         // Hapus semua session saat user klik batal atau waktu habis
         session()->forget(['pending_donasi_token', 'data_donasi_sementara', 'expiry_time']);
         return redirect()->route('penggunaMasjid.donasi.index')->with('info', 'Transaksi dibatalkan. Silakan buat donasi baru.');
+    }
+
+    public function finishFlow(Request $request)
+    {
+        session()->forget('last_donation_id');
+        
+        if ($request->get('to') === 'beranda') {
+            return redirect()->route('index');
+        }
+        
+        return redirect()->route('penggunaMasjid.donasi.index');
     }
 }
