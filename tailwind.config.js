@@ -6,7 +6,12 @@ export default {
     "./resources/**/*.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+        quicksand: ['Quicksand', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 }

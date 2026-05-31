@@ -133,11 +133,19 @@ Route::name('penggunaMasjid.')->group(function () {
     Route::prefix('penggunaMasjid/donasi')->name('donasi.')->group(function () {
         Route::get('/donasi-masjid', [DonasiMasjidController::class, 'index'])->name('index');
         Route::post('/proses', [DonasiMasjidController::class, 'prosesDonasi'])->name('proses');
+        Route::get('/proses', function () {
+            if (session()->has('pending_donasi_token')) {
+                return redirect()->route('penggunaMasjid.donasi.resume');
+            }
+            return redirect()->route('penggunaMasjid.donasi.index');
+        });
         Route::get('/resume', [DonasiMasjidController::class, 'resumeDonasi'])->name('resume');
         Route::get('/kirimBukti', [DonasiMasjidController::class, 'kirimBukti'])->name('kirimBukti');
         Route::post('/kirimBukti', [DonasiMasjidController::class, 'storeBukti'])->name('kirimBukti.store');
         Route::get('/hasil', [DonasiMasjidController::class, 'hasilDonasi'])->name('hasilDonasi');
+        Route::get('/payment-success', [DonasiMasjidController::class, 'paymentSuccess'])->name('paymentSuccess');
         Route::get('/batal', [DonasiMasjidController::class, 'batalDonasi'])->name('batal');
+        Route::get('/selesai', [DonasiMasjidController::class, 'finishFlow'])->name('finishFlow');
     });
 
     // == PENGGUNA MASJID ROUTES UNTUK RISNHA ==

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 // use App\Models\JadwalImam;
 use App\Models\Pemasukkan;
 use App\Models\Pengeluaran;
+use App\Models\Donasi;
 use Carbon\Carbon;
 
 class KeuanganMasjidController extends Controller
@@ -32,6 +33,13 @@ class KeuanganMasjidController extends Controller
             ->whereYear('tanggal', $tahun)
             ->sum('total');
 
+        $totalDonasi = Donasi::where('status', 'verified')
+            ->whereMonth('created_at', $bulan)
+            ->whereYear('created_at', $tahun)
+            ->sum('nominal');
+
+        $totalPemasukkan = $totalPemasukkan + $totalDonasi;
+
         $totalPengeluaran = Pengeluaran::whereMonth('tanggal', $bulan)
             ->whereYear('tanggal', $tahun)
             ->sum('total');
@@ -46,6 +54,13 @@ class KeuanganMasjidController extends Controller
             ->whereYear('tanggal', $tahun)
             ->groupBy('month')
             ->pluck('total', 'month') // -> [month => total, ...]
+            ->toArray();
+
+        $donasiPerMonth = Donasi::where('status', 'verified')
+            ->selectRaw('MONTH(created_at) as month, SUM(nominal) as total')
+            ->whereYear('created_at', $tahun)
+            ->groupBy('month')
+            ->pluck('total', 'month')
             ->toArray();
 
         $pengeluaranPerMonth = Pengeluaran::selectRaw('MONTH(tanggal) as month, SUM(total) as total')
@@ -66,7 +81,7 @@ class KeuanganMasjidController extends Controller
             // label bulan (terjemahan sesuai locale Carbon)
             $labels[] = Carbon::createFromDate($tahun, $m, 1)->translatedFormat('F');
 
-            $monthlyPemasukkan = isset($pemasukkanPerMonth[$m]) ? (float) $pemasukkanPerMonth[$m] : 0;
+            $monthlyPemasukkan = (isset($pemasukkanPerMonth[$m]) ? (float) $pemasukkanPerMonth[$m] : 0) + (isset($donasiPerMonth[$m]) ? (float) $donasiPerMonth[$m] : 0);
             $monthlyPengeluaran = isset($pengeluaranPerMonth[$m]) ? (float) $pengeluaranPerMonth[$m] : 0;
 
             $dataPemasukkan[] = $monthlyPemasukkan;

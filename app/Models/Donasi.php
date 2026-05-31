@@ -15,6 +15,8 @@ class Donasi extends Model
         'nama_donatur',
         'nominal',
         'pesan',
+        'file_bukti',
+        'status',
     ];
 
     // Opsional: Accessor untuk memformat tanggal otomatis ke format Indonesia
